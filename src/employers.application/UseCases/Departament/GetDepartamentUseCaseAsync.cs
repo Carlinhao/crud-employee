@@ -8,14 +8,14 @@ namespace employers.application.UseCases.Departament
 {
     public class GetDepartamentUseCaseAsync : IGetDepartamentUseCaseAsync
     {
-        private readonly IDepartamentRepository _departamentRepository;
+        private readonly IDepartmentRepository _departamentRepository;
 
-        public GetDepartamentUseCaseAsync(IDepartamentRepository departamentRepository)
+        public GetDepartamentUseCaseAsync(IDepartmentRepository departamentRepository)
         {
             _departamentRepository = departamentRepository;
         }
 
-        public async Task<IEnumerable<DepartamentEntity>> RunAsync()
+        public async Task<IEnumerable<DepartmentEntity>> RunAsync()
         {
             var result = await _departamentRepository.GetAll();
 

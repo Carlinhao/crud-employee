@@ -6,6 +6,6 @@ namespace employers.application.Interfaces.UseCases.Departament
 {
     public interface IGetDepartamentUseCaseAsync
     {
-        Task<IEnumerable<DepartamentEntity>> RunAsync();
+        Task<IEnumerable<DepartmentEntity>> RunAsync();
     }
 }

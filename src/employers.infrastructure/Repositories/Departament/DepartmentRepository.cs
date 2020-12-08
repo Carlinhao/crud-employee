@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace employers.infrastructure.Repositories.Departament
 {
-    public class DepartamentRepository : IDepartamentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
         private readonly IConfiguration _configuration;
 
@@ -23,36 +23,36 @@ namespace employers.infrastructure.Repositories.Departament
             }
         }
 
-        public DepartamentRepository(IConfiguration configuration)
+        public DepartmentRepository(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<DepartamentEntity>> GetAll()
+        public async Task<IEnumerable<DepartmentEntity>> GetAll()
         {
             using IDbConnection conn = Connection;
             string query = "SELECT ID_DPTO, NOM_DPTO FROM Departamento";
             conn.Open();
-            var result = await conn.QueryAsync<DepartamentEntity>(query);
+            var result = await conn.QueryAsync<DepartmentEntity>(query);
 
             return result.ToList();
         }
 
-        public async Task<DepartamentEntity> GetById(object id)
+        public async Task<DepartmentEntity> GetById(object id)
         {
             using IDbConnection conn = Connection;
             string query = $"SELECT ID_DPTO, NOM_DPTO FROM Departamento WHERE ID_DPTO = { id }";
             conn.Open();
-            var result = await conn.QueryAsync<DepartamentEntity>(query);
+            var result = await conn.QueryAsync<DepartmentEntity>(query);
 
             return result.FirstOrDefault();
         }
 
-        public async Task<int?> InsertAsync(DepartamentRequest request)
+        public async Task<int?> InsertAsync(DepartmentRequest request)
         {
             using IDbConnection conn = Connection;
             conn.Open();
-            string query = $"INSERT INTO Departamento (ID_DPTO, NOM_DPTO) VALUES( { request.Id }, '{ request.Nome }')";
+            string query = $"INSERT INTO Departamento (NOM_DPTO) VALUES( '{ request.Nome }')";
             var result = await conn.ExecuteAsync(query);
 
             return result;

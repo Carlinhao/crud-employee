@@ -34,6 +34,5 @@ namespace employers.api.Controllers
 
             return Ok(result);
         }
-
     }
 }

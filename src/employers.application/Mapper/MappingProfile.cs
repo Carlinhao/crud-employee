@@ -8,7 +8,7 @@ namespace employers.application.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<DepartamentEntity, DepartamentResponse>();
+            CreateMap<DepartmentEntity, DepartamentResponse>();
         }
     }
 }

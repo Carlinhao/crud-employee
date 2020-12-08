@@ -5,6 +5,6 @@ namespace employers.application.Interfaces.Departament
 {
     public interface IGetDepartamentByIdUseCaseAsync
     {
-        Task<DepartamentEntity> RunAsync(int id);
+        Task<DepartmentEntity> RunAsync(int id);
     }
 }

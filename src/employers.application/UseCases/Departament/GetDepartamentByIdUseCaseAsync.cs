@@ -8,15 +8,15 @@ namespace employers.application.UseCases.Departament
 {
     public class GetDepartamentByIdUseCaseAsync : IGetDepartamentByIdUseCaseAsync
     {
-        private readonly IDepartamentRepository _departamentRepository;
+        private readonly IDepartmentRepository _departamentRepository;
 
         public GetDepartamentByIdUseCaseAsync(
-            IDepartamentRepository departamentRepository)
+            IDepartmentRepository departamentRepository)
         {
             _departamentRepository = departamentRepository;
         }
 
-        public async Task<DepartamentEntity> RunAsync(int id)
+        public async Task<DepartmentEntity> RunAsync(int id)
         {
             if (id <= 0)
                 throw new RegranegocioException("Id inválido.");

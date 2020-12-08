@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace employers.domain.Interfaces.Repositories.Departament
 {
-    public interface IDepartamentRepository
+    public interface IDepartmentRepository
     {
-        Task<DepartamentEntity> GetById(object id);
-        Task<IEnumerable<DepartamentEntity>> GetAll();
-        Task<int?> InsertAsync(DepartamentRequest request);
+        Task<DepartmentEntity> GetById(object id);
+        Task<IEnumerable<DepartmentEntity>> GetAll();
+        Task<int?> InsertAsync(DepartmentRequest request);
     }
 }

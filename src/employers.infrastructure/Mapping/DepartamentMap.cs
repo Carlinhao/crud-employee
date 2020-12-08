@@ -3,7 +3,7 @@ using employers.domain.Entities;
 
 namespace employers.infrastructure.Mapping
 {
-    public class DepartamentMap : DommelEntityMap<DepartamentEntity>
+    public class DepartamentMap : DommelEntityMap<DepartmentEntity>
     {
         public DepartamentMap()
         {

@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\UseCases\Employer\" />
+    <Compile Remove="Interfaces\UseCases\**" />
+    <EmbeddedResource Remove="Interfaces\UseCases\**" />
+    <None Remove="Interfaces\UseCases\**" />
   </ItemGroup>
 
   <ItemGroup>
