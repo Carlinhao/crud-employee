@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using employers.domain.Entities.Employer;
 using employers.domain.Interfaces.Repositories.Employers;
+using employers.domain.Requests;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data;
@@ -46,6 +47,16 @@ namespace employers.infrastructure.Repositories.Employer
             var result = await conn.QueryAsync<EmployerEntity>(query);
 
             return result.FirstOrDefault();
+        }
+
+        public async Task<int?> InsertAsync(EmployerRequest request)
+        {
+            using IDbConnection conn = Connection;
+            conn.Open();
+            string query = $"INSERT INTO Empregado (NOM_EMP, ID_DPTO) VALUES('{ request.Name }',{ request.IdDepartment })";
+            var result = await conn.ExecuteAsync(query);
+
+            return result;
         }
     }
 }

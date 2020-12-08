@@ -28,22 +28,12 @@ namespace employers.api.Middlewares.Erros
                 var response = context.Response;
                 response.ContentType = "application/json";
 
-                switch (error)
+                response.StatusCode = error switch
                 {
-                    case RegranegocioException _:
-                        // custom application error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-                    case KeyNotFoundException _:
-                        // not found error
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        break;
-                    default:
-                        // unhandled error
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                }
-
+                    RegranegocioException _ => (int)HttpStatusCode.BadRequest,// custom application error
+                    KeyNotFoundException _ => (int)HttpStatusCode.NotFound,// not found error
+                    _ => (int)HttpStatusCode.InternalServerError,// unhandled error
+                };
                 var result = JsonSerializer.Serialize(new { message = error?.Message });
                 await response.WriteAsync(result);
             }

@@ -1,4 +1,5 @@
 ﻿using employers.application.Interfaces.Empregado;
+using employers.domain.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace employers.api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromServices] IGetEmployerUseCaseAsync getAsync)
         {
-            _logger.LogDebug("Buscando todos os Empregados");
+            _logger.LogDebug("Search all employer");
             var result = await getAsync.RunAsync();
 
             return Ok(result);
@@ -30,7 +31,19 @@ namespace employers.api.Controllers
             [FromServices] IGetEmployerByIdUseCaseAsync getEmployer,
             int id)
         {
+            _logger.LogDebug("Search employer by id");
             var result = await getEmployer.RunAsync(id);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync(
+            [FromServices] IInsertEmployerUseCaseAsync useCaseAsync,
+            [FromBody] EmployerRequest request)
+        {
+            _logger.LogDebug("Insert employer");
+            var result = await useCaseAsync.RunAsync(request);
 
             return Ok(result);
         }
