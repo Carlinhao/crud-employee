@@ -1,7 +1,9 @@
 ﻿using Dapper.FluentMap;
 using employers.application.Interfaces.Departament;
+using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.UseCases.Departament;
 using employers.application.UseCases.Departament;
+using employers.application.UseCases.Employers;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.infrastructure.Mapping;
@@ -18,6 +20,7 @@ namespace employers.infrastructure.Ioc
             // UseCases 
             services.AddTransient<IGetDepartamentUseCaseAsync, GetDepartamentUseCaseAsync>();
             services.AddTransient<IGetDepartamentByIdUseCaseAsync, GetDepartamentByIdUseCaseAsync>();
+            services.AddTransient<IGetEmployerUseCaseAsync, GetEmployerUseCaseAsync>();
 
             // Repositories
             services.AddTransient<IDepartamentRepository, DepartamentRepository>();

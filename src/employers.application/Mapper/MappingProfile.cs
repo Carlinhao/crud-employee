@@ -10,7 +10,7 @@ namespace employers.application.Mapper
         public MappingProfile()
         {
             CreateMap<DepartamentEntity, DepartamentResponse>();
-            CreateMap<EmployerEntity, EmployerResponse>();
+            CreateMap<EmployerEntity, EmployerEntity>();
         }
     }
 }

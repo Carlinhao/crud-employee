@@ -1,6 +1,7 @@
 ﻿using employers.application.Interfaces.Empregado;
+using employers.domain.Entities.Employer;
 using employers.domain.Interfaces.Repositories.Employers;
-using employers.domain.Responses;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace employers.application.UseCases.Employers
@@ -14,9 +15,11 @@ namespace employers.application.UseCases.Employers
             _employerRepository = employerRepository;
         }
 
-        public Task<EmployerResponse> RunAsync()
+        public async Task<IEnumerable<EmployerEntity>> RunAsync()
         {
-            throw new System.NotImplementedException();
+            var result = await _employerRepository.GetAll();
+
+            return result;
         }
     }
 }
