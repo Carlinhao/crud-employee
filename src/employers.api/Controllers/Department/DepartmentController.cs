@@ -1,5 +1,6 @@
 ﻿using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.UseCases.Departament;
+using employers.domain.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -32,6 +33,16 @@ namespace employers.api.Controllers
         {
             _logger.LogDebug("Buscando Departamentos por Id");
             var result = await getAsync.RunAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync(
+            [FromServices] IInsertDepartmentUseCaseAsync postAsync,
+            [FromBody] DepartmentRequest departmentRequest)
+        {
+            _logger.LogDebug("Insert department");
+            var result = await postAsync.RunAsync(departmentRequest);
             return Ok(result);
         }
     }
