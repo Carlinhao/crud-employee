@@ -1,10 +1,11 @@
-﻿using employers.domain.Responses;
+﻿using employers.domain.Entities.Employer;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace employers.application.Interfaces.Empregado
 {
     public interface IGetEmployerUseCaseAsync
     {
-        Task<EmployerResponse> RunAsync();
+        Task<IEnumerable<EmployerEntity>> RunAsync();
     }
 }

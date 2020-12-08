@@ -9,9 +9,9 @@ namespace employers.infrastructure.Mapping
         {
             ToTable("Empregado");
 
-            Map(x => x.Id).ToColumn("NOM").IsKey();
-            Map(x => x.Name).ToColumn("ID_DPTO");
-            Map(x => x.IdDepartament).ToColumn("ID_EMP");
+            Map(x => x.Id).ToColumn("ID_EMP").IsKey();
+            Map(x => x.Name).ToColumn("NOM_EMP");
+            Map(x => x.IdDepartament).ToColumn("ID_DPTO");
         }
     }
 }

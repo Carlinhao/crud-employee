@@ -22,10 +22,16 @@ namespace employers.infrastructure.Repositories.Employer
             }
         }
 
+        public EmployerRepository(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+
         public async Task<IEnumerable<EmployerEntity>> GetAll()
         {
             using IDbConnection conn = Connection;
-            string query = "SELECT ID_DPTO, NOM_DPTO FROM Empregado";
+            string query = "SELECT ID_EMP, NOM_EMP, ID_DPTO FROM Empregado";
             conn.Open();
             var result = await conn.QueryAsync<EmployerEntity>(query);
 
@@ -35,7 +41,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<EmployerEntity> GetById(object id)
         {
             using IDbConnection conn = Connection;
-            string query = $"SELECT ID_DPTO, NOM_DPTO FROM Empregado WHERE ID_EMP = { id }";
+            string query = $"SELECT ID_EMP, NOM_EMP, ID_DPTO FROM Empregado WHERE ID_EMP = { id }";
             conn.Open();
             var result = await conn.QueryAsync<EmployerEntity>(query);
 
