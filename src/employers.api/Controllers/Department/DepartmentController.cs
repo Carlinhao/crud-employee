@@ -8,11 +8,11 @@ namespace employers.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DepartamentoController : ControllerBase
+    public class DepartmentController : ControllerBase
     {
-        private readonly ILogger<EmpregadoController> _logger;
+        private readonly ILogger<DepartmentController> _logger;
 
-        public DepartamentoController(ILogger<EmpregadoController> logger)
+        public DepartmentController(ILogger<DepartmentController> logger)
         {
             _logger = logger;
         }
@@ -25,7 +25,7 @@ namespace employers.api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(
             [FromServices] IGetDepartamentByIdUseCaseAsync getAsync,
             int id)

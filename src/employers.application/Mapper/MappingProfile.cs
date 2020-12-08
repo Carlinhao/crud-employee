@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using employers.domain.Entities;
-using employers.domain.Entities.Employer;
 using employers.domain.Responses;
 
 namespace employers.application.Mapper
@@ -10,7 +9,6 @@ namespace employers.application.Mapper
         public MappingProfile()
         {
             CreateMap<DepartamentEntity, DepartamentResponse>();
-            CreateMap<EmployerEntity, EmployerEntity>();
         }
     }
 }

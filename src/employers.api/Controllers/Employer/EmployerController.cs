@@ -7,11 +7,11 @@ namespace employers.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmpregadoController : ControllerBase
+    public class EmployerController : ControllerBase
     {
-        private readonly ILogger<EmpregadoController> _logger;
+        private readonly ILogger<EmployerController> _logger;
 
-        public EmpregadoController(ILogger<EmpregadoController> logger)
+        public EmployerController(ILogger<EmployerController> logger)
         {
             _logger = logger;
         }
@@ -24,5 +24,16 @@ namespace employers.api.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEmployerById(
+            [FromServices] IGetEmployerByIdUseCaseAsync getEmployer,
+            int id)
+        {
+            var result = await getEmployer.RunAsync(id);
+
+            return Ok(result);
+        }
+
     }
 }
