@@ -1,3 +1,5 @@
+![CircleCI](https://img.shields.io/circleci/build/github/Carlinhao/crud-employer)
+
 # crud-employer
 Base project of rest api.
 
