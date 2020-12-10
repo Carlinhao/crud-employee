@@ -10,5 +10,6 @@ namespace employers.domain.Interfaces.Repositories.Employers
         Task<EmployerEntity> GetById(object id);
         Task<IEnumerable<EmployerEntity>> GetAll();
         Task<int?> InsertAsync(EmployerRequest employerRequest);
+        Task<int?> DeleteAsync(int id);
     }
 }

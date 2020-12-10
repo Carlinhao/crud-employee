@@ -58,5 +58,15 @@ namespace employers.infrastructure.Repositories.Employer
 
             return result;
         }
+
+        public async Task<int?> DeleteAsync(int id)
+        {
+            using IDbConnection conn = Connection;
+            conn.Open();
+            string query = $"DELETE FROM Empregado WHERE ID_EMP = { id }";
+            var result = await conn.ExecuteAsync(query);
+
+            return result;
+        }
     }
 }
