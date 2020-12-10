@@ -47,5 +47,15 @@ namespace employers.api.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(
+            [FromServices] IDeleteEmployerUseCaseAsync delete,
+            int id)
+        {
+            _logger.LogDebug("Delete employer");
+            var result = await delete.RunAsync(id);
+            return Ok(result);
+        }
     }
 }
