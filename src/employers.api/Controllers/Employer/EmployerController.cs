@@ -48,7 +48,7 @@ namespace employers.api.Controllers
             return Ok(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(
             [FromServices] IDeleteEmployerUseCaseAsync delete,
             int id)
