@@ -19,7 +19,7 @@ namespace employers.application.UseCases.Departament
         public async Task<DepartmentEntity> RunAsync(int id)
         {
             if (id <= 0)
-                throw new RegranegocioException("Id inválido.");
+                throw new RegranegocioException("Invalid ID!");
 
             var result = await _departamentRepository.GetById(id);
 
