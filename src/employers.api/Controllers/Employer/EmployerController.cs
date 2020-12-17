@@ -1,4 +1,5 @@
 ﻿using employers.application.Interfaces.Empregado;
+using employers.domain.Entities.Employer;
 using employers.domain.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -55,6 +56,16 @@ namespace employers.api.Controllers
         {
             _logger.LogDebug("Delete employer");
             var result = await delete.RunAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(
+            [FromServices] IUpdateEmployerUseCaseAsync update,
+            [FromBody] EmployerEntity employerEntity)
+        {
+            _logger.LogDebug("Update employer");
+            var result = await update.RunAsync(employerEntity);
             return Ok(result);
         }
     }

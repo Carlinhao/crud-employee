@@ -1,5 +1,6 @@
 ﻿using employers.domain.Entities.Employer;
 using employers.domain.Requests;
+using employers.domain.Responses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,5 +12,6 @@ namespace employers.domain.Interfaces.Repositories.Employers
         Task<IEnumerable<EmployerEntity>> GetAll();
         Task<int?> InsertAsync(EmployerRequest employerRequest);
         Task<int?> DeleteAsync(int id);
+        Task<ResultResponse> UpdateAsync(EmployerEntity entity);
     }
 }

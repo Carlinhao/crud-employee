@@ -2,6 +2,7 @@
 using employers.domain.Entities.Employer;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Requests;
+using employers.domain.Responses;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data;
@@ -68,5 +69,16 @@ namespace employers.infrastructure.Repositories.Employer
 
             return result;
         }
-    }
+
+        public async Task<ResultResponse> UpdateAsync(EmployerEntity entity)
+        {
+            using IDbConnection conn = Connection;
+            conn.Open();
+            string query = $"UPDATE Empregado SET NOM_EMP= '{entity.Name}'," +
+                           $" ID_DPTO={entity.IdDepartament} WHERE ID_EMP={entity.Id}";
+            await conn. QueryAsync(query);
+
+            return new ResultResponse { Data = entity, Message = "Update employer success", Success = true };
+        }
+    }    
 }

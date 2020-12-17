@@ -19,19 +19,10 @@ namespace employers.infrastructure.SwaggerExtensions
                         Description = "Exemplo simples de um CRUD",
                         Contact = new OpenApiContact
                         {
-                            Name = "Renato Groffe",
+                            Name = "Carlos Silva",
                             Url = new Uri("https://github.com/Carlinhao")
                         }
                     });
-
-                //string caminhoAplicacao =
-                //    PlatformServices.Default.Application.ApplicationBasePath;
-                //string nomeAplicacao =
-                //    PlatformServices.Default.Application.ApplicationName;
-                //string caminhoXmlDoc =
-                //    Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
-
-                //c.IncludeXmlComments(caminhoXmlDoc);
             });
         }
 

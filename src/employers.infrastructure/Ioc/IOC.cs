@@ -25,6 +25,7 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IInsertDepartmentUseCaseAsync, InsertDepartmentUseCaseAsync>();
             services.AddTransient<IInsertEmployerUseCaseAsync, InsertEmployerUseCaseAsync>();
             services.AddTransient<IDeleteEmployerUseCaseAsync, DeleteEmployerUseCaseAsync>();
+            services.AddTransient<IUpdateEmployerUseCaseAsync, UpdateEmployerUseCaseAsync>();
 
             // Repositories
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
