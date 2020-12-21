@@ -23,6 +23,7 @@ namespace employers.api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddApiVersioning();
             services.IocConfiguration();
             IOC.Rister();
             services.SwaggerServices();

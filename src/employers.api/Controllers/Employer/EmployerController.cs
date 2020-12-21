@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace employers.api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion("1")]
+    [Route("api/[controller]")]
     public class EmployerController : ControllerBase
     {
         private readonly ILogger<EmployerController> _logger;
