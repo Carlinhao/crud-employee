@@ -24,6 +24,7 @@ namespace employers.api
         {
             services.AddControllers();
             services.AddApiVersioning();
+
             services.IocConfiguration();
             IOC.Rister();
             services.SwaggerServices();

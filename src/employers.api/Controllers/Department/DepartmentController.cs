@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace employers.api.Controllers
 {
     [ApiController]
-    [ApiVersion("1")]
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class DepartmentController : ControllerBase
     {

@@ -9,7 +9,7 @@ namespace employers.api.Controllers
 {
     [ApiController]
     [ApiVersion("1")]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class EmployerController : ControllerBase
     {
         private readonly ILogger<EmployerController> _logger;
