@@ -9,6 +9,7 @@ using employers.domain.Interfaces.Repositories.Employers;
 using employers.infrastructure.Mapping;
 using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
+using employers.infrastructure.Repositories.UserAuth;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace employers.infrastructure.Ioc
@@ -30,6 +31,7 @@ namespace employers.infrastructure.Ioc
             // Repositories
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IEmployerRepository, EmployerRepository>();
+            services.AddTransient<IUserAuthRepository, UserAuthRepository>();
         }
 
         public static void Rister()
