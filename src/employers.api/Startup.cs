@@ -31,10 +31,7 @@ namespace employers.api
             }));
 
             services.AddControllers();
-            services.AddApiVersioning(op => 
-            {
-                op.DefaultApiVersion = new ApiVersion(1, 0);
-            });
+            services.AddApiVersioning();
 
             services.IocConfiguration();
             IOC.Rister();
