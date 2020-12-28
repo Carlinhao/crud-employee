@@ -14,9 +14,9 @@ namespace employers.infrastructure.SwaggerExtensions
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "CRUD API - v1",
+                        Title = "v1",
                         Version = "v1",
-                        Description = "Exemplo simples de um CRUD",
+                        Description = "Employer Api",
                         Contact = new OpenApiContact
                         {
                             Name = "Carlos Silva",
@@ -31,7 +31,7 @@ namespace employers.infrastructure.SwaggerExtensions
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CRUD API - v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             });
         }
 
