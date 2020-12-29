@@ -41,6 +41,20 @@ namespace employers.infrastructure.Repositories.UserAuth
             return result;
         }
 
+        public async Task<UserEntity> RefresUserInfo(UserEntity request)
+        {
+            var query = $" UPDATE Users WHERE Id = '{ request.Id }' " +
+                $"SET USR_NAM = '{request.FullName}', PWD = '{request.Password}', RFH_TOK = '{request.AcessToken}'" +
+                $"RFH_TOK_EXP = {request.RefreshTokenExpire} ";
+
+            using IDbConnection conn = Connection;
+            conn.Open();
+
+            var result = await conn.QueryFirstAsync<UserEntity>(query);
+
+            return result;
+        }
+
         private string ComputeHash(string input, SHA256CryptoServiceProvider algorithm)
         {
             Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
