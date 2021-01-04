@@ -9,6 +9,7 @@ namespace employers.domain.Entities.UserAuth
         public string FullName { get; set; }
         public string Password { get; set; }
         public string AcessToken { get; set; }
+        public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpire { get; set; }
     }
 }

@@ -1,14 +1,13 @@
-﻿using employers.api.TokenConfiguration;
-using employers.domain.Token;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using employers.domain.Token;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace employers.application.UseCases.Token
 {
@@ -16,13 +15,9 @@ namespace employers.application.UseCases.Token
     {
         private readonly IConfiguration _configuration;
 
-        private readonly TokenConfiguration _tokenConfiguration;
-
-        public TokenGenerate(TokenConfiguration tokenConfiguration,
-            IConfiguration configuration)
+        public TokenGenerate(IConfiguration configuration)
         {
             _configuration = configuration;
-            _tokenConfiguration = tokenConfiguration;
         }
 
         public async Task<string> GenerateAccessToken(IEnumerable<Claim> clains)
@@ -65,12 +60,10 @@ namespace employers.application.UseCases.Token
                 ValidateLifetime = false
             };
             var tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken securityToken;
+            
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
 
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCulture))
+            if (!(securityToken is JwtSecurityToken jwtSecurityToken) || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCulture))
                 throw new SecurityTokenException("Invalid token!!!!!!");
 
             return await Task.FromResult(principal);

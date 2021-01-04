@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using employers.domain.Entities.UserAuth;
+using employers.domain.Interfaces.Repositories.UserAuth;
 using employers.domain.UserAuth;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -31,7 +32,7 @@ namespace employers.infrastructure.Repositories.UserAuth
         public async Task<UserEntity> ValidateCredentials(UserInfoRequest userInfoRequest)
         {
             var password = ComputeHash(userInfoRequest.Password, new SHA256CryptoServiceProvider());
-            var query = $" SELECT * FROM Users WHERE USR_NAM = '{userInfoRequest.Password}' AND PWD = { password }";
+            var query = $" SELECT * FROM Users WHERE USR_NAM = '{userInfoRequest.Password}' AND PWD = '{ password }'";
 
             using IDbConnection conn = Connection;
             conn.Open();

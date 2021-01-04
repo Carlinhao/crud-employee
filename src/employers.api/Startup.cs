@@ -2,11 +2,15 @@ using AutoMapper;
 using employers.api.Middlewares.Erros;
 using employers.infrastructure.Ioc;
 using employers.infrastructure.SwaggerExtensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace employers.api
 {
@@ -19,18 +23,47 @@ namespace employers.api
 
         public IConfiguration Configuration { get; }
 
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => options.AddDefaultPolicy( builder =>
+            services.AddAuthentication(options =>
             {
-                builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            }));
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration.GetSection("TokenExtensions:Issuer").Value,
+                    ValidAudience = Configuration.GetSection("TokenExtensions:Audience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("TokenExtensions:Secret").Value))
+                };
+            });
+
+            services.AddAuthorization(auth => 
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
+
+            services.AddCors(options => options.AddDefaultPolicy(builder =>
+           {
+               builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+           }));
 
             services.AddControllers();
-            services.AddApiVersioning();
+            services.AddApiVersioning( options => 
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+            });
 
             services.IocConfiguration();
             IOC.Rister();

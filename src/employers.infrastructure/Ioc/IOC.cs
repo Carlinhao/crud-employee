@@ -2,14 +2,20 @@
 using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.UseCases.Departament;
+using employers.application.Interfaces.UserAuth;
 using employers.application.UseCases.Departament;
 using employers.application.UseCases.Employers;
+using employers.application.UseCases.Token;
+using employers.application.UseCases.UserAuth;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Interfaces.Repositories.Employers;
+using employers.domain.Interfaces.Repositories.UserAuth;
+using employers.domain.Token;
 using employers.infrastructure.Mapping;
 using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
 using employers.infrastructure.Repositories.UserAuth;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace employers.infrastructure.Ioc
@@ -27,11 +33,15 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IInsertEmployerUseCaseAsync, InsertEmployerUseCaseAsync>();
             services.AddTransient<IDeleteEmployerUseCaseAsync, DeleteEmployerUseCaseAsync>();
             services.AddTransient<IUpdateEmployerUseCaseAsync, UpdateEmployerUseCaseAsync>();
+            services.AddTransient<IUserAuthUseCaseAsync, UserAuthUseCaseAsync>();
 
             // Repositories
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IEmployerRepository, EmployerRepository>();
             services.AddTransient<IUserAuthRepository, UserAuthRepository>();
+
+            // Token
+            services.AddTransient<ITokenGenerate, TokenGenerate>();
         }
 
         public static void Rister()
