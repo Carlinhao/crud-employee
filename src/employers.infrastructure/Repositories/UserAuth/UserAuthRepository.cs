@@ -59,7 +59,7 @@ namespace employers.infrastructure.Repositories.UserAuth
         {
             var query = $" UPDATE Users WHERE Id = '{ request.Id }' " +
                 $"SET USR_NAM = '{ request.FullName }', PWD = '{ request.Password }', RFH_TOK = '{ request.AcessToken }'" +
-                $"RFH_TOK_EXP = { request.RefreshTokenExpire } ";
+                $"RFH_TOK_EXP = '{ request.RefreshTokenExpire }' ";
 
             using IDbConnection conn = Connection;
             conn.Open();
