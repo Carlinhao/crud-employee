@@ -7,6 +7,7 @@ namespace employers.domain.Interfaces.Repositories.UserAuth
     public interface IUserAuthRepository
     {
         Task<UserEntity> ValidateCredentials(UserInfoRequest userInfoRequest);
+        Task<UserEntity> ValidateCredentials(string userName);
         Task<UserEntity> RefresUserInfo(UserEntity request);
     }
 }
