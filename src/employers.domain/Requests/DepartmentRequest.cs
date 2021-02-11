@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using FluentValidation;
+using System.Text.Json.Serialization;
 
 namespace employers.domain.Requests
 {
@@ -6,5 +7,16 @@ namespace employers.domain.Requests
     {
         [JsonPropertyName("name")]
         public string Nome { get; set; }
+    }
+
+    public class DepartmentRequestValidator : AbstractValidator<DepartmentRequest>
+    {
+        public DepartmentRequestValidator()
+        {
+            RuleFor(x => x.Nome)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("Nome é obrigatório!");
+        }
     }
 }
