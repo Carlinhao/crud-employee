@@ -3,6 +3,7 @@ using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Interfaces.UserAuth;
+using employers.application.Notifications;
 using employers.application.UseCases.Departament;
 using employers.application.UseCases.Employers;
 using employers.application.UseCases.Token;
@@ -42,6 +43,9 @@ namespace employers.infrastructure.Ioc
 
             // Token
             services.AddTransient<ITokenGenerate, TokenGenerate>();
+
+            //Notification
+            services.AddSingleton<INotificationMessages,NotificationMessages>();
         }
 
         public static void Rister()
