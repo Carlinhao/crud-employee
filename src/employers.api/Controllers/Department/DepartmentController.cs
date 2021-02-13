@@ -1,5 +1,6 @@
 ﻿using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.UseCases.Departament;
+using employers.application.Notifications;
 using employers.domain.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,10 +13,12 @@ namespace employers.api.Controllers
     public class DepartmentController : ControllerBase
     {
         private readonly ILogger<DepartmentController> _logger;
-
-        public DepartmentController(ILogger<DepartmentController> logger)
+        private readonly INotificationMessages _notificationMessages;
+        public DepartmentController(ILogger<DepartmentController> logger, 
+            INotificationMessages notificationMessages)
         {
             _logger = logger;
+            _notificationMessages = notificationMessages;
         }
 
         [HttpGet]
@@ -31,8 +34,13 @@ namespace employers.api.Controllers
             [FromServices] IGetDepartamentByIdUseCaseAsync getAsync,
             int id)
         {
-            _logger.LogDebug("Buscando Departamentos por Id");
             var result = await getAsync.RunAsync(id);
+
+            if(_notificationMessages.HasNotification())
+            {
+                return BadRequest(_notificationMessages.Notications());
+            }
+            _logger.LogDebug("Buscando Departamentos por Id");
             return Ok(result);
         }
 
