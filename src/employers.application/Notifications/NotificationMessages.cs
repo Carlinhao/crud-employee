@@ -6,8 +6,8 @@ namespace employers.application.Notifications
 {
     public class NotificationMessages : INotificationMessages
     {
-        private List<Notification> _notifications;
-        private Notification Notification;
+        private readonly List<Notification> _notifications;
+
         public NotificationMessages()
         {
             _notifications = new List<Notification>();

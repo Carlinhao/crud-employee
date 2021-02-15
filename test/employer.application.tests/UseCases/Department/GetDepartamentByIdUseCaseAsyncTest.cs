@@ -1,7 +1,9 @@
 ﻿using employers.application.Exceptions.RegraNegocio;
+using employers.application.Notifications;
 using employers.application.UseCases.Departament;
 using employers.domain.Interfaces.Repositories.Departament;
 using Moq;
+using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -10,22 +12,26 @@ namespace employer.application.tests.UseCases.Department
     public class GetDepartamentByIdUseCaseAsyncTest
     {
         private readonly Mock<IDepartmentRepository> _repository;
+        private readonly Mock<INotificationMessages> _notificationMessages;
 
         public GetDepartamentByIdUseCaseAsyncTest()
         {
             _repository = new Mock<IDepartmentRepository>();
+            _notificationMessages = new Mock<INotificationMessages>();
         }
 
         [Fact(DisplayName = "Testing invalid Id")]
         [Trait("Category", "Department")]
         public async Task GetDepartamentByIdUseCaseAsync_WhenInvalidID_MustDisplayMessage()
         {
-            // Arrange // Act
-            var result = new GetDepartamentByIdUseCaseAsync(_repository.Object);                       
+            // Arrange
+            var useCase = new GetDepartamentByIdUseCaseAsync(_repository.Object, _notificationMessages.Object);
+
+            // Act
+            await useCase.RunAsync(0);
 
             // Assert
-            var ex = await Assert.ThrowsAsync<RegranegocioException>(() => result.RunAsync(0));
-            Assert.Equal("Invalid ID!", ex.Message);
+            _notificationMessages.Verify(x => x.AddNotification("GetDepartamentByIdUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest), Times.Once);
         }
     }
 }
