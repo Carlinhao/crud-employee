@@ -1,5 +1,4 @@
-﻿using employers.application.Exceptions.RegraNegocio;
-using employers.application.Notifications;
+﻿using employers.application.Notifications;
 using employers.application.UseCases.Departament;
 using employers.domain.Interfaces.Repositories.Departament;
 using Moq;
