@@ -1,4 +1,5 @@
 ﻿using employers.application.Interfaces.Empregado;
+using employers.application.Notifications;
 using employers.domain.Entities.Employer;
 using employers.domain.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,13 @@ namespace employers.api.Controllers
     public class EmployerController : ControllerBase
     {
         private readonly ILogger<EmployerController> _logger;
+        private readonly INotificationMessages _notificationMessages;
 
-        public EmployerController(ILogger<EmployerController> logger)
+        public EmployerController(ILogger<EmployerController> logger,
+                                  INotificationMessages notificationMessages)
         {
             _logger = logger;
+            _notificationMessages = notificationMessages;
         }
 
         [HttpGet]
@@ -66,6 +70,12 @@ namespace employers.api.Controllers
         {
             _logger.LogDebug("Update employer");
             var result = await update.RunAsync(employerEntity);
+
+            if (_notificationMessages.HasNotification())
+            {
+                return BadRequest(_notificationMessages.Notications());
+            }
+
             return Ok(result);
         }
     }
