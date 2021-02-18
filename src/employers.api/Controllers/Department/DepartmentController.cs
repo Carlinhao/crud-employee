@@ -51,6 +51,12 @@ namespace employers.api.Controllers
         {
             _logger.LogDebug("Insert department");
             var result = await postAsync.RunAsync(departmentRequest);
+
+            if (_notificationMessages.HasNotification())
+            {
+                return BadRequest(_notificationMessages.Notications());
+            }
+
             return Ok(result);
         }
     }
