@@ -15,6 +15,7 @@ namespace employers.domain.Requests
         {
             RuleFor(x => x.Nome)
                 .NotEmpty()
+                .WithMessage("Nome é obrigatório!")
                 .NotNull()
                 .WithMessage("Nome é obrigatório!");
         }
