@@ -28,6 +28,9 @@ namespace employers.api.Controllers
             _logger.LogDebug("Search all employer");
             var result = await getAsync.RunAsync();
 
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 
