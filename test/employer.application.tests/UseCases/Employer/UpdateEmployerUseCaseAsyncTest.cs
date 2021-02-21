@@ -3,6 +3,7 @@ using employers.application.UseCases.Employers;
 using employers.domain.Entities.Employer;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Responses;
+using FluentAssertions;
 using Moq;
 using System.Threading.Tasks;
 using Xunit;
@@ -37,7 +38,7 @@ namespace employer.application.tests.UseCases.Employer
 
             // Assert
             Assert.NotNull(result);
-
+            result.Message.Should().NotBeEmpty().And.Contain("Update employer success", "Because update employer with success");
         }
 
         private UpdateEmployerUseCaseAsync UpdateEmployerUseCase()
