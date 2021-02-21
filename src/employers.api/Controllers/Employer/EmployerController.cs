@@ -53,6 +53,11 @@ namespace employers.api.Controllers
             _logger.LogDebug("Insert employer");
             var result = await useCaseAsync.RunAsync(request);
 
+            if (_notificationMessages.HasNotification())
+            {
+                return BadRequest(_notificationMessages.Notications());
+            }
+
             return Ok(result);
         }
 
