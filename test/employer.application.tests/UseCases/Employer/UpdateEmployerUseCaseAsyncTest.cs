@@ -5,6 +5,7 @@ using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Responses;
 using FluentAssertions;
 using Moq;
+using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -39,6 +40,21 @@ namespace employer.application.tests.UseCases.Employer
             // Assert
             Assert.NotNull(result);
             result.Message.Should().NotBeEmpty().And.Contain("Update employer success", "Because update employer with success");
+        }
+
+        [Fact(DisplayName = "Must return notification when request is invalid")]
+        [Trait("Category", "Employer")]
+        public async Task UpdateEmployerUseCaseAsync_WhenDataIsInvalid_MustReturnNotification()
+        {
+            // Arrange
+            var useCase = UpdateEmployerUseCase();
+            var request = new EmployerEntity();
+
+            // Act
+            await useCase.RunAsync(request);
+
+            // Assert
+            _notificationMessages.Verify(x => x.AddNotification("UpdateEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(3));
         }
 
         private UpdateEmployerUseCaseAsync UpdateEmployerUseCase()
