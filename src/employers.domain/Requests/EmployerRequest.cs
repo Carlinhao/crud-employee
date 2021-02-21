@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using FluentValidation;
+using System.Text.Json.Serialization;
 
 namespace employers.domain.Requests
 {
@@ -9,5 +10,23 @@ namespace employers.domain.Requests
 
         [JsonPropertyName("id_department")]
         public int IdDepartment { get; set; }
+    }
+
+    public class EmployerRequestValidator : AbstractValidator<EmployerRequest>
+    {
+        public EmployerRequestValidator()
+        {
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .WithMessage("Name is required")
+                .NotNull()
+                .WithMessage("Name is required");
+
+            RuleFor(x => x.IdDepartment)
+                .NotEmpty()
+                .WithMessage("Department is required")
+                .NotNull()
+                .WithMessage("Department is required");
+        }
     }
 }
