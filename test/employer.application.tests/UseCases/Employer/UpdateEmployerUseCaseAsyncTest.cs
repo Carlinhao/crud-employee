@@ -4,7 +4,9 @@ using employers.domain.Entities.Employer;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Responses;
 using Moq;
+using System.Threading.Tasks;
 using Xunit;
+
 
 namespace employer.application.tests.UseCases.Employer
 {
@@ -21,7 +23,7 @@ namespace employer.application.tests.UseCases.Employer
 
         [Fact(DisplayName = "Must update Employer")]
         [Trait("Category", "Employer")]
-        public void Trocar_Nome_Metodo()
+        public async Task UpdateEmployerUseCaseAsync_WhenDataIsValid_MustUpdateEmployer()
         {
             // Arrange
             var useCase = UpdateEmployerUseCase();
@@ -31,7 +33,11 @@ namespace employer.application.tests.UseCases.Employer
             // Act
             _employerRepository.Setup(x => x.UpdateAsync(request)).ReturnsAsync(response);
 
+            var result = await useCase.RunAsync(request);
+
             // Assert
+            Assert.NotNull(result);
+
         }
 
         private UpdateEmployerUseCaseAsync UpdateEmployerUseCase()
