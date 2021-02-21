@@ -31,6 +31,8 @@ namespace employers.application.UseCases.Employers
                 {
                     _notificationMessages.AddNotification("InsertEmployerUseCaseAsync", item, HttpStatusCode.BadRequest);
                 }
+
+                return 0;
             }
 
             var result = await _employerRepository.InsertAsync(request);
