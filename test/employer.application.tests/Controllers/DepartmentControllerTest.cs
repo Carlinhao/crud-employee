@@ -1,4 +1,5 @@
 ﻿using employers.api.Controllers;
+using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Notifications;
 using employers.domain.Entities;
@@ -33,6 +34,23 @@ namespace employer.application.tests.Controllers
             // Act
             _useCaseAsync.Setup(x => x.RunAsync()).ReturnsAsync(response);
             var result = await departmentController.GetAll(_useCaseAsync.Object);
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Test method GetById Department")]
+        [Trait("Category", "Controller")]
+        public async Task DepartmentController_WhenIUseId_MustReturnDepartment()
+        {
+            // Arrange
+            var departmentController = GetDepartmentController();
+            Mock<IGetDepartamentByIdUseCaseAsync> _useCaseAsync = new Mock<IGetDepartamentByIdUseCaseAsync>();
+            var response = new DepartmentEntity() { Id = 1, Name = "Business" };
+
+            // Act
+            _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
+            var result = await departmentController.GetById(_useCaseAsync.Object, 1);
 
             // Assert
             Assert.NotNull(result);
