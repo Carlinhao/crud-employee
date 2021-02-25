@@ -3,6 +3,7 @@ using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Notifications;
 using employers.domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
@@ -50,10 +51,11 @@ namespace employer.application.tests.Controllers
 
             // Act
             _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
-            var result = await departmentController.GetById(_useCaseAsync.Object, 1);
+            var getById = await departmentController.GetById(_useCaseAsync.Object, 1);
 
             // Assert
-            Assert.NotNull(result);
+            Assert.IsAssignableFrom<IActionResult>(getById);
+            Assert.NotNull(getById);
         }
 
         private DepartmentController GetDepartmentController()
