@@ -1,5 +1,6 @@
 ﻿using employers.domain.Entities.Employer;
 using employers.domain.Interfaces.Repositories.Employers;
+using employers.domain.Requests;
 using Moq;
 using System.Collections.Generic;
 
@@ -20,6 +21,12 @@ namespace employer.application.tests.Utils
             var response = GetEmployers();
 
             Setup(x => x.GetAll()).ReturnsAsync(response);
+            return this;
+        }
+
+        public FluentMockEmployerRepository InsertAsync(EmployerRequest employerRequest)
+        {
+            Setup(x => x.InsertAsync(employerRequest)).ReturnsAsync(1);
             return this;
         }
 
