@@ -7,6 +7,14 @@ namespace employer.application.tests.Utils
 {
     public class FluentMockEmployerRepository : Mock<IEmployerRepository>
     {
+        public FluentMockEmployerRepository GetById(object id)
+        {
+            var response = new EmployerEntity { Id = 1, IdDepartament = 5, Name = "Paul Stone" };
+
+            Setup(x => x.GetById(id)).ReturnsAsync(response);
+            return this;
+        }
+
         public FluentMockEmployerRepository GetAll()
         {
             var response = GetEmployers();
