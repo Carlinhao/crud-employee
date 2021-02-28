@@ -1,6 +1,7 @@
 ﻿using employers.domain.Entities.Employer;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Requests;
+using employers.domain.Responses;
 using Moq;
 using System.Collections.Generic;
 
@@ -34,6 +35,26 @@ namespace employer.application.tests.Utils
         {
             Setup(x => x.DeleteAsync(id)).ReturnsAsync(1);
             return this;
+        }
+
+        public FluentMockEmployerRepository UpdateAsync(EmployerEntity entity)
+        {
+            var response = GetInsertResponse();
+
+            Setup(x => x.UpdateAsync(entity)).ReturnsAsync(response);
+            return this;
+        }
+
+        public ResultResponse GetInsertResponse()
+        {
+            var data = new EmployerEntity { Id = 1, IdDepartament = 5, Name = "Paul Stone" };
+
+            return new ResultResponse
+            {
+                Data = data,
+                Message = "",
+                Success = true
+            };
         }
 
         public IEnumerable<EmployerEntity> GetEmployers()
