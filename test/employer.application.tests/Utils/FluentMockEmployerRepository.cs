@@ -30,6 +30,12 @@ namespace employer.application.tests.Utils
             return this;
         }
 
+        public FluentMockEmployerRepository DeleteAsync(int id)
+        {
+            Setup(x => x.DeleteAsync(id)).ReturnsAsync(1);
+            return this;
+        }
+
         public IEnumerable<EmployerEntity> GetEmployers()
         {
             return new List<EmployerEntity>
