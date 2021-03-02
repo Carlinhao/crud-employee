@@ -11,9 +11,11 @@ namespace employers.application.UseCases.Employers
     {
         private readonly IEmployerRepository _employerRepository;
         private readonly INotificationMessages _notification;
-        public DeleteEmployerUseCaseAsync(IEmployerRepository employerRepository)
+        public DeleteEmployerUseCaseAsync(IEmployerRepository employerRepository,
+            INotificationMessages notification)
         {
             _employerRepository = employerRepository;
+            _notification = notification;
         }
 
         public async Task<int?> RunAsync(int id)
