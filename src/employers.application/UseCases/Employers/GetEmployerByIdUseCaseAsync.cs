@@ -1,5 +1,4 @@
-﻿using employers.application.Exceptions.RegraNegocio;
-using employers.application.Interfaces.Empregado;
+﻿using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
 using employers.domain.Entities.Employer;
 using employers.domain.Interfaces.Repositories.Employers;
