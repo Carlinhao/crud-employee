@@ -42,6 +42,11 @@ namespace employers.api.Controllers
             _logger.LogDebug("Search employer by id");
             var result = await getEmployer.RunAsync(id);
 
+            if (_notificationMessages.HasNotification())
+            {
+                return BadRequest(_notificationMessages.Notications());
+            }
+
             return Ok(result);
         }
 
