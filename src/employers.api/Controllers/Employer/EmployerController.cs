@@ -73,6 +73,12 @@ namespace employers.api.Controllers
         {
             _logger.LogDebug("Delete employer");
             var result = await delete.RunAsync(id);
+
+            if (_notificationMessages.HasNotification())
+            {
+                return BadRequest(_notificationMessages.Notications());
+            }
+
             return Ok(result);
         }
 
