@@ -24,7 +24,7 @@ namespace employer.application.tests.Controllers
         }
 
         [Fact(DisplayName = "Test method Get Department")]
-        [Trait("Category", "Controller")]
+        [Trait("Category", "DepartmentController")]
         public async Task DepartmentController_WhenDataIsValid_MethodGetMustReturnAllDepartment()
         {
             // Arrange
@@ -41,7 +41,7 @@ namespace employer.application.tests.Controllers
         }
 
         [Fact(DisplayName = "Test method GetById Department")]
-        [Trait("Category", "Controller")]
+        [Trait("Category", "DepartmentController")]
         public async Task DepartmentController_WhenIUseId_MustReturnDepartment()
         {
             // Arrange
