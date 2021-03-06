@@ -10,7 +10,7 @@ namespace employers.application.Exceptions.RegraNegocio
         public RegranegocioException(string message) : base(message) { }
 
         public RegranegocioException(string message, params object[] args)
-            : base(String.Format(CultureInfo.CurrentCulture, message, args))
+            : base(string.Format(CultureInfo.CurrentCulture, message, args))
         {
         }
     }
