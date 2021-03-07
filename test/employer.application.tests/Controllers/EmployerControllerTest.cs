@@ -41,7 +41,7 @@ namespace employer.application.tests.Controllers
 
         [Fact(DisplayName = "Test method Get Employer by id")]
         [Trait("Categoria", "EmployerController")]
-        public void EmployerController_WhenIDoRequestById_MustReturnEmployer()
+        public async Task EmployerController_WhenIDoRequestById_MustReturnEmployer()
         {
         // Arrante
         var employerController = new EmployerController(_logger.Object, _notificationMessages.Object);
