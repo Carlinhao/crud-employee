@@ -50,11 +50,11 @@ namespace employer.application.tests.Controllers
 
         // Act
         useCase.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
-        var result = await employerController.GetAll(useCase.Object);
+        var result = await employerController.GetEmployerById(useCase.Object, 1);
         
         // Assert
         Assert.NotNull(result);
-        
+
         }
 
         private IEnumerable<EmployerEntity> GetListEmployer()
