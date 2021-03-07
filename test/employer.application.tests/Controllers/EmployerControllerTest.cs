@@ -43,18 +43,17 @@ namespace employer.application.tests.Controllers
         [Trait("Categoria", "EmployerController")]
         public async Task EmployerController_WhenIDoRequestById_MustReturnEmployer()
         {
-        // Arrante
-        var employerController = new EmployerController(_logger.Object, _notificationMessages.Object);
-        Mock<IGetEmployerByIdUseCaseAsync> useCase = new Mock<IGetEmployerByIdUseCaseAsync>();
-        var response = new EmployerEntity() {Id = 1, IdDepartament = 12, Name = "TI"};
+            // Arrante
+            var employerController = GeEmployerContraller();
+            Mock<IGetEmployerByIdUseCaseAsync> _useCaseAsync = new Mock<IGetEmployerByIdUseCaseAsync>();
+            var response = new EmployerEntity() { Id = 1, IdDepartament = 12, Name = "TI" };
 
-        // Act
-        useCase.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
-        var result = await employerController.GetEmployerById(useCase.Object, 1);
-        
-        // Assert
-        Assert.NotNull(result);
+            // Act
+            _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
+            var result = await employerController.GetEmployerById(_useCaseAsync.Object, 1);
 
+            // Assert
+            Assert.NotNull(result);
         }
 
         private IEnumerable<EmployerEntity> GetListEmployer()
@@ -66,6 +65,11 @@ namespace employer.application.tests.Controllers
               new EmployerEntity {Id = 3, IdDepartament = 31, Name = "Management"},
               new EmployerEntity {Id = 4, IdDepartament = 6, Name = "Marketing"}
             };
+        }
+
+        private EmployerController GeEmployerContraller()
+        {
+            return new EmployerController(_logger.Object, _notificationMessages.Object);
         }
     }
 }
