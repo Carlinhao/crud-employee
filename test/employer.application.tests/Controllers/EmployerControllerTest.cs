@@ -39,6 +39,24 @@ namespace employer.application.tests.Controllers
 
         }
 
+        [Fact(DisplayName = "Test method Get Employer")]
+        [Trait("Categoria", "EmployerController")]
+        public void EmployerController_WhenIDoRequestById_MustReturnEmployer()
+        {
+        // Arrante
+        var employerController = new EmployerController(_logger.Object, _notificationMessages.Object);
+        Mock<IGetEmployerByIdUseCaseAsync> useCase = new Mock<IGetEmployerByIdUseCaseAsync>();
+        var response = new EmployerEntity {Id = 1, IdDepartament = 12, Name = "TI"};
+
+        // Act
+        useCase.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
+        var result = await employerController.GetAll(useCase.Object);
+        
+        // Assert
+        Assert.NotNull(result);
+        
+        }
+
         private IEnumerable<EmployerEntity> GetListEmployer()
         {
             return new List<EmployerEntity>
