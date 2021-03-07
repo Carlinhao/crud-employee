@@ -2,6 +2,7 @@
 using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
 using employers.domain.Entities.Employer;
+using employers.domain.Requests;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
@@ -51,6 +52,23 @@ namespace employer.application.tests.Controllers
             // Act
             _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
             var result = await employerController.GetEmployerById(_useCaseAsync.Object, 1);
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Mudar")]
+        [Trait("Categoria", "EmployerController")]
+        public void EmployerController_WhenInInsertEmployer_MustReturnValueOne()
+        {
+            // Arrange
+            var employerController = GeEmployerContraller();
+            Mock<IInsertEmployerUseCaseAsync> _useCaseAsync = new Mock<IInsertEmployerUseCaseAsync>();
+            var request = new EmployerRequest() { IdDepartment = 1, Name = "Business" }; 
+
+            // Act
+            _useCaseAsync.Setup(x => x.RunAsync(request)).ReturnsAsync(1);
+            var result = employerController.PostAsync(_useCaseAsync.Object, request);
 
             // Assert
             Assert.NotNull(result);
