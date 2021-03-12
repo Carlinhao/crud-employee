@@ -59,7 +59,7 @@ namespace employer.application.tests.Controllers
 
         [Fact(DisplayName = "Mudar")]
         [Trait("Categoria", "EmployerController")]
-        public void EmployerController_WhenInInsertEmployer_MustReturnValueOne()
+        public async Task EmployerController_WhenInInsertEmployer_MustReturnValueOne()
         {
             // Arrange
             var employerController = GeEmployerContraller();
@@ -68,8 +68,23 @@ namespace employer.application.tests.Controllers
 
             // Act
             _useCaseAsync.Setup(x => x.RunAsync(request)).ReturnsAsync(1);
-            var result = employerController.PostAsync(_useCaseAsync.Object, request);
+            var result = await employerController.PostAsync(_useCaseAsync.Object, request);
 
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Delete Employer")]
+        [Trait("Categoria", "EmployerController")]
+        public async Task EmployerController_WhenInInsertEmployerId_MustDeleteEmployer()
+        {
+            // Arrange
+            var employerController = GeEmployerContraller();
+            Mock<IDeleteEmployerUseCaseAsync> _useCaseAsync = new Mock<IDeleteEmployerUseCaseAsync>();
+
+            // Act
+            _useCaseAsync.Setup(x => x.RunAsync(11)).ReturnsAsync(1);
+            var result = await employerController.DeleteAsync(_useCaseAsync.Object, 11);
             // Assert
             Assert.NotNull(result);
         }
