@@ -3,6 +3,7 @@ using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
 using employers.domain.Entities.Employer;
 using employers.domain.Requests;
+using employers.domain.Responses;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace employer.application.tests.Controllers
             // Arrange
             var employerController = GeEmployerContraller();
             Mock<IInsertEmployerUseCaseAsync> _useCaseAsync = new Mock<IInsertEmployerUseCaseAsync>();
-            var request = new EmployerRequest() { IdDepartment = 1, Name = "Business" }; 
+            var request = new EmployerRequest() { IdDepartment = 1, Name = "Business" };
 
             // Act
             _useCaseAsync.Setup(x => x.RunAsync(request)).ReturnsAsync(1);
@@ -91,15 +92,19 @@ namespace employer.application.tests.Controllers
 
         [Fact(DisplayName = "Update Epmployer")]
         [Trait("Categoria", "EmployerController")]
-        public void EmployerController_WhenUpdateEmployer_MustRurnTrue()
+        public async Task EmployerController_WhenUpdateEmployer_MustRurnTrue()
         {
             // Arrange
             var employerController = GeEmployerContraller();
             Mock<IUpdateEmployerUseCaseAsync> _useCaseAsync = new Mock<IUpdateEmployerUseCaseAsync>();
+            var request = new EmployerEntity { Id = 1, IdDepartament = 12, Name = "TI" };
+            var response = GetResponse();
             // Act
+            _useCaseAsync.Setup(r => r.RunAsync(request)).ReturnsAsync(response);
+            var result = await employerController.UpdateAsync(_useCaseAsync.Object, request);
 
             // Assert
-
+            Assert.NotNull(result);
         }
 
         private IEnumerable<EmployerEntity> GetListEmployer()
@@ -117,5 +122,16 @@ namespace employer.application.tests.Controllers
         {
             return new EmployerController(_logger.Object, _notificationMessages.Object);
         }
+
+        private ResultResponse GetResponse()
+        {
+            return new ResultResponse
+            {
+                Data = new EmployerEntity { Id = 1, IdDepartament = 12, Name = "TI" },
+                Message = "Update success",
+                Success = true
+            };
+        }
     }
 }
+
