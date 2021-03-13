@@ -89,6 +89,19 @@ namespace employer.application.tests.Controllers
             Assert.NotNull(result);
         }
 
+        [Fact(DisplayName = "Update Epmployer")]
+        [Trait("Categoria", "EmployerController")]
+        public void EmployerController_WhenUpdateEmployer_MustRurnTrue()
+        {
+            // Arrange
+            var employerController = GeEmployerContraller();
+            Mock<IUpdateEmployerUseCaseAsync> _useCaseAsync = new Mock<IUpdateEmployerUseCaseAsync>();
+            // Act
+
+            // Assert
+
+        }
+
         private IEnumerable<EmployerEntity> GetListEmployer()
         {
             return new List<EmployerEntity>
