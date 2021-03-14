@@ -4,6 +4,8 @@ using employers.application.Notifications;
 using employers.domain.Entities.Employer;
 using employers.domain.Requests;
 using employers.domain.Responses;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
@@ -99,12 +101,16 @@ namespace employer.application.tests.Controllers
             Mock<IUpdateEmployerUseCaseAsync> _useCaseAsync = new Mock<IUpdateEmployerUseCaseAsync>();
             var request = new EmployerEntity { Id = 1, IdDepartament = 12, Name = "TI" };
             var response = GetResponse();
-            // Act
             _useCaseAsync.Setup(r => r.RunAsync(request)).ReturnsAsync(response);
             var result = await employerController.UpdateAsync(_useCaseAsync.Object, request);
 
+
+            // Act
+            var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
+            var employerEntity = okResult.Value.Should().BeAssignableTo<ResultResponse>().Subject;
+
             // Assert
-            Assert.NotNull(result);
+            employerEntity.Should().Be(response, "Update success");
         }
 
         private IEnumerable<EmployerEntity> GetListEmployer()
