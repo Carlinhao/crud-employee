@@ -5,7 +5,7 @@ using employers.domain.Responses;
 using Moq;
 using System.Collections.Generic;
 
-namespace employer.application.tests.Utils
+namespace employer.application.tests.Utils.FluentMockRepository
 {
     public class FluentMockEmployerRepository : Mock<IEmployerRepository>
     {

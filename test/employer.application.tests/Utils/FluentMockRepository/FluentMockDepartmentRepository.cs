@@ -4,7 +4,7 @@ using employers.domain.Requests;
 using Moq;
 using System.Collections.Generic;
 
-namespace employer.application.tests.Utils
+namespace employer.application.tests.Utils.FluentMockRepository
 {
     public class FluentMockDepartmentRepository : Mock<IDepartmentRepository>
     {

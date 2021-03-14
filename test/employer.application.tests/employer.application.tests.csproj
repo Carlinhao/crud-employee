@@ -27,4 +27,9 @@
     <ProjectReference Include="..\..\src\employers.application\employers.application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utils\FluentMockEmployer\" />
+    <Folder Include="Utils\FluentMockDepartment\" />
+  </ItemGroup>
+
 </Project>
