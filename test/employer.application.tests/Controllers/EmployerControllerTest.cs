@@ -51,13 +51,15 @@ namespace employer.application.tests.Controllers
             var employerController = GeEmployerContraller();
             Mock<IGetEmployerByIdUseCaseAsync> _useCaseAsync = new Mock<IGetEmployerByIdUseCaseAsync>();
             var response = new EmployerEntity() { Id = 1, IdDepartament = 12, Name = "TI" };
-
-            // Act
             _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
             var result = await employerController.GetEmployerById(_useCaseAsync.Object, 1);
 
+            // Act
+            var objectResult = result.Should().BeOfType<OkObjectResult>().Subject;
+            var resultResponse = objectResult.Value.Should().BeAssignableTo<EmployerEntity>().Subject;
+
             // Assert
-            Assert.NotNull(result);
+            resultResponse.Should().Be(response, "Return employer success");
         }
 
         [Fact(DisplayName = "Mudar")]
@@ -73,6 +75,7 @@ namespace employer.application.tests.Controllers
 
             // Act
             var objectResult = result.Should().BeOfType<OkObjectResult>().Subject;
+
             // Assert
             Assert.Equal(1, objectResult.Value);
         }
