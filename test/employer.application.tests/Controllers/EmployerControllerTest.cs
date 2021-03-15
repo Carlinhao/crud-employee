@@ -68,13 +68,13 @@ namespace employer.application.tests.Controllers
             var employerController = GeEmployerContraller();
             Mock<IInsertEmployerUseCaseAsync> _useCaseAsync = new Mock<IInsertEmployerUseCaseAsync>();
             var request = new EmployerRequest() { IdDepartment = 1, Name = "Business" };
-
-            // Act
             _useCaseAsync.Setup(x => x.RunAsync(request)).ReturnsAsync(1);
             var result = await employerController.PostAsync(_useCaseAsync.Object, request);
 
+            // Act
+            var objectResult = result.Should().BeOfType<OkObjectResult>().Subject;
             // Assert
-            Assert.NotNull(result);
+            Assert.Equal(1, objectResult.Value);
         }
 
         [Fact(DisplayName = "Delete Employer")]
