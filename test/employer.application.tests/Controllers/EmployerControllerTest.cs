@@ -62,7 +62,7 @@ namespace employer.application.tests.Controllers
             resultResponse.Should().Be(response, "Return employer success");
         }
 
-        [Fact(DisplayName = "Mudar")]
+        [Fact(DisplayName = "Insert Employer")]
         [Trait("Categoria", "EmployerController")]
         public async Task EmployerController_WhenInInsertEmployer_MustReturnValueOne()
         {
