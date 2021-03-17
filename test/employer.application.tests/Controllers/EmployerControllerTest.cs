@@ -28,7 +28,7 @@ namespace employer.application.tests.Controllers
 
         [Fact(DisplayName = "Test method Get Employer")]
         [Trait("Categoria", "EmployerController")]
-        public async Task EmployerController_WhenDataIsValid_MethodGetMustReturnAllDepartment()
+        public async Task EmployerController_WhenDataIsValid_MethodGetMustReturnAllEmployer()
         {
             // Arrange
             var employerController = new EmployerController(_logger.Object, _notificationMessages.Object);
