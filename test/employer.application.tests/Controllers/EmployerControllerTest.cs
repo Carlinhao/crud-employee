@@ -11,6 +11,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using System.Linq;
 
 namespace employer.application.tests.Controllers
 {
@@ -33,13 +34,20 @@ namespace employer.application.tests.Controllers
             var employerController = new EmployerController(_logger.Object, _notificationMessages.Object);
             Mock<IGetEmployerUseCaseAsync> useCase = new Mock<IGetEmployerUseCaseAsync>();
             var response = GetListEmployer();
-
-            // Act
             useCase.Setup(x => x.RunAsync()).ReturnsAsync(response);
             var result = await employerController.GetAll(useCase.Object);
 
+            // Act
+            var objectResult = result.Should().BeOfType<OkObjectResult>().Subject;
+            var objectResponse = objectResult.Value.Should().BeAssignableTo<IEnumerable<EmployerEntity>>().Subject;
+
             // Assert
-            Assert.NotNull(result);
+            Assert.NotNull(objectResponse);
+            Assert.Collection(objectResponse,
+                item => Assert.Equal("TI", item.Name),
+                item => Assert.Equal("Business", item.Name),
+                item => Assert.Equal("Management", item.Name),
+                item => Assert.Equal("Marketing", item.Name));
 
         }
 
