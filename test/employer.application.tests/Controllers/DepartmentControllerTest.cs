@@ -3,6 +3,7 @@ using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Notifications;
 using employers.domain.Entities;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -31,13 +32,18 @@ namespace employer.application.tests.Controllers
             var departmentController = GetDepartmentController();
             Mock<IGetDepartamentUseCaseAsync> _useCaseAsync = new Mock<IGetDepartamentUseCaseAsync>();
             var response = GetDepartmentEntity();
-
-            // Act
             _useCaseAsync.Setup(x => x.RunAsync()).ReturnsAsync(response);
             var result = await departmentController.GetAll(_useCaseAsync.Object);
 
+            // Act
+            var objcetResult = result.Should().BeOfType<OkObjectResult>().Subject;
+            var objectResponse = objcetResult.Value.Should().BeAssignableTo<IEnumerable<DepartmentEntity>>().Subject;
+
             // Assert
-            Assert.NotNull(result);
+            Assert.Collection(objectResponse,
+                item => Assert.Equal(1, item.Id),
+                item => Assert.Equal(2, item.Id),
+                item => Assert.Equal(3, item.Id));
         }
 
         [Fact(DisplayName = "Test method GetById Department")]
