@@ -54,14 +54,15 @@ namespace employer.application.tests.Controllers
             var departmentController = GetDepartmentController();
             Mock<IGetDepartamentByIdUseCaseAsync> _useCaseAsync = new Mock<IGetDepartamentByIdUseCaseAsync>();
             var response = new DepartmentEntity() { Id = 1, Name = "Business" };
-
-            // Act
             _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
             var getById = await departmentController.GetById(_useCaseAsync.Object, 1);
 
+            // Act
+            var objectResult = getById.Should().BeOfType<OkObjectResult>().Subject;
+            var objectResponse = objectResult.Value.Should().BeAssignableTo<DepartmentEntity>().Subject;
+
             // Assert
-            Assert.IsAssignableFrom<IActionResult>(getById);
-            Assert.NotNull(getById);
+            objectResponse.Should().Be(response, "Return correct object.");
         }
 
         private DepartmentController GetDepartmentController()
