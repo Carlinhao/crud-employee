@@ -2,6 +2,9 @@
 {
     public class EmployerRepositoryTest
     {
-
+        public EmployerRepositoryTest()
+        {
+            //TO DO
+        }
     }
 }
