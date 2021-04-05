@@ -12,6 +12,7 @@ Base project of rest api.
 * Log (ILogger)
 * ORM (Dapper)
 * Testing (xUnit)
+* Stryker.NET Mutator
 
 How to use:</br>
 Clone this project</br>
