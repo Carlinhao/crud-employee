@@ -11,6 +11,8 @@ namespace employers.application.UseCases.ExportReport
         public async Task<string> ExportCsv(IEnumerable<EmployerEntity> request)
         {
             var sb = new StringBuilder();
+            sb.AppendFormat("Id,Id Departament,Name");
+            sb.AppendLine();
             foreach (var item in request)
             {
                 sb.AppendFormat("{0},{1},{2},{3}",
