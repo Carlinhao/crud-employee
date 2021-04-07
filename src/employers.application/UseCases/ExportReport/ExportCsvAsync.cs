@@ -1,6 +1,5 @@
 ﻿using employers.application.Interfaces.ExportReport;
-using employers.domain.Entities.Employer;
-using System.Collections.Generic;
+using employers.domain.Interfaces.Repositories.Employers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,8 +7,17 @@ namespace employers.application.UseCases.ExportReport
 {
     public class ExportCsvAsync : IExportCsvAsync
     {
-        public async Task<string> ExportCsv(IEnumerable<EmployerEntity> request)
+        private readonly IEmployerRepository _employerRepository;
+
+        public ExportCsvAsync(IEmployerRepository employerRepository)
         {
+            _employerRepository = employerRepository;
+        }
+
+        public async Task<string> ExportCsv()
+        {
+            var request = await _employerRepository.GetAll();
+
             var sb = new StringBuilder();
             sb.AppendFormat("Id,Id Departament,Name");
             sb.AppendLine();
