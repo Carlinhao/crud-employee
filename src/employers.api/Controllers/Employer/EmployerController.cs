@@ -1,9 +1,12 @@
 ﻿using employers.application.Interfaces.Empregado;
+using employers.application.Interfaces.ExportReport;
 using employers.application.Notifications;
 using employers.domain.Entities.Employer;
 using employers.domain.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace employers.api.Controllers
@@ -96,6 +99,17 @@ namespace employers.api.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<FileResult> ExportEmployerCsv(
+            [FromServices] IExportCsvAsync exportCsvAsync)
+        {
+            _logger.LogDebug("Update employer");
+            var createDate = DateTime.UtcNow;
+            var exportData = await exportCsvAsync.ExportCsv();
+
+            return File(Encoding.UTF8.GetBytes(exportData), "application/CSV", $"{createDate}_employer.csv");
         }
     }
 }
