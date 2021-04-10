@@ -102,6 +102,7 @@ namespace employers.api.Controllers
         }
 
         [HttpGet]
+        [Route("csv")]
         public async Task<FileResult> ExportEmployerCsv(
             [FromServices] IExportCsvAsync exportCsvAsync)
         {
