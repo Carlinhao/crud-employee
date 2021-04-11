@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "employers.api", "src\employ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{AE6143C1-7F16-451E-B1A6-18037ECD9FDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "employer.application.tests", "test\employer.application.tests\employer.application.tests.csproj", "{1A292AEB-6C19-4CAF-A19E-E0DA425C0883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "employer.application.tests", "test\employer.application.tests\employer.application.tests.csproj", "{1A292AEB-6C19-4CAF-A19E-E0DA425C0883}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "employer.api.tests", "test\employer.api.tests\employer.api.tests.csproj", "{52DCC495-F1A2-42DB-B7BD-0BA35528EA66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{1A292AEB-6C19-4CAF-A19E-E0DA425C0883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A292AEB-6C19-4CAF-A19E-E0DA425C0883}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A292AEB-6C19-4CAF-A19E-E0DA425C0883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52DCC495-F1A2-42DB-B7BD-0BA35528EA66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52DCC495-F1A2-42DB-B7BD-0BA35528EA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52DCC495-F1A2-42DB-B7BD-0BA35528EA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52DCC495-F1A2-42DB-B7BD-0BA35528EA66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{83423804-966E-416B-A27D-98F82481319F} = {1F404A9E-1455-4EA8-8825-56E83B0B8D26}
 		{0E3D8AF0-9749-40EA-AB50-414A70C68DEC} = {277CECC1-143D-4039-81E6-0D14D6B8F45D}
 		{1A292AEB-6C19-4CAF-A19E-E0DA425C0883} = {AE6143C1-7F16-451E-B1A6-18037ECD9FDF}
+		{52DCC495-F1A2-42DB-B7BD-0BA35528EA66} = {AE6143C1-7F16-451E-B1A6-18037ECD9FDF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A8791D51-0CEC-4DA2-8E94-D7165463445A}
