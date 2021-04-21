@@ -14,7 +14,7 @@ namespace employers.infrastructure.SwaggerExtensions
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "v1",
+                        Title = "Rest Employer control",
                         Version = "v1",
                         Description = "Employer Api",
                         Contact = new OpenApiContact
@@ -31,7 +31,7 @@ namespace employers.infrastructure.SwaggerExtensions
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rest Employer control - v1");
             });
         }
 
