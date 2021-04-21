@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace employers.api.Controllers.Auth
 {
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("api/v1/[controller]")]
     public class AuthController : ControllerBase
     {
-        [HttpPost("v1/login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(
             [FromServices] IUserAuthUseCaseAsync userAuth,
             [FromBody] UserInfoRequest request)
@@ -26,7 +27,7 @@ namespace employers.api.Controllers.Auth
             return Ok(result);
         }
 
-        [HttpPost("v1/refresh-token")]
+        [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken(
             [FromServices] IUserAuthRefreshTokenUseCaseAsync userAuth,
             [FromBody] TokenResponse request)
