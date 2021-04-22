@@ -11,8 +11,9 @@ using System.Threading.Tasks;
 
 namespace employers.api.Controllers
 {
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("api/v1/[controller]")]
     public class EmployerController : ControllerBase
     {
         private readonly ILogger<EmployerController> _logger;
