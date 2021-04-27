@@ -22,9 +22,9 @@ namespace employers.application.UseCases.Employers
             _notificationMessages = notificationMessages;
         }
 
-        public async Task<ResultResponse> RunAsync(EmployerEntity entity)
+        public async Task<ResultResponse> RunAsync(EmployeeEntity entity)
         {
-            var employerValidator = UtilValidators.ValidadorResult(new EmployerUpdateValidator(), entity);
+            var employerValidator = UtilValidators.ValidadorResult(new EmployerEntityValidator(), entity);
 
             if(employerValidator.Errors.Count() > 0)
             {
