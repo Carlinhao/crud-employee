@@ -30,22 +30,22 @@ namespace employers.infrastructure.Repositories.Employer
         }
 
 
-        public async Task<IEnumerable<EmployerEntity>> GetAll()
+        public async Task<IEnumerable<EmployeeEntity>> GetAll()
         {
             using IDbConnection conn = Connection;
             string query = "SELECT ID_EMP, NOM_EMP, ID_DPTO FROM Empregado";
             conn.Open();
-            var result = await conn.QueryAsync<EmployerEntity>(query);
+            var result = await conn.QueryAsync<EmployeeEntity>(query);
 
             return result.ToList();
         }
 
-        public async Task<EmployerEntity> GetById(object id)
+        public async Task<EmployeeEntity> GetById(object id)
         {
             using IDbConnection conn = Connection;
             string query = $"SELECT ID_EMP, NOM_EMP, ID_DPTO FROM Empregado WHERE ID_EMP = { id }";
             conn.Open();
-            var result = await conn.QueryAsync<EmployerEntity>(query);
+            var result = await conn.QueryAsync<EmployeeEntity>(query);
 
             return result.FirstOrDefault();
         }
@@ -70,7 +70,7 @@ namespace employers.infrastructure.Repositories.Employer
             return result;
         }
 
-        public async Task<ResultResponse> UpdateAsync(EmployerEntity entity)
+        public async Task<ResultResponse> UpdateAsync(EmployeeEntity entity)
         {
             using IDbConnection conn = Connection;
             conn.Open();
