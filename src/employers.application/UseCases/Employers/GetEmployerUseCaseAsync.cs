@@ -15,7 +15,7 @@ namespace employers.application.UseCases.Employers
             _employerRepository = employerRepository;
         }
 
-        public async Task<IEnumerable<EmployerEntity>> RunAsync()
+        public async Task<IEnumerable<EmployeeEntity>> RunAsync()
         {
             var result = await _employerRepository.GetAll();
 
