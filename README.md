@@ -1,5 +1,5 @@
-![CircleCI](https://img.shields.io/circleci/build/github/Carlinhao/crud-employer)
-![Last Commit](https://img.shields.io/github/last-commit/Carlinhao/crud-employer)
+![CircleCI](https://img.shields.io/circleci/build/github/Carlinhao/crud-employee)
+![Last Commit](https://img.shields.io/github/last-commit/Carlinhao/crud-employee)
 
 # crud-employer
 Base project of rest api.
