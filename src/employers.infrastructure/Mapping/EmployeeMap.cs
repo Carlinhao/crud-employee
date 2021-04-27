@@ -1,5 +1,5 @@
 ﻿using Dapper.FluentMap.Dommel.Mapping;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 
 namespace employers.infrastructure.Mapping
 {

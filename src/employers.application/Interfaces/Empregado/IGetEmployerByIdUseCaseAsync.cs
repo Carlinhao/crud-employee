@@ -1,4 +1,4 @@
-﻿using employers.domain.Entities.Employer;
+﻿using employers.domain.Entities.Employee;
 using System.Threading.Tasks;
 
 namespace employers.application.Interfaces.Empregado

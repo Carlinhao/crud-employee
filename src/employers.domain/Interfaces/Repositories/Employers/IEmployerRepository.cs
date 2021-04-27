@@ -1,4 +1,4 @@
-﻿using employers.domain.Entities.Employer;
+﻿using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using employers.domain.Responses;
 using System.Collections.Generic;

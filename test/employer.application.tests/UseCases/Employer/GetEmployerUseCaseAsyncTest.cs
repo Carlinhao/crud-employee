@@ -1,5 +1,5 @@
 ﻿using employers.application.UseCases.Employers;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using Moq;
 using System.Collections.Generic;

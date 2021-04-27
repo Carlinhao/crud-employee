@@ -1,5 +1,5 @@
 ﻿using employers.application.Interfaces.Empregado;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using System.Collections.Generic;
 using System.Threading.Tasks;

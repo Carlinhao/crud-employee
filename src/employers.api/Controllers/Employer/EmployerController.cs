@@ -1,7 +1,7 @@
 ﻿using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.ExportReport;
 using employers.application.Notifications;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

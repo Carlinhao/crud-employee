@@ -1,6 +1,6 @@
 ﻿using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using System.Net;
 using System.Threading.Tasks;

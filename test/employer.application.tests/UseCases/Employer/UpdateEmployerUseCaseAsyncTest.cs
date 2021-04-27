@@ -1,6 +1,6 @@
 ﻿using employers.application.Notifications;
 using employers.application.UseCases.Employers;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Responses;
 using FluentAssertions;
@@ -54,7 +54,7 @@ namespace employer.application.tests.UseCases.Employer
             await useCase.RunAsync(request);
 
             // Assert
-            _notificationMessages.Verify(x => x.AddNotification("UpdateEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(3));
+            _notificationMessages.Verify(x => x.AddNotification("UpdateEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(6));
         }
 
         private UpdateEmployerUseCaseAsync UpdateEmployerUseCase()
@@ -68,7 +68,10 @@ namespace employer.application.tests.UseCases.Employer
             {
                 Id = 1,
                 IdDepartament = 7,
-                Name = "Business"
+                Name = "Paul Stone",
+                Active = true,
+                Gender = "M",
+                IdOccupation = 2
             };
         }
 
