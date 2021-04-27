@@ -19,13 +19,13 @@ namespace employers.application.UseCases.Employers
             _notification = notification;
         }
 
-        public async Task<EmployerEntity> RunAsync(int id)
+        public async Task<EmployeeEntity> RunAsync(int id)
         {
             if (id <= 0)
             {
                 _notification.AddNotification("GetEmployerByIdUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest);
 
-                return new EmployerEntity();
+                return new EmployeeEntity();
             }
 
             var result = await _employerRepository.GetById(id);
