@@ -1,6 +1,6 @@
 ﻿using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Responses;
 using employers.domain.Validators;
@@ -22,9 +22,9 @@ namespace employers.application.UseCases.Employers
             _notificationMessages = notificationMessages;
         }
 
-        public async Task<ResultResponse> RunAsync(EmployerEntity entity)
+        public async Task<ResultResponse> RunAsync(EmployeeEntity entity)
         {
-            var employerValidator = UtilValidators.ValidadorResult(new EmployerUpdateValidator(), entity);
+            var employerValidator = UtilValidators.ValidadorResult(new EmployerEntityValidator(), entity);
 
             if(employerValidator.Errors.Count() > 0)
             {

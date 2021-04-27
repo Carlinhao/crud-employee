@@ -1,5 +1,5 @@
 ﻿using employers.application.UseCases.Employers;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using Moq;
 using System.Collections.Generic;
@@ -40,14 +40,14 @@ namespace employer.application.tests.UseCases.Employer
                 item => Assert.Equal("Manager", item.Name));
         }
 
-        private IEnumerable<EmployerEntity> GetEmployer()
+        private IEnumerable<EmployeeEntity> GetEmployer()
         {
-            var result = new List<EmployerEntity>()
+            var result = new List<EmployeeEntity>()
             {
-                new EmployerEntity { Id = 1, IdDepartament = 2, Name = "IT" },
-                new EmployerEntity { Id = 2, IdDepartament = 4, Name = "HR" },
-                new EmployerEntity { Id = 3, IdDepartament = 6, Name = "Business" },
-                new EmployerEntity { Id = 4, IdDepartament = 9, Name = "Manager" },
+                new EmployeeEntity { Id = 1, IdDepartament = 2, Name = "IT" },
+                new EmployeeEntity { Id = 2, IdDepartament = 4, Name = "HR" },
+                new EmployeeEntity { Id = 3, IdDepartament = 6, Name = "Business" },
+                new EmployeeEntity { Id = 4, IdDepartament = 9, Name = "Manager" },
             };
 
             return result;

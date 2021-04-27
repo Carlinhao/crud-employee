@@ -52,8 +52,8 @@ namespace employers.infrastructure.Ioc
         {
             FluentMapper.Initialize( config => 
             {
-                config.AddMap(new DepartamentMap());
-                config.AddMap(new EmployerMap());
+                config.AddMap(new DepartmentMap());
+                config.AddMap(new EmployeeMap());
             });
         }
     }

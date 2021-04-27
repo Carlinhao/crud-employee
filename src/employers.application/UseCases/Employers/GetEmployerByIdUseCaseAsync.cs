@@ -1,6 +1,6 @@
 ﻿using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using System.Net;
 using System.Threading.Tasks;
@@ -19,13 +19,13 @@ namespace employers.application.UseCases.Employers
             _notification = notification;
         }
 
-        public async Task<EmployerEntity> RunAsync(int id)
+        public async Task<EmployeeEntity> RunAsync(int id)
         {
             if (id <= 0)
             {
                 _notification.AddNotification("GetEmployerByIdUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest);
 
-                return new EmployerEntity();
+                return new EmployeeEntity();
             }
 
             var result = await _employerRepository.GetById(id);

@@ -1,4 +1,4 @@
-﻿using employers.domain.Entities.Employer;
+﻿using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Requests;
 using employers.domain.Responses;
@@ -11,7 +11,7 @@ namespace employer.repository.tests.FluentMockRepository
     {
         public FluentMockEmployerRepository GetById(object id)
         {
-            var response = new EmployerEntity { Id = 1, IdDepartament = 5, Name = "Paul Stone" };
+            var response = new EmployeeEntity { Id = 1, IdDepartament = 5, Name = "Paul Stone" };
 
             Setup(x => x.GetById(id)).ReturnsAsync(response);
             return this;
@@ -37,7 +37,7 @@ namespace employer.repository.tests.FluentMockRepository
             return this;
         }
 
-        public FluentMockEmployerRepository UpdateAsync(EmployerEntity entity)
+        public FluentMockEmployerRepository UpdateAsync(EmployeeEntity entity)
         {
             var response = GetInsertResponse();
 
@@ -47,7 +47,7 @@ namespace employer.repository.tests.FluentMockRepository
 
         public ResultResponse GetInsertResponse()
         {
-            var data = new EmployerEntity { Id = 1, IdDepartament = 5, Name = "Paul Stone" };
+            var data = new EmployeeEntity { Id = 1, IdDepartament = 5, Name = "Paul Stone" };
 
             return new ResultResponse
             {
@@ -57,14 +57,14 @@ namespace employer.repository.tests.FluentMockRepository
             };
         }
 
-        public IEnumerable<EmployerEntity> GetEmployers()
+        public IEnumerable<EmployeeEntity> GetEmployers()
         {
-            return new List<EmployerEntity>
+            return new List<EmployeeEntity>
             {
-                new EmployerEntity { Id = 1, IdDepartament = 5, Name = "Paul Stone"},
-                new EmployerEntity { Id = 2, IdDepartament = 8, Name = "Maria Rita"},
-                new EmployerEntity { Id = 3, IdDepartament = 3, Name = "Lunna Iris"},
-                new EmployerEntity { Id = 4, IdDepartament = 9, Name = "Lis Bela"},
+                new EmployeeEntity { Id = 1, IdDepartament = 5, Name = "Paul Stone"},
+                new EmployeeEntity { Id = 2, IdDepartament = 8, Name = "Maria Rita"},
+                new EmployeeEntity { Id = 3, IdDepartament = 3, Name = "Lunna Iris"},
+                new EmployeeEntity { Id = 4, IdDepartament = 9, Name = "Lis Bela"},
             };
         }
     }

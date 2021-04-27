@@ -1,7 +1,7 @@
 ﻿using employers.api.Controllers;
 using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using employers.domain.Responses;
 using FluentAssertions;
@@ -38,7 +38,7 @@ namespace employer.api.tests.Controllers
 
             // Act
             var objectResult = result.Should().BeOfType<OkObjectResult>().Subject;
-            var objectResponse = objectResult.Value.Should().BeAssignableTo<IEnumerable<EmployerEntity>>().Subject;
+            var objectResponse = objectResult.Value.Should().BeAssignableTo<IEnumerable<EmployeeEntity>>().Subject;
 
             // Assert
             Assert.NotNull(objectResponse);
@@ -57,13 +57,13 @@ namespace employer.api.tests.Controllers
             // Arrante
             var employerController = GeEmployerContraller();
             Mock<IGetEmployerByIdUseCaseAsync> _useCaseAsync = new Mock<IGetEmployerByIdUseCaseAsync>();
-            var response = new EmployerEntity() { Id = 1, IdDepartament = 12, Name = "TI" };
+            var response = new EmployeeEntity() { Id = 1, IdDepartament = 12, Name = "TI" };
             _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
             var result = await employerController.GetEmployerById(_useCaseAsync.Object, 1);
 
             // Act
             var objectResult = result.Should().BeOfType<OkObjectResult>().Subject;
-            var resultResponse = objectResult.Value.Should().BeAssignableTo<EmployerEntity>().Subject;
+            var resultResponse = objectResult.Value.Should().BeAssignableTo<EmployeeEntity>().Subject;
 
             // Assert
             resultResponse.Should().Be(response, "Return employer success");
@@ -111,7 +111,7 @@ namespace employer.api.tests.Controllers
             // Arrange
             var employerController = GeEmployerContraller();
             Mock<IUpdateEmployerUseCaseAsync> _useCaseAsync = new Mock<IUpdateEmployerUseCaseAsync>();
-            var request = new EmployerEntity { Id = 1, IdDepartament = 12, Name = "TI" };
+            var request = new EmployeeEntity { Id = 1, IdDepartament = 12, Name = "TI" };
             var response = GetResponse();
             _useCaseAsync.Setup(r => r.RunAsync(request)).ReturnsAsync(response);
             var result = await employerController.UpdateAsync(_useCaseAsync.Object, request);
@@ -125,14 +125,14 @@ namespace employer.api.tests.Controllers
             employerEntity.Should().Be(response, "Update success");
         }
 
-        private IEnumerable<EmployerEntity> GetListEmployer()
+        private IEnumerable<EmployeeEntity> GetListEmployer()
         {
-            return new List<EmployerEntity>
+            return new List<EmployeeEntity>
             {
-              new EmployerEntity {Id = 1, IdDepartament = 12, Name = "TI"},
-              new EmployerEntity {Id = 2, IdDepartament = 2, Name = "Business"},
-              new EmployerEntity {Id = 3, IdDepartament = 31, Name = "Management"},
-              new EmployerEntity {Id = 4, IdDepartament = 6, Name = "Marketing"}
+              new EmployeeEntity {Id = 1, IdDepartament = 12, Name = "TI"},
+              new EmployeeEntity {Id = 2, IdDepartament = 2, Name = "Business"},
+              new EmployeeEntity {Id = 3, IdDepartament = 31, Name = "Management"},
+              new EmployeeEntity {Id = 4, IdDepartament = 6, Name = "Marketing"}
             };
         }
 
@@ -145,7 +145,7 @@ namespace employer.api.tests.Controllers
         {
             return new ResultResponse
             {
-                Data = new EmployerEntity { Id = 1, IdDepartament = 12, Name = "TI" },
+                Data = new EmployeeEntity { Id = 1, IdDepartament = 12, Name = "TI" },
                 Message = "Update success",
                 Success = true
             };

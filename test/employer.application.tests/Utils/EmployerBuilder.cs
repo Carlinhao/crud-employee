@@ -1,4 +1,4 @@
-﻿using employers.domain.Entities.Employer;
+﻿using employers.domain.Entities.Employee;
 
 namespace employer.application.tests.Utils
 {
@@ -29,9 +29,9 @@ namespace employer.application.tests.Utils
             return this;
         }
 
-        public EmployerEntity Build()
+        public EmployeeEntity Build()
         {
-            var employer = new EmployerEntity { Id = _id, IdDepartament = _idDepartament, Name = _name };
+            var employer = new EmployeeEntity { Id = _id, IdDepartament = _idDepartament, Name = _name };
             return employer;
         }
     }

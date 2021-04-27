@@ -1,5 +1,5 @@
 ﻿using employers.application.Interfaces.Empregado;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories.Employers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,7 +15,7 @@ namespace employers.application.UseCases.Employers
             _employerRepository = employerRepository;
         }
 
-        public async Task<IEnumerable<EmployerEntity>> RunAsync()
+        public async Task<IEnumerable<EmployeeEntity>> RunAsync()
         {
             var result = await _employerRepository.GetAll();
 

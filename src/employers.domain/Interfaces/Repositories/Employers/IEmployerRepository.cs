@@ -1,4 +1,4 @@
-﻿using employers.domain.Entities.Employer;
+﻿using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using employers.domain.Responses;
 using System.Collections.Generic;
@@ -8,10 +8,10 @@ namespace employers.domain.Interfaces.Repositories.Employers
 {
     public interface IEmployerRepository
     {
-        Task<EmployerEntity> GetById(object id);
-        Task<IEnumerable<EmployerEntity>> GetAll();
+        Task<EmployeeEntity> GetById(object id);
+        Task<IEnumerable<EmployeeEntity>> GetAll();
         Task<int?> InsertAsync(EmployerRequest employerRequest);
         Task<int?> DeleteAsync(int id);
-        Task<ResultResponse> UpdateAsync(EmployerEntity entity);
+        Task<ResultResponse> UpdateAsync(EmployeeEntity entity);
     }
 }

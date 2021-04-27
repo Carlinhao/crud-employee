@@ -1,7 +1,7 @@
 ﻿using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.ExportReport;
 using employers.application.Notifications;
-using employers.domain.Entities.Employer;
+using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -89,7 +89,7 @@ namespace employers.api.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(
             [FromServices] IUpdateEmployerUseCaseAsync update,
-            [FromBody] EmployerEntity employerEntity)
+            [FromBody] EmployeeEntity employerEntity)
         {
             _logger.LogDebug("Update employer");
             var result = await update.RunAsync(employerEntity);
