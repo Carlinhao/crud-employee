@@ -5,6 +5,6 @@ namespace employers.application.Interfaces.Empregado
 {
     public interface IGetEmployerByIdUseCaseAsync
     {
-        Task<EmployerEntity> RunAsync(int id);
+        Task<EmployeeEntity> RunAsync(int id);
     }
 }
