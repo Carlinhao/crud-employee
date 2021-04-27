@@ -48,7 +48,7 @@ namespace employer.application.tests.UseCases.Employer
         {
             // Arrange
             var useCase = UpdateEmployerUseCase();
-            var request = new EmployerEntity();
+            var request = new EmployeeEntity();
 
             // Act
             await useCase.RunAsync(request);
@@ -62,9 +62,9 @@ namespace employer.application.tests.UseCases.Employer
             return new UpdateEmployerUseCaseAsync(_employerRepository.Object, _notificationMessages.Object);
         }
 
-        private EmployerEntity GetEmployerEntity()
+        private EmployeeEntity GetEmployerEntity()
         {
-            return new EmployerEntity
+            return new EmployeeEntity
             {
                 Id = 1,
                 IdDepartament = 7,
