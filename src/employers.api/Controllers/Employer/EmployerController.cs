@@ -89,7 +89,7 @@ namespace employers.api.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(
             [FromServices] IUpdateEmployerUseCaseAsync update,
-            [FromBody] EmployerEntity employerEntity)
+            [FromBody] EmployeeEntity employerEntity)
         {
             _logger.LogDebug("Update employer");
             var result = await update.RunAsync(employerEntity);
