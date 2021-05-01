@@ -7,6 +7,12 @@ namespace employers.domain.Requests
     {
         [JsonPropertyName("name")]
         public string Nome { get; set; }
+
+        [JsonPropertyName("manager")]
+        public int Manager { get; set; }
+
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
     }
 
     public class DepartmentRequestValidator : AbstractValidator<DepartmentRequest>
@@ -18,6 +24,18 @@ namespace employers.domain.Requests
                 .WithMessage("Nome é obrigatório!")
                 .NotNull()
                 .WithMessage("Nome é obrigatório!");
+
+            RuleFor(x => x.Manager)
+                .NotEmpty()
+                .WithMessage("Manager é obrigatório!")
+                .NotNull()
+                .WithMessage("Manager é obrigatório!");
+
+            RuleFor(x => x.Description)
+                .NotEmpty()
+                .WithMessage("Description é obrigatório!")
+                .NotNull()
+                .WithMessage("Description é obrigatório!");
         }
     }
 }
