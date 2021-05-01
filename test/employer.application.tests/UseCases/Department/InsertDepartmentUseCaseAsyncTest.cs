@@ -44,7 +44,7 @@ namespace employer.application.tests.UseCases.Department
         {
             // Arrange
             var useCase = GetInsertUseCase();
-            var request = new DepartmentRequest() { Nome = departmentRequest };
+            var request = new DepartmentRequest() { Nome = departmentRequest, Manager = 987, Description = "Test Department" };
 
             // Act
             var result = await useCase.RunAsync(request);
@@ -64,7 +64,9 @@ namespace employer.application.tests.UseCases.Department
         {
             return new DepartmentRequest
             {
-                Nome = "IT"
+                Nome = "IT",
+                Manager = 987,
+                Description = "Information Tecnology"
             };
         }
     }
