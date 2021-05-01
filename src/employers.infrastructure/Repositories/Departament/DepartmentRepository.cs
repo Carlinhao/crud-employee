@@ -3,6 +3,7 @@ using employers.domain.Entities;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Requests;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -19,7 +20,7 @@ namespace employers.infrastructure.Repositories.Departament
         {
             get
             {
-                return new SqlConnection(_configuration.GetConnectionString("sqlConnect"));
+                return new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
             }
         }
 
