@@ -4,6 +4,7 @@ using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Requests;
 using employers.domain.Responses;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -20,7 +21,7 @@ namespace employers.infrastructure.Repositories.Employer
         {
             get
             {
-                return new SqlConnection(_configuration.GetConnectionString("sqlConnect"));
+                return new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
             }
         }
 
@@ -53,7 +54,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<int?> InsertAsync(EmployerRequest request)
         {
             using IDbConnection conn = Connection;
-            conn.Open();
+            //conn.Open();
             string query = $"INSERT INTO Empregado (NOM_EMP, ID_DPTO) VALUES('{ request.Name }',{ request.IdDepartment })";
             var result = await conn.ExecuteAsync(query);
 
