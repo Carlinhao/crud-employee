@@ -36,7 +36,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<IEnumerable<EmployeeEntity>> GetAll()
         {
             using IDbConnection conn = Connection;
-            string query = @"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, ACTIVE, ID_OCCUPATION FROM Employee";
+            string query = @"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, ACTIVE, ID_OCCUPATION FROM Employee WITH (NOLOCK)";
             conn.Open();
             var result = await conn.QueryAsync<EmployeeEntity>(query);
 
@@ -46,7 +46,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<EmployeeEntity> GetById(object id)
         {
             using IDbConnection conn = Connection;
-            string query = $"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DPTO FROM Empregado WHERE ID_EMPLOYEE = { id }";
+            string query = $"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DPTO FROM Empregado WITH (NOLOCK) WHERE ID_EMPLOYEE = { id }";
             conn.Open();
             var result = await conn.QueryAsync<EmployeeEntity>(query);
 
@@ -57,10 +57,10 @@ namespace employers.infrastructure.Repositories.Employer
         {
             using IDbConnection conn = Connection;
             conn.Open();
-            string query = $"INSERT INTO Employee (NOM_EMPLOYEE, ID_DEPARTMENT, ID_OCCUPATION, GENDER, ACTIVE) VALUES('{ request.Name }',{ request.IdDepartment }, { request.IdOccupation }, '{ request.Gender }', { request.Active })";
-            var result = await conn.ExecuteAsync(query);
+            string query = $"INSERT INTO Employee (NOM_EMPLOYEE, ID_DEPARTMENT, ID_OCCUPATION, GENDER, ACTIVE) VALUES('{ request.Name }',{ request.IdDepartment }, { request.IdOccupation }, '{ request.Gender }', '{ request.Active }')";
+            var result = await conn.QueryAsync(query);
 
-            return result;
+            return result.FirstOrDefault();
         }
 
         public async Task<int?> DeleteAsync(int id)
