@@ -1,11 +1,13 @@
 ﻿using Dapper.FluentMap;
 using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.Empregado;
+using employers.application.Interfaces.ExportReport;
 using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Interfaces.UserAuth;
 using employers.application.Notifications;
 using employers.application.UseCases.Departament;
 using employers.application.UseCases.Employers;
+using employers.application.UseCases.ExportReport;
 using employers.application.UseCases.Token;
 using employers.application.UseCases.UserAuth;
 using employers.domain.Interfaces.Repositories.Departament;
@@ -46,6 +48,9 @@ namespace employers.infrastructure.Ioc
 
             //Notification
             services.AddSingleton<INotificationMessages,NotificationMessages>();
+
+            //Export File
+            services.AddTransient<IExportCsvAsync, ExportCsvAsync>();
         }
 
         public static void Rister()
