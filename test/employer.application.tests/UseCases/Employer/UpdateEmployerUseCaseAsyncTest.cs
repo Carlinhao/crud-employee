@@ -70,7 +70,7 @@ namespace employer.application.tests.UseCases.Employer
                 IdDepartament = 7,
                 Name = "Paul Stone",
                 Active = true,
-                Gender = "M",
+                Gender = 'M',
                 IdOccupation = 2
             };
         }
