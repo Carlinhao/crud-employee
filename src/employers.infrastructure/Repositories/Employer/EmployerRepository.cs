@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace employers.infrastructure.Repositories.Employer
@@ -16,7 +17,7 @@ namespace employers.infrastructure.Repositories.Employer
     public class EmployerRepository : IEmployerRepository
     {
         private readonly IConfiguration _configuration;
-
+        private StringBuilder _stringBuilder;
         public IDbConnection Connection
         {
             get
@@ -28,6 +29,7 @@ namespace employers.infrastructure.Repositories.Employer
         public EmployerRepository(IConfiguration configuration)
         {
             _configuration = configuration;
+            _stringBuilder = new StringBuilder();
         }
 
 
@@ -75,9 +77,15 @@ namespace employers.infrastructure.Repositories.Employer
         {
             using IDbConnection conn = Connection;
             conn.Open();
-            string query = $"UPDATE Empregado SET NOM_EMP= '{entity.Name}'," +
-                           $" ID_DPTO={entity.IdDepartament} WHERE ID_EMP={entity.Id}";
-            await conn. QueryAsync(query);
+            _stringBuilder.Append($"UPDATE Employee SET NOM_EMPLOYEE = '{entity.Name}', ");
+            _stringBuilder.Append($"ID_DEPARTMENT = {entity.IdDepartament}, ");
+            _stringBuilder.Append($"ID_OCCUPATION = {entity.IdOccupation}, ");
+            _stringBuilder.Append($"GENDER = {entity.Gender}, ");
+            _stringBuilder.Append($"ACTIVE = {entity.Active}, ");
+            _stringBuilder.Append($"WHERE ID_DEPARTMENT={entity.Id}");
+
+
+            await conn. QueryAsync(_stringBuilder.ToString());
 
             return new ResultResponse { Data = entity, Message = "Update employer success", Success = true };
         }
