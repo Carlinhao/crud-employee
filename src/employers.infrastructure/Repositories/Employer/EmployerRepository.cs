@@ -65,7 +65,7 @@ namespace employers.infrastructure.Repositories.Employer
         {
             using IDbConnection conn = Connection;
             conn.Open();
-            string query = $"DELETE FROM Empregado WHERE ID_EMP = { id }";
+            string query = $"DELETE FROM Employee WHERE ID_DEPARTMENT = { id }";
             var result = await conn.ExecuteAsync(query);
 
             return result;
