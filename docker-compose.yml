@@ -8,25 +8,27 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "DockerSql2017!"
-    restart: unless-stopped
+    restart: always
     ports:
       - 1433:1433
     networks: 
       - red
   employers-api:
     image: employers-api
+    container_name: api
     environment:
+        - ASPNETCORE_URLS=http://0.0.0.0:80
         - ASPNETCORE_ENVIRONMENT=Development
-        - DB_CONNECTION_STRING=Server=localhost,1433;Database=BD03;User ID=SA;Password=DockerSql2017!
+        - DB_CONNECTION_STRING=Server=db,1433;Database=BD03;User ID=SA;Password=DockerSql2017!
     build:
       context: .
       dockerfile: src/employers.api/Dockerfile
     ports:
       - 5000:80
-    depends_on: 
-      - db
     networks: 
       - red
+    depends_on: 
+      - db
 networks: 
   red:
     driver: bridge
