@@ -54,7 +54,7 @@ namespace employer.application.tests.UseCases.Employer
             await useCase.RunAsync(request);
 
             // Assert
-            _notificationMessages.Verify(x => x.AddNotification("UpdateEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(6));
+            _notificationMessages.Verify(x => x.AddNotification("UpdateEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(5));
         }
 
         private UpdateEmployerUseCaseAsync UpdateEmployerUseCase()
