@@ -55,7 +55,7 @@ namespace employers.infrastructure.Repositories.Employer
         {
             using IDbConnection conn = Connection;
             conn.Open();
-            string query = $"INSERT INTO Empregado (NOM_EMP, ID_DPTO) VALUES('{ request.Name }',{ request.IdDepartment })";
+            string query = $"INSERT INTO Employee (NOM_EMPLOYEE, ID_DEPARTMENT, ID_OCCUPATION, GENDER, ACTIVE) VALUES('{ request.Name }',{ request.IdDepartment }, { request.IdOccupation }, '{ request.Gender }', { request.Active })";
             var result = await conn.ExecuteAsync(query);
 
             return result;
