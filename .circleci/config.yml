@@ -1,12 +1,17 @@
- version: 2.1
+version: 2.1
 
- orbs:
+orbs:
   win: circleci/windows@2.2.0
 
- jobs:
-   build:
-     executor: win/default     
-    
-     steps:
-       - checkout
-       - run: dotnet build employer.solution.sln
+jobs:
+  build:
+    executor: win/default
+
+    steps:
+      - checkout
+      - run:
+          name: "Build projects"
+          command: dotnet build employer.solution.sln
+      - run:
+          name: "xUnit Tests"
+          command: dotnet test test\employer.api.tests && dotnet test test\employer.application.tests && dotnet test test\employer.repository.tests
