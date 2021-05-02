@@ -54,7 +54,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<int?> InsertAsync(EmployerRequest request)
         {
             using IDbConnection conn = Connection;
-            //conn.Open();
+            conn.Open();
             string query = $"INSERT INTO Empregado (NOM_EMP, ID_DPTO) VALUES('{ request.Name }',{ request.IdDepartment })";
             var result = await conn.ExecuteAsync(query);
 
