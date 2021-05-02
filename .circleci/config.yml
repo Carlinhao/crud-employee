@@ -18,3 +18,5 @@ jobs:
       - run:
           name: "Running Application Tests"
           command: dotnet test test/employer.application.tests\ -v n --results-directory:test_coverage --collect:"Code Coverage"
+      - store_artifacts:
+          path: C:\Users\circleci\project\test_coverage
