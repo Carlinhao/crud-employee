@@ -32,7 +32,7 @@ namespace employers.infrastructure.Repositories.Departament
         public async Task<IEnumerable<DepartmentEntity>> GetAll()
         {
             using IDbConnection conn = Connection;
-            string query = "SELECT ID_DEPARTMENT, NOM_DEPARTMENT, MANGER, DESC_DEPARTMENT FROM Department";
+            string query = "SELECT ID_DEPARTMENT, NOM_DEPARTMENT, MANAGER, DESC_DEPARTMENT FROM Department";
             conn.Open();
             var result = await conn.QueryAsync<DepartmentEntity>(query);
 
@@ -42,7 +42,7 @@ namespace employers.infrastructure.Repositories.Departament
         public async Task<DepartmentEntity> GetById(object id)
         {
             using IDbConnection conn = Connection;
-            string query = $"SELECT ID_DEPARTMENT, NOM_DEPARTMENT, MANGER, DESC_DEPARTMENT FROM Department WHERE ID_DEPARTMENT = { id }";
+            string query = $"SELECT ID_DEPARTMENT, NOM_DEPARTMENT, MANAGER, DESC_DEPARTMENT FROM Department WHERE ID_DEPARTMENT = { id }";
             conn.Open();
             var result = await conn.QueryAsync<DepartmentEntity>(query);
 
