@@ -44,7 +44,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<EmployeeEntity> GetById(object id)
         {
             using IDbConnection conn = Connection;
-            string query = $"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DPTO FROM Empregado WHERE ID_EMP = { id }";
+            string query = $"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DPTO FROM Empregado WHERE ID_EMPLOYEE = { id }";
             conn.Open();
             var result = await conn.QueryAsync<EmployeeEntity>(query);
 
