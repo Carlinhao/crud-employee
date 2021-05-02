@@ -13,5 +13,8 @@ jobs:
           name: "Build projects"
           command: dotnet build employer.solution.sln
       - run:
-          name: "Running Application Tests"
+          name: "Running Api Tests"
           command: dotnet test employer.api.tests\ -v n --results-directory:test_coverage --collect:"Code Coverage"
+      - run:
+          name: "Running Application Tests"
+          command: dotnet test employer.application.tests\ -v n --results-directory:test_coverage --collect:"Code Coverage"
