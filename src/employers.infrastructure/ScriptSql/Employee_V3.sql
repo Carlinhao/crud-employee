@@ -1,3 +1,11 @@
+create database BD03;
+
+GO
+
+USE BD03;
+
+GO
+
 CREATE TABLE Department
 (
     ID_DEPARTMENT INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -26,3 +34,20 @@ CREATE TABLE Employee
     ID_DEPARTMENT INT REFERENCES Department(ID_DEPARTMENT),
     ID_OCCUPATION INT REFERENCES Occupation(ID_OCCUPATION)
 );
+
+GO
+
+INSERT INTO Occupation
+VALUES ('PO','Junior'),
+ ('PO','Middle Level'),
+ ('PO','Senior'),
+ ('Developer','Junior'),
+ ('Developer','Middle Level'),
+ ('Developer','Senior'),
+ ('Front End','Junior'),
+ ('Front End','Middle Level'),
+ ('Front End','Senior');
+
+GO
+
+SELECT * FROM Occupation;

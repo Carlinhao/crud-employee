@@ -27,21 +27,21 @@ namespace employers.domain.Requests
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("Name is required")
+                    .WithMessage("Name is required")
                 .NotNull()
-                .WithMessage("Name is required");
+                    .WithMessage("Name is required");
 
             RuleFor(x => x.IdDepartment)
                 .NotEmpty()
-                .WithMessage("Id Department is required")
+                    .WithMessage("Id Department is required")
                 .NotNull()
-                .WithMessage("Id Department is required");
+                    .WithMessage("Id Department is required");
 
             RuleFor(x => x.IdOccupation)
                 .NotEmpty()
-                .WithMessage("Id Occupation is required")
+                    .WithMessage("Id Occupation is required")
                 .NotNull()
-                .WithMessage("Id Occupation is required");
+                    .WithMessage("Id Occupation is required");
 
             RuleFor(x => x.Gender)
                 .NotEmpty()
@@ -53,7 +53,7 @@ namespace employers.domain.Requests
 
             RuleFor(x => x.Active)
                 .NotEmpty()
-                .WithMessage("Active is required");
+                    .WithMessage("Active is required");
         }
     }
 }
