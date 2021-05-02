@@ -19,14 +19,17 @@ namespace employers.application.UseCases.ExportReport
             var request = await _employerRepository.GetAll();
 
             var sb = new StringBuilder();
-            sb.AppendFormat("Id,Id Departament,Name");
+            sb.AppendFormat("Id, Name, Gender, Id Departament, Id Occupation, Active");
             sb.AppendLine();
             foreach (var item in request)
             {
-                sb.AppendFormat("{0},{1},{2},{3}",
+                sb.AppendFormat("{0},{1},{2},{3},{4},{5}",
                      item.Id,
+                     item.Name,
+                     item.Gender,
                      item.IdDepartament,
-                     item.Name);
+                     item.IdOccupation,
+                     item.Active);
                 sb.AppendLine();
             }
             return await Task.FromResult(sb.ToString());
