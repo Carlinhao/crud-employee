@@ -6,7 +6,7 @@ namespace employers.domain.Requests
     public class DepartmentRequest
     {
         [JsonPropertyName("name")]
-        public string Nome { get; set; }
+        public string Name { get; set; }
 
         [JsonPropertyName("manager")]
         public int Manager { get; set; }
@@ -19,7 +19,7 @@ namespace employers.domain.Requests
     {
         public DepartmentRequestValidator()
         {
-            RuleFor(x => x.Nome)
+            RuleFor(x => x.Name)
                 .NotEmpty()
                 .WithMessage("Nome é obrigatório!")
                 .NotNull()
