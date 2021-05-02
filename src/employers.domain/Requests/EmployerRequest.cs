@@ -48,8 +48,8 @@ namespace employers.domain.Requests
                     .WithMessage("Gender is required")
                 .NotNull()
                     .WithMessage("Gender is required")
-                .Must(x => x.Equals("F") || x.Equals("M") || x.Equals("O"))
-                    .WithMessage("Options: Female 'F', Male 'M', Other 'O'");
+                .Must(x => x.Equals('F') || x.Equals('M') || x.Equals('O'))
+                    .WithMessage("Options: Female 'F', Male 'M' or Other 'O'");
 
             RuleFor(x => x.Active)
                 .NotEmpty()
