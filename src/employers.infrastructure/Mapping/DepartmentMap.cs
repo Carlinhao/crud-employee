@@ -7,7 +7,7 @@ namespace employers.infrastructure.Mapping
     {
         public DepartmentMap()
         {
-            ToTable("Departamento");
+            ToTable("Department");
 
             Map(x => x.Id).ToColumn("ID_DEPARTMENT").IsKey();
             Map(x => x.Name).ToColumn("NOM_DEPARTMENT");

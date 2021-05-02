@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: mssql
+    hostname: mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "DockerSql2017!"
+    restart: always
+    ports:
+      - 1433:1433
+    networks: 
+      - red
+  employers-api:
+    image: employers-api
+    container_name: api
+    environment:
+        - ASPNETCORE_URLS=http://0.0.0.0:80
+        - ASPNETCORE_ENVIRONMENT=Development
+        - DB_CONNECTION_STRING=Server=db,1433;Database=BD03;User ID=SA;Password=DockerSql2017!
+    build:
+      context: .
+      dockerfile: src/employers.api/Dockerfile
+    ports:
+      - 5000:80
+    networks: 
+      - red
+    depends_on: 
+      - db
+networks: 
+  red:
+    driver: bridge

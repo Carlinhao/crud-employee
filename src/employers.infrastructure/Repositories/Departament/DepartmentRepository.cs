@@ -3,6 +3,7 @@ using employers.domain.Entities;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Requests;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -19,7 +20,7 @@ namespace employers.infrastructure.Repositories.Departament
         {
             get
             {
-                return new SqlConnection(_configuration.GetConnectionString("sqlConnect"));
+                return new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
             }
         }
 
@@ -31,7 +32,7 @@ namespace employers.infrastructure.Repositories.Departament
         public async Task<IEnumerable<DepartmentEntity>> GetAll()
         {
             using IDbConnection conn = Connection;
-            string query = "SELECT ID_DPTO, NOM_DPTO FROM Departamento";
+            string query = "SELECT ID_DEPARTMENT, NOM_DEPARTMENT, MANAGER, DESC_DEPARTMENT FROM Department";
             conn.Open();
             var result = await conn.QueryAsync<DepartmentEntity>(query);
 
@@ -41,7 +42,7 @@ namespace employers.infrastructure.Repositories.Departament
         public async Task<DepartmentEntity> GetById(object id)
         {
             using IDbConnection conn = Connection;
-            string query = $"SELECT ID_DPTO, NOM_DPTO FROM Departamento WHERE ID_DPTO = { id }";
+            string query = $"SELECT ID_DEPARTMENT, NOM_DEPARTMENT, MANAGER, DESC_DEPARTMENT FROM Department WHERE ID_DEPARTMENT = { id }";
             conn.Open();
             var result = await conn.QueryAsync<DepartmentEntity>(query);
 
@@ -52,7 +53,7 @@ namespace employers.infrastructure.Repositories.Departament
         {
             using IDbConnection conn = Connection;
             conn.Open();
-            string query = $"INSERT INTO Departamento (NOM_DPTO) VALUES( '{ request.Nome }')";
+            string query = $"INSERT INTO Department (NOM_DEPARTMENT, MANAGER, DESC_DEPARTMENT) VALUES( '{ request.Name }', { request.Manager }, '{ request.Description }')";
             var result = await conn.ExecuteAsync(query);
 
             return result;

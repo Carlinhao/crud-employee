@@ -54,7 +54,7 @@ namespace employer.application.tests.UseCases.Employer
             await useCase.RunAsync(request);
 
             // Assert
-            _notificationMessages.Verify(x => x.AddNotification("UpdateEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(6));
+            _notificationMessages.Verify(x => x.AddNotification("UpdateEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(5));
         }
 
         private UpdateEmployerUseCaseAsync UpdateEmployerUseCase()
@@ -70,7 +70,7 @@ namespace employer.application.tests.UseCases.Employer
                 IdDepartament = 7,
                 Name = "Paul Stone",
                 Active = true,
-                Gender = "M",
+                Gender = 'M',
                 IdOccupation = 2
             };
         }
