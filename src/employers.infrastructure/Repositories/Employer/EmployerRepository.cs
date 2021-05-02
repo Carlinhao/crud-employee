@@ -36,7 +36,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<IEnumerable<EmployeeEntity>> GetAll()
         {
             using IDbConnection conn = Connection;
-            string query = @"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, ACTIVE, ID_OCCUPATION FROM Employee WITH (NOLOCK)";
+            string query = @"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, ACTIVE, ID_OCCUPATION, GENDER FROM Employee WITH (NOLOCK)";
             conn.Open();
             var result = await conn.QueryAsync<EmployeeEntity>(query);
 
@@ -46,7 +46,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<EmployeeEntity> GetById(object id)
         {
             using IDbConnection conn = Connection;
-            string query = $"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DPTO FROM Empregado WITH (NOLOCK) WHERE ID_EMPLOYEE = { id }";
+            string query = $"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, GENDER, ID_OCCUPATION, ACTIVE FROM Employee WITH (NOLOCK) WHERE ID_EMPLOYEE = { id }";
             conn.Open();
             var result = await conn.QueryAsync<EmployeeEntity>(query);
 
@@ -67,7 +67,7 @@ namespace employers.infrastructure.Repositories.Employer
         {
             using IDbConnection conn = Connection;
             conn.Open();
-            string query = $"DELETE FROM Employee WHERE ID_DEPARTMENT = { id }";
+            string query = $"DELETE FROM Employee WHERE ID_EMPLOYEE = { id }";
             var result = await conn.ExecuteAsync(query);
 
             return result;
@@ -80,9 +80,9 @@ namespace employers.infrastructure.Repositories.Employer
             _stringBuilder.Append($"UPDATE Employee SET NOM_EMPLOYEE = '{entity.Name}', ");
             _stringBuilder.Append($"ID_DEPARTMENT = {entity.IdDepartament}, ");
             _stringBuilder.Append($"ID_OCCUPATION = {entity.IdOccupation}, ");
-            _stringBuilder.Append($"GENDER = {entity.Gender}, ");
-            _stringBuilder.Append($"ACTIVE = {entity.Active}, ");
-            _stringBuilder.Append($"WHERE ID_DEPARTMENT={entity.Id}");
+            _stringBuilder.Append($"GENDER = '{entity.Gender}', ");
+            _stringBuilder.Append($"ACTIVE = '{entity.Active}' ");
+            _stringBuilder.Append($"WHERE ID_EMPLOYEE ={entity.Id}");
 
 
             await conn. QueryAsync(_stringBuilder.ToString());
