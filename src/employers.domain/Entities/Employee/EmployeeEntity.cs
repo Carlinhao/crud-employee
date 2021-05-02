@@ -7,7 +7,7 @@ namespace employers.domain.Entities.Employee
         public string Name { get; set; }
         public int IdDepartament { get; set; }
         public int IdOccupation { get; set; }
-        public string Gender { get; set; }
+        public char Gender { get; set; }
         public bool Active { get; set; }
     }
 
