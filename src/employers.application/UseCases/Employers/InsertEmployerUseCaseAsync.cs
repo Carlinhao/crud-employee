@@ -23,6 +23,8 @@ namespace employers.application.UseCases.Employers
 
         public async Task<int?> RunAsync(EmployerRequest request)
         {
+            request.Gender = char.ToUpper(request.Gender);
+
             var notification = UtilValidators.ValidadorResult(new EmployerRequestValidator(), request);
 
             if (notification.Errors.Count() > 0)
