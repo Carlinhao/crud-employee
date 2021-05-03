@@ -24,6 +24,8 @@ namespace employers.application.UseCases.Employers
 
         public async Task<ResultResponse> RunAsync(EmployeeEntity entity)
         {
+            entity.Gender = char.ToUpper(entity.Gender);
+
             var employerValidator = UtilValidators.ValidadorResult(new EmployerEntityValidator(), entity);
 
             if(employerValidator.Errors.Count() > 0)
