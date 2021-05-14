@@ -14,12 +14,17 @@ using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Interfaces.Repositories.UserAuth;
 using employers.domain.Token;
+using employers.infrastructure.DbConfiguration.Implementation;
+using employers.infrastructure.DbConfiguration.Interfaces;
 using employers.infrastructure.Mapping;
 using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
 using employers.infrastructure.Repositories.UserAuth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace employers.infrastructure.Ioc
 {
@@ -42,6 +47,10 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IEmployerRepository, EmployerRepository>();
             services.AddTransient<IUserAuthRepository, UserAuthRepository>();
+
+            // DbConfig
+            services.AddScoped<IDbConnection>(it => new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
+            services.AddScoped<IDapperWrapper,DapperWrapper>();
 
             // Token
             services.AddTransient<ITokenGenerate, TokenGenerate>();
