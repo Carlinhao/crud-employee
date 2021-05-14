@@ -2,11 +2,9 @@
 using employers.domain.Entities;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Requests;
-using Microsoft.Extensions.Configuration;
-using System;
+using employers.infrastructure.DbConfiguration.Interfaces;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,47 +12,38 @@ namespace employers.infrastructure.Repositories.Departament
 {
     public class DepartmentRepository : IDepartmentRepository
     {
-        private readonly IConfiguration _configuration;
 
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
-            }
-        }
+        private readonly IDapperWrapper _conn;
+        private readonly IDbConnection _dbConnection;
 
-        public DepartmentRepository(IConfiguration configuration)
+        public DepartmentRepository(IDapperWrapper conn)
         {
-            _configuration = configuration;
+            _conn = conn;
+            _dbConnection = _conn.GetConnection();
         }
 
         public async Task<IEnumerable<DepartmentEntity>> GetAll()
         {
-            using IDbConnection conn = Connection;
             string query = "SELECT ID_DEPARTMENT, NOM_DEPARTMENT, MANAGER, DESC_DEPARTMENT FROM Department WITH (NOLOCK)";
-            conn.Open();
-            var result = await conn.QueryAsync<DepartmentEntity>(query);
+            
+            var result = await _dbConnection.QueryAsync<DepartmentEntity>(query);
 
             return result.ToList();
         }
 
         public async Task<DepartmentEntity> GetById(object id)
         {
-            using IDbConnection conn = Connection;
             string query = $"SELECT ID_DEPARTMENT, NOM_DEPARTMENT, MANAGER, DESC_DEPARTMENT FROM Department WITH (NOLOCK) WHERE ID_DEPARTMENT = { id }";
-            conn.Open();
-            var result = await conn.QueryAsync<DepartmentEntity>(query);
+            
+            var result = await _dbConnection.QueryAsync<DepartmentEntity>(query);
 
             return result.FirstOrDefault();
         }
 
         public async Task<int?> InsertAsync(DepartmentRequest request)
         {
-            using IDbConnection conn = Connection;
-            conn.Open();
             string query = $"INSERT INTO Department (NOM_DEPARTMENT, MANAGER, DESC_DEPARTMENT) VALUES( '{ request.Name }', { request.Manager }, '{ request.Description }')";
-            var result = await conn.ExecuteAsync(query);
+            var result = await _dbConnection.ExecuteAsync(query);
 
             return result;
         }

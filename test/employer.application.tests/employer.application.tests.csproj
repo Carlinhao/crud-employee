@@ -6,6 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Utils\FluentMockDepartment\**" />
+    <Compile Remove="Utils\FluentMockEmployer\**" />
+    <EmbeddedResource Remove="Utils\FluentMockDepartment\**" />
+    <EmbeddedResource Remove="Utils\FluentMockEmployer\**" />
+    <None Remove="Utils\FluentMockDepartment\**" />
+    <None Remove="Utils\FluentMockEmployer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
@@ -24,11 +33,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\employers.api\employers.api.csproj" />
     <ProjectReference Include="..\..\src\employers.application\employers.application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\FluentMockEmployer\" />
-    <Folder Include="Utils\FluentMockDepartment\" />
   </ItemGroup>
 
 </Project>
