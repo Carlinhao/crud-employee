@@ -40,8 +40,8 @@ namespace employers.infrastructure.Repositories.Occupation
 
         public async Task<ResultResponse> UpdateAsync(OccupationUpdateRequest request)
         {
-            _stringBuilder.Append($"UPDATE Employee SET NOM_OCCUPATION = '{request.NameOccupation}', ");
-            _stringBuilder.Append($"LEVEL_OCCUPATION = {request.LevelOccupation}, ");
+            _stringBuilder.Append($"UPDATE Occupation SET NOM_OCCUPATION = '{request.NameOccupation}', ");
+            _stringBuilder.Append($"LEVEL_OCCUPATION = '{request.LevelOccupation}' ");
             _stringBuilder.Append($"WHERE ID_OCCUPATION ={ request.Id}");
 
 
