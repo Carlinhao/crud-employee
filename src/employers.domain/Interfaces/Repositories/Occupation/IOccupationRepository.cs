@@ -7,6 +7,7 @@ namespace employers.domain.Interfaces.Repositories.Occupation
     public interface IOccupationRepository
     {
         Task<ResultResponse> GetAllAsync();
-        Task<ResultResponse> UpdateAsync(OccupationRequest request);
+        Task<ResultResponse> UpdateAsync(OccupationUpdateRequest request); 
+        Task<ResultResponse> InsertAsync(OccupationRequest request);
     }
 }
