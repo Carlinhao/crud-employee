@@ -1,4 +1,5 @@
-﻿using employers.domain.Interfaces.Repositories.Occupation;
+﻿using Dapper;
+using employers.domain.Interfaces.Repositories.Occupation;
 using employers.domain.Requests;
 using employers.domain.Responses;
 using employers.infrastructure.DbConfiguration.Interfaces;
@@ -12,23 +13,41 @@ namespace employers.infrastructure.Repositories.Occupation
     {
         private readonly IDapperWrapper _conn;
         private StringBuilder _stringBuilder;
-        private IDbConnection dbConnection;
+        private IDbConnection _dbConnection;
 
         public OccupationRepository(IDapperWrapper conn)
         {
             _conn = conn;
             _stringBuilder = new StringBuilder();
-            dbConnection = _conn.GetConnection();
+            _dbConnection = _conn.GetConnection();
         }
 
-        public Task<ResultResponse> GetAllAsync()
+        public async Task<ResultResponse> GetAllAsync()
         {
-            throw new System.NotImplementedException();
+            var query = "SELECT ID_OCCUPATION, LEVEL_OCCUPATION, NOM_OCCUPATION FROM Occupation";
+            var result = await _dbConnection.QueryAsync(query);
+
+            return new ResultResponse { Data = result, Message = "List occupation", Success = true };
         }
 
-        public Task<ResultResponse> UpdateAsync(OccupationRequest request)
+        public async Task<ResultResponse> InsertAsync(OccupationRequest request)
         {
-            throw new System.NotImplementedException();
+            var query = $"INSERT INTO Occupation (ID_OCCUPATION, LEVEL_OCCUPATION, NOM_OCCUPATION) VALUES('{request.LevelOccupation}','{request.NameOccupation}')";
+            var result = await _dbConnection.QueryAsync(query);
+
+            return new ResultResponse { Data = result, Message = "Insert success", Success = true };
+        }
+
+        public async Task<ResultResponse> UpdateAsync(OccupationUpdateRequest request)
+        {
+            _stringBuilder.Append($"UPDATE Employee SET NOM_OCCUPATION = '{request.NameOccupation}', ");
+            _stringBuilder.Append($"LEVEL_OCCUPATION = {request.LevelOccupation}, ");
+            _stringBuilder.Append($"WHERE ID_OCCUPATION ={ request.Id}");
+
+
+            await _dbConnection.QueryAsync(_stringBuilder.ToString());
+
+            return new ResultResponse { Data = request, Message = "Update occupation success", Success = true };
         }
     }
 }
