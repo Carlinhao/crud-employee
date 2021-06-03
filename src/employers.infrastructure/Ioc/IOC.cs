@@ -2,16 +2,19 @@
 using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.ExportReport;
+using employers.application.Interfaces.Occupation;
 using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Interfaces.UserAuth;
 using employers.application.Notifications;
 using employers.application.UseCases.Departament;
 using employers.application.UseCases.Employers;
 using employers.application.UseCases.ExportReport;
+using employers.application.UseCases.Occupation;
 using employers.application.UseCases.Token;
 using employers.application.UseCases.UserAuth;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Interfaces.Repositories.Employers;
+using employers.domain.Interfaces.Repositories.Occupation;
 using employers.domain.Interfaces.Repositories.UserAuth;
 using employers.domain.Token;
 using employers.infrastructure.DbConfiguration.Implementation;
@@ -19,6 +22,7 @@ using employers.infrastructure.DbConfiguration.Interfaces;
 using employers.infrastructure.Mapping;
 using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
+using employers.infrastructure.Repositories.Occupation;
 using employers.infrastructure.Repositories.UserAuth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,11 +46,14 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IDeleteEmployerUseCaseAsync, DeleteEmployerUseCaseAsync>();
             services.AddTransient<IUpdateEmployerUseCaseAsync, UpdateEmployerUseCaseAsync>();
             services.AddTransient<IUserAuthUseCaseAsync, UserAuthUseCaseAsync>();
+            services.AddTransient<IUpdateOccupationUseCaseAsync, UpdateOccupationUseCaseAsync>();
+
 
             // Repositories
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IEmployerRepository, EmployerRepository>();
             services.AddTransient<IUserAuthRepository, UserAuthRepository>();
+            services.AddTransient<IOccupationRepository, OccupationRepository>();
 
             // DbConfig
             services.AddScoped<IDbConnection>(it => new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
@@ -68,6 +75,7 @@ namespace employers.infrastructure.Ioc
             {
                 config.AddMap(new DepartmentMap());
                 config.AddMap(new EmployeeMap());
+                config.AddMap(new OccupationEntityMap());
             });
         }
     }
