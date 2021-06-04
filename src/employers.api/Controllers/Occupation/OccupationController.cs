@@ -4,7 +4,7 @@ using employers.domain.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace employers.api.Controllers
+namespace employers.api.Controllers.Occupation
 {
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -13,11 +13,17 @@ namespace employers.api.Controllers
     {
         [HttpPost]
         public async Task<ActionResult<ResultResponse>> InsertAsync([FromServices] IUpdateOccupationUseCaseAsync updateOccupation, 
-                                                      [FromBody] OccupationUpdateRequest request)
+                                                                    [FromBody] OccupationUpdateRequest request)
         {
             var result = await updateOccupation.RunAsync(request);
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAllAsync([FromServices] IGetOccupationUseCaseAsync useCaseAsync)
+        {
+            return Ok(await useCaseAsync.RunAsync());
         }
     }
 }
