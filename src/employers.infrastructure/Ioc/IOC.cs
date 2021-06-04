@@ -24,7 +24,6 @@ using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
 using employers.infrastructure.Repositories.Occupation;
 using employers.infrastructure.Repositories.UserAuth;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data;
@@ -47,7 +46,7 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IUpdateEmployerUseCaseAsync, UpdateEmployerUseCaseAsync>();
             services.AddTransient<IUserAuthUseCaseAsync, UserAuthUseCaseAsync>();
             services.AddTransient<IUpdateOccupationUseCaseAsync, UpdateOccupationUseCaseAsync>();
-
+            services.AddTransient<IGetOccupationUseCaseAsync, GetOccupationUseCaseAsync>();
 
             // Repositories
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
