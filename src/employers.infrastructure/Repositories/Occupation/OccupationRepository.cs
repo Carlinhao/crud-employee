@@ -32,7 +32,7 @@ namespace employers.infrastructure.Repositories.Occupation
 
         public async Task<ResultResponse> InsertAsync(OccupationRequest request)
         {
-            var query = $"INSERT INTO Occupation (ID_OCCUPATION, LEVEL_OCCUPATION, NOM_OCCUPATION) VALUES('{request.LevelOccupation}','{request.NameOccupation}')";
+            var query = $"INSERT INTO Occupation (LEVEL_OCCUPATION, NOM_OCCUPATION) VALUES('{request.LevelOccupation}','{request.NameOccupation}')";
             var result = await _dbConnection.QueryAsync(query);
 
             return new ResultResponse { Data = result, Message = "Insert success", Success = true };
