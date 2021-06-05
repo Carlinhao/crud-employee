@@ -11,8 +11,18 @@ namespace employers.api.Controllers.Occupation
     [ApiController]
     public class OccupationController : ControllerBase
     {
+
         [HttpPost]
-        public async Task<ActionResult<ResultResponse>> InsertAsync([FromServices] IUpdateOccupationUseCaseAsync updateOccupation, 
+        public async Task<ActionResult<ResultResponse>> InsertAsync([FromServices] IInsertOccupationUseCaseAsync updateOccupation,
+                                                                    [FromBody] OccupationRequest request)
+        {
+            var result = await updateOccupation.RunAsync(request);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ResultResponse>> UpdateAsync([FromServices] IUpdateOccupationUseCaseAsync updateOccupation, 
                                                                     [FromBody] OccupationUpdateRequest request)
         {
             var result = await updateOccupation.RunAsync(request);
