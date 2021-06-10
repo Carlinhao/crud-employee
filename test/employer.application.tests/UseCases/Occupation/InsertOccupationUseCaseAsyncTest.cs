@@ -17,8 +17,8 @@ namespace employer.application.tests.UseCases.Occupation
             _repository = new Mock<IOccupationRepository>();
         }
 
-        [Fact(DisplayName = "Mudar")]
-        [Trait("Categoria", "Mudar")]
+        [Fact(DisplayName = "Insert an Occupation")]
+        [Trait("Categoria", "Occupation")]
         public async Task InsertOccupationUseCaseAsync_RunAsync_MustInsertAnOccupation()
         {
             // Arrange
