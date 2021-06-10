@@ -22,11 +22,13 @@ namespace employer.application.tests.UseCases.Occupation
         public async Task InsertOccupationUseCaseAsync_RunAsync_MustInsertAnOccupation()
         {
             // Arrange
+            var request = GetOccupationRequest();
+            var response = GetResultResponse();
             var useCase = new InsertOccupationUseCaseAsync(_repository.Object);
-            _repository.Setup(x => x.InsertAsync(new OccupationRequest())).ReturnsAsync(new ResultResponse());
+            _repository.Setup(x => x.InsertAsync(request)).ReturnsAsync(response);
 
             // Act
-            var result = await useCase.RunAsync(new OccupationRequest());
+            var result = await useCase.RunAsync(request);
 
             // Assert
             Assert.NotNull(result);
@@ -42,6 +44,7 @@ namespace employer.application.tests.UseCases.Occupation
         {
             var data = GetOccupationRequest();
 
-            return  new ResultResponse { Data = data, Message = "Insert with success", Success = true };
+            return new ResultResponse { Data = data, Message = "Insert with success", Success = true };
         }
     }
+}
