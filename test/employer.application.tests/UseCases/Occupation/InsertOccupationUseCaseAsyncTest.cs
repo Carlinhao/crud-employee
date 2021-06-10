@@ -32,5 +32,9 @@ namespace employer.application.tests.UseCases.Occupation
             Assert.NotNull(result);
             Assert.True(result is ResultResponse);
         }
+
+        private OccupationRequest GetOccupationRequest()
+        {
+            return new OccupationRequest { LevelOccupation = "Sr.", NameOccupation = "Developer" };
+        }
     }
-}
