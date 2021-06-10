@@ -37,4 +37,11 @@ namespace employer.application.tests.UseCases.Occupation
         {
             return new OccupationRequest { LevelOccupation = "Sr.", NameOccupation = "Developer" };
         }
+
+        private ResultResponse GetResultResponse()
+        {
+            var data = GetOccupationRequest();
+
+            return  new ResultResponse { Data = data, Message = "Insert with success", Success = true };
+        }
     }
