@@ -8,26 +8,27 @@ using Xunit;
 
 namespace employer.application.tests.UseCases.Occupation
 {
-    public class InsertOccupationUseCaseAsyncTest
+    public class UpdateOccupationUseCaseAsyncTest
     {
         private readonly Mock<IOccupationRepository> _repository;
 
-        public InsertOccupationUseCaseAsyncTest()
+        public UpdateOccupationUseCaseAsyncTest()
         {
             _repository = new Mock<IOccupationRepository>();
         }
 
-        [Fact(DisplayName = "Insert an Occupation")]
+        [Fact(DisplayName = "Update Occupation")]
         [Trait("Categoria", "Occupation")]
-        public async Task InsertOccupationUseCaseAsync_RunAsync_MustInsertAnOccupation()
+        public async Task GetOccupationUseCaseAsync_RunAsync_MsutReturnAllOccupation()
         {
             // Arrange
-            var request = GetOccupationRequest();
+            var useCase = new UpdateOccupationUseCaseAsync(_repository.Object);
             var response = GetResultResponse();
-            var useCase = new InsertOccupationUseCaseAsync(_repository.Object);
-            _repository.Setup(x => x.InsertAsync(request)).ReturnsAsync(response);
+            var request = GetOccupationUpdateRequest();
 
             // Act
+            _repository.Setup(x => x.UpdateAsync(request)).ReturnsAsync(response);
+
             var result = await useCase.RunAsync(request);
 
             // Assert
@@ -35,14 +36,14 @@ namespace employer.application.tests.UseCases.Occupation
             Assert.True(result is ResultResponse);
         }
 
-        private OccupationRequest GetOccupationRequest()
+        private OccupationUpdateRequest GetOccupationUpdateRequest()
         {
-            return new OccupationRequest { LevelOccupation = "Sr.", NameOccupation = "Developer" };
+            return new OccupationUpdateRequest { LevelOccupation = "Sr.", NameOccupation = "Developer", Id = 1 };
         }
 
         private ResultResponse GetResultResponse()
         {
-            var data = GetOccupationRequest();
+            var data = GetOccupationUpdateRequest();
 
             return new ResultResponse { Data = data, Message = "Insert with success", Success = true };
         }
