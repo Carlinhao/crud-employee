@@ -30,17 +30,15 @@ namespace employers.application.UseCases.UserAuth
         {
             var accessToken = request.AccessToken;
             var refreshToken = request.RefreshToken;
-
             var principal = await _tokenGenerate.GetPrincipalFromExpiredToken(accessToken);
-            var userName = principal.Identity.Name;
-            var user = await _userAuthRepository.ValidateCredentials(userName);
+            
+            var user = await _userAuthRepository.ValidateCredentials(principal.Identity.Name);
 
             if (user == null || 
                 user.RefreshToken != refreshToken || 
                 user.RefreshTokenExpire <= DateTime.Now) return null;
 
             accessToken = await _tokenGenerate.GenerateAccessToken(principal.Claims);
-
             refreshToken = await _tokenGenerate.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
