@@ -48,6 +48,7 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IUpdateOccupationUseCaseAsync, UpdateOccupationUseCaseAsync>();
             services.AddTransient<IGetOccupationUseCaseAsync, GetOccupationUseCaseAsync>();
             services.AddTransient<IInsertOccupationUseCaseAsync, InsertOccupationUseCaseAsync>();
+            services.AddTransient<IUserAuthRefreshTokenUseCaseAsync, UserAuthRefreshTokenUseCaseAsync>();
 
             // Repositories
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
@@ -76,6 +77,7 @@ namespace employers.infrastructure.Ioc
                 config.AddMap(new DepartmentMap());
                 config.AddMap(new EmployeeMap());
                 config.AddMap(new OccupationEntityMap());
+                config.AddMap(new UserEntityMap());
             });
         }
     }

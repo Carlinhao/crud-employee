@@ -19,5 +19,9 @@
     <ProjectReference Include="..\employers.infrastructure\employers.infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\CreateUser\" />
+  </ItemGroup>
+
 
 </Project>

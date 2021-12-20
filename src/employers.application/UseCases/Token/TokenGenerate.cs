@@ -24,7 +24,7 @@ namespace employers.application.UseCases.Token
         {
             var secreteKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("TokenExtensions:Secret").Value));
             var signCredencials = new SigningCredentials(secreteKey, SecurityAlgorithms.HmacSha256);
-            var minutes = Convert.ToDouble(_configuration.GetSection("TokenExtensions:Audience").Value);
+            var minutes = Convert.ToDouble(_configuration.GetSection("TokenExtensions:Minutes").Value);
 
             var tokenOptions = new JwtSecurityToken
                 (

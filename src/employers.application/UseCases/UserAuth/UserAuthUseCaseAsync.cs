@@ -46,6 +46,7 @@ namespace employers.application.UseCases.UserAuth
             var refreshToken = await _tokenGenerate.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
+            user.AcessToken = accessToken;
             user.RefreshTokenExpire = DateTime.Now.AddDays(Convert.ToDouble(_configuration.GetSection("TokenExtensions:DaysToExpiry").Value));
 
             await _userAuthRepository.RefresUserInfo(user);

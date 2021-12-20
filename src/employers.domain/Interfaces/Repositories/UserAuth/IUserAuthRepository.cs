@@ -8,6 +8,6 @@ namespace employers.domain.Interfaces.Repositories.UserAuth
     {
         Task<UserEntity> ValidateCredentials(UserInfoRequest userInfoRequest);
         Task<UserEntity> ValidateCredentials(string userName);
-        Task<UserEntity> RefresUserInfo(UserEntity request);
+        Task RefresUserInfo(UserEntity request);
     }
 }
