@@ -33,7 +33,7 @@ namespace employers.infrastructure.Repositories.UserAuth
         {
             var password = ComputeHash(userInfoRequest.Password, new SHA256CryptoServiceProvider());
 
-            var query = $" SELECT * FROM Users WHERE USR_NAM = '{ userInfoRequest.UserName }' AND PWD = '{ password }'";
+            var query = $" SELECT * FROM User_Auth WHERE NAME_USER = '{ userInfoRequest.UserName }' AND USER_PWD = '{ password }'";
 
             using IDbConnection conn = Connection;
             conn.Open();
@@ -45,7 +45,7 @@ namespace employers.infrastructure.Repositories.UserAuth
 
         public async Task<UserEntity> ValidateCredentials(string userName)
         {
-            var query = $" SELECT * FROM Users WHERE USR_NAM = '{ userName }' ";
+            var query = $" SELECT * FROM User_Auth WHERE NAME_USER = '{ userName }' ";
 
             using IDbConnection conn = Connection;
             conn.Open();
