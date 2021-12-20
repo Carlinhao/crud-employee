@@ -48,6 +48,7 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IUpdateOccupationUseCaseAsync, UpdateOccupationUseCaseAsync>();
             services.AddTransient<IGetOccupationUseCaseAsync, GetOccupationUseCaseAsync>();
             services.AddTransient<IInsertOccupationUseCaseAsync, InsertOccupationUseCaseAsync>();
+            services.AddTransient<IUserAuthRefreshTokenUseCaseAsync, UserAuthRefreshTokenUseCaseAsync>();
 
             // Repositories
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
