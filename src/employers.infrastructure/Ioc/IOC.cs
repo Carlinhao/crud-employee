@@ -76,6 +76,7 @@ namespace employers.infrastructure.Ioc
                 config.AddMap(new DepartmentMap());
                 config.AddMap(new EmployeeMap());
                 config.AddMap(new OccupationEntityMap());
+                config.AddMap(new UserEntityMap());
             });
         }
     }
