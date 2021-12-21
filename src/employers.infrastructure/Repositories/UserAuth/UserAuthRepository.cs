@@ -16,7 +16,7 @@ namespace employers.infrastructure.Repositories.UserAuth
     public class UserAuthRepository : IUserAuthRepository
     {
         private readonly IConfiguration _configuration;
-        private StringBuilder _stringBuilder;
+        private readonly StringBuilder _stringBuilder;
         public IDbConnection Connection
         {
             get
@@ -86,13 +86,12 @@ namespace employers.infrastructure.Repositories.UserAuth
             return result;
         }
 
-        private string ComputeHash(string input, SHA256CryptoServiceProvider algorithm)
+        public string ComputeHash(string input, SHA256CryptoServiceProvider algorithm)
         {
             Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             Byte[] hashBytes = algorithm.ComputeHash(inputBytes);
 
             return BitConverter.ToString(hashBytes);
         }
-
     }
 }

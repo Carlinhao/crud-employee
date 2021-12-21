@@ -27,6 +27,7 @@ using employers.infrastructure.Repositories.UserAuth;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace employers.infrastructure.Ioc
@@ -49,16 +50,18 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IGetOccupationUseCaseAsync, GetOccupationUseCaseAsync>();
             services.AddTransient<IInsertOccupationUseCaseAsync, InsertOccupationUseCaseAsync>();
             services.AddTransient<IUserAuthRefreshTokenUseCaseAsync, UserAuthRefreshTokenUseCaseAsync>();
+            services.AddTransient<ICreateUserUseCaseAsync, CreateUserUseCaseAsync>();   
 
             // Repositories
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IEmployerRepository, EmployerRepository>();
             services.AddTransient<IUserAuthRepository, UserAuthRepository>();
             services.AddTransient<IOccupationRepository, OccupationRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             // DbConfig
-            services.AddScoped<IDbConnection>(it => new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
             services.AddScoped<IDapperWrapper,DapperWrapper>();
+            services.AddScoped<IDbConnection>(it => new SqlConnection(Environment.GetEnvironmentVariable("sqlConnect")));
 
             // Token
             services.AddTransient<ITokenGenerate, TokenGenerate>();

@@ -6,6 +6,8 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>bin/employers.infrastructure.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,10 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\employers.infrastructure\employers.infrastructure.csproj" />
   </ItemGroup>
+	
+   <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\CreateUser\" />
-  </ItemGroup>
 
 
 </Project>

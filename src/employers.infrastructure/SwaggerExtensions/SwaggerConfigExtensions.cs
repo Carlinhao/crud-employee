@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using System;
 
 namespace employers.infrastructure.SwaggerExtensions
 {
@@ -14,7 +16,7 @@ namespace employers.infrastructure.SwaggerExtensions
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "Rest Employer control",
+                        Title = "Rest Employer Api",
                         Version = "v1",
                         Description = "Employer Api",
                         Contact = new OpenApiContact
@@ -23,6 +25,38 @@ namespace employers.infrastructure.SwaggerExtensions
                             Url = new Uri("https://github.com/Carlinhao")
                         }
                     });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                c.IncludeXmlComments(xmlPath);
+
+                c.AddSecurityDefinition(
+                    "Bearer",
+                    new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        BearerFormat = "JWT",
+                        Description = "Copy 'Bearer ' + token'",
+                        Scheme = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey
+                    });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                          {
+                              Reference = new OpenApiReference
+                              {
+                                  Type = ReferenceType.SecurityScheme,
+                                  Id = "Bearer"
+                              }
+                          },
+                         new string[] {}
+                    }
+                });
             });
         }
 
@@ -31,7 +65,7 @@ namespace employers.infrastructure.SwaggerExtensions
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rest Employer control - v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             });
         }
 
