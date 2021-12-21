@@ -1,11 +1,13 @@
 ﻿using employers.application.Interfaces.Occupation;
 using employers.domain.Requests;
 using employers.domain.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace employers.api.Controllers.Occupation
 {
+    [Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
