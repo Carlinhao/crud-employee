@@ -6,6 +6,8 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>bin/employers.infrastructure.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +24,12 @@
   <ItemGroup>
     <Folder Include="Controllers\CreateUser\" />
   </ItemGroup>
+	
+   <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+   </PropertyGroup>
+
 
 
 </Project>
