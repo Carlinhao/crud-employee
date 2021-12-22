@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace employers.api.Controllers.CreateUser
 {
-    //[Authorize]
+    [Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
