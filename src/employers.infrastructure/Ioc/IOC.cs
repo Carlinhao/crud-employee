@@ -24,6 +24,7 @@ using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
 using employers.infrastructure.Repositories.Occupation;
 using employers.infrastructure.Repositories.UserAuth;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data;
@@ -34,7 +35,8 @@ namespace employers.infrastructure.Ioc
 {
     public static class IOC
     {
-        public static void IocConfiguration(this IServiceCollection services)
+        public static void IocConfiguration(this IServiceCollection services,
+                                                 IConfiguration configuration)
         {
             // UseCases 
             services.AddTransient<IGetDepartamentUseCaseAsync, GetDepartamentUseCaseAsync>();
@@ -60,8 +62,7 @@ namespace employers.infrastructure.Ioc
             services.AddTransient<IUserRepository, UserRepository>();
 
             // DbConfig
-            services.AddScoped<IDapperWrapper,DapperWrapper>();
-            services.AddScoped<IDbConnection>(it => new SqlConnection(Environment.GetEnvironmentVariable("sqlConnect")));
+            services.AddScoped<IDbConnection>(db => new SqlConnection(configuration.GetConnectionString("sqlConnect")));
 
             // Token
             services.AddTransient<ITokenGenerate, TokenGenerate>();

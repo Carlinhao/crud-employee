@@ -12,20 +12,13 @@ namespace employers.infrastructure.Repositories.UserAuth
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IConfiguration _configuration;
         private readonly StringBuilder _stringBuilder;
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_configuration.GetConnectionString("sqlConnect"));
-            }
-        }
+        private readonly IDbConnection _connection;
 
-        public UserRepository(IConfiguration configuration)
+        public UserRepository(IDbConnection connection)
         {
             _stringBuilder = new StringBuilder();
-            _configuration = configuration;
+            _connection = connection;
         }
 
         public Task<bool> DisableUser(int id)
@@ -38,7 +31,7 @@ namespace employers.infrastructure.Repositories.UserAuth
             _stringBuilder.Append($"INSERT INTO User_Auth ");
             _stringBuilder.Append($"VALUES ('{userEntity.UserName}', '{userEntity.FullName}', '{userEntity.Password}', '', '', '')");
 
-            var result = await Connection.ExecuteAsync(_stringBuilder.ToString());
+            var result = await _connection.ExecuteAsync(_stringBuilder.ToString());
 
             return result;
         }
