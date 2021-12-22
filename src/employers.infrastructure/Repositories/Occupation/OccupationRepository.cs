@@ -1,25 +1,24 @@
-﻿using Dapper;
+﻿using System.Data;
+using System.Data.SqlClient;
+using System.Text;
+using System.Threading.Tasks;
+using Dapper;
 using employers.domain.Interfaces.Repositories.Occupation;
 using employers.domain.Requests;
 using employers.domain.Responses;
-using employers.infrastructure.DbConfiguration.Interfaces;
-using System.Data;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace employers.infrastructure.Repositories.Occupation
 {
     public class OccupationRepository : IOccupationRepository
     {
-        private readonly IDapperWrapper _conn;
-        private StringBuilder _stringBuilder;
-        private IDbConnection _dbConnection;
+        private readonly StringBuilder _stringBuilder;
+        private readonly IDbConnection _dbConnection;       
 
-        public OccupationRepository(IDapperWrapper conn)
+        public OccupationRepository(IDbConnection dbConnection)
         {
-            _conn = conn;
             _stringBuilder = new StringBuilder();
-            _dbConnection = _conn.GetConnection();
+            _dbConnection = dbConnection;
         }
 
         public async Task<ResultResponse> GetAllAsync()

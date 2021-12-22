@@ -1,28 +1,26 @@
-﻿using Dapper;
-using employers.domain.Entities.Employee;
-using employers.domain.Interfaces.Repositories.Employers;
-using employers.domain.Requests;
-using employers.domain.Responses;
-using employers.infrastructure.DbConfiguration.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
+using employers.domain.Entities.Employee;
+using employers.domain.Interfaces.Repositories.Employers;
+using employers.domain.Requests;
+using employers.domain.Responses;
 
 namespace employers.infrastructure.Repositories.Employer
 {
     public class EmployerRepository : IEmployerRepository
     {
-        private readonly IDapperWrapper _conn;
-        private StringBuilder _stringBuilder;
-        private IDbConnection dbConnection;
+        private readonly StringBuilder _stringBuilder;
+        private readonly IDbConnection _connection;
 
-        public EmployerRepository(IDapperWrapper conn)
+
+        public EmployerRepository(IDbConnection connection)
         {
-            _conn = conn;
             _stringBuilder = new StringBuilder();
-            dbConnection = _conn.GetConnection();
+            _connection = connection;
         }
 
 
@@ -30,7 +28,7 @@ namespace employers.infrastructure.Repositories.Employer
         {
             string query = @"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, ACTIVE, ID_OCCUPATION, GENDER FROM Employee WITH (NOLOCK)";
             
-            var result = await dbConnection.QueryAsync<EmployeeEntity>(query);
+            var result = await _connection.QueryAsync<EmployeeEntity>(query);
 
             return result.ToList();
         }
@@ -39,7 +37,7 @@ namespace employers.infrastructure.Repositories.Employer
         {
             string query = $"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, GENDER, ID_OCCUPATION, ACTIVE FROM Employee WITH (NOLOCK) WHERE ID_EMPLOYEE = { id }";
             
-            var result = await dbConnection.QueryAsync<EmployeeEntity>(query);
+            var result = await _connection.QueryAsync<EmployeeEntity>(query);
 
             return result.FirstOrDefault();
         }
@@ -48,7 +46,7 @@ namespace employers.infrastructure.Repositories.Employer
         {
             string query = $"INSERT INTO Employee (NOM_EMPLOYEE, ID_DEPARTMENT, ID_OCCUPATION, GENDER, ACTIVE) VALUES('{ request.Name }',{ request.IdDepartment }, { request.IdOccupation }, '{ request.Gender }', '{ request.Active }')";
             
-            var result = await dbConnection.QueryAsync(query);
+            var result = await _connection.QueryAsync(query);
 
             return result.FirstOrDefault();
         }
@@ -56,7 +54,7 @@ namespace employers.infrastructure.Repositories.Employer
         public async Task<int?> DeleteAsync(int id)
         {
             string query = $"DELETE FROM Employee WHERE ID_EMPLOYEE = { id }";
-            var result = await dbConnection.ExecuteAsync(query);
+            var result = await _connection.ExecuteAsync(query);
 
             return result;
         }
@@ -71,7 +69,7 @@ namespace employers.infrastructure.Repositories.Employer
             _stringBuilder.Append($"WHERE ID_EMPLOYEE ={entity.Id}");
 
 
-            await dbConnection.QueryAsync(_stringBuilder.ToString());
+            await _connection.QueryAsync(_stringBuilder.ToString());
 
             return new ResultResponse { Data = entity, Message = "Update employer success", Success = true };
         }
