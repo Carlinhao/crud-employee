@@ -6,6 +6,7 @@ namespace employers.domain.Interfaces.Repositories.UserAuth
     public interface IUserRepository
     {
         Task<int> InsertUser(UserEntity userEntity);
-        Task<bool> DisableUser(int id);
+        Task<int> DisableUser(int id);
+        Task<int?> FindUser(string userName);
     }
 }
