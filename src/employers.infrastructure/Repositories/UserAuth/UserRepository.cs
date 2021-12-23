@@ -1,12 +1,11 @@
-﻿using Dapper;
-using employers.domain.Entities.UserAuth;
-using employers.domain.Interfaces.Repositories.UserAuth;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
+using employers.domain.Entities.UserAuth;
+using employers.domain.Interfaces.Repositories.UserAuth;
 
 namespace employers.infrastructure.Repositories.UserAuth
 {
@@ -21,9 +20,17 @@ namespace employers.infrastructure.Repositories.UserAuth
             _connection = connection;
         }
 
-        public Task<bool> DisableUser(int id)
+        public Task<int> DisableUser(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<int?> FindUser(string userName)
+        {
+            _stringBuilder.Append($"SELECT COUNT(1) FROM User_Auth WHERE NAME_USER = '{userName}'");
+            var result = await _connection.QueryAsync<int>(_stringBuilder.ToString());
+
+            return result.FirstOrDefault();
         }
 
         public async Task<int> InsertUser(UserEntity userEntity)
