@@ -34,7 +34,7 @@ namespace employers.api.Middlewares.Erros
                     KeyNotFoundException _ => (int)HttpStatusCode.NotFound,// not found error
                     _ => (int)HttpStatusCode.InternalServerError,// unhandled error
                 };
-                var result = JsonSerializer.Serialize(new { message = error?.Message });
+                var result = JsonSerializer.Serialize(new { message = error?.Message, success = false });
                 await response.WriteAsync(result);
             }
         }
