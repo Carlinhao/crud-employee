@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace employers.api.Controllers.CreateUser
 {
+    /// <summary>
+    /// Controller responsable by create a user.
+    /// </summary>
     [Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -20,6 +23,12 @@ namespace employers.api.Controllers.CreateUser
             _createUserUseCaseAsync = createUserUseCaseAsync;
         }
 
+        /// <summary>
+        /// Method responsable by insert a new user.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>Returns a number of user created</returns>
+        /// <response code="200" ></response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> InserUser([FromBody] CreateUserRequest request)
