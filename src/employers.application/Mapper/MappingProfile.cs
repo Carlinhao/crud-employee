@@ -11,7 +11,7 @@ namespace employers.application.Mapper
         public MappingProfile()
         {
             CreateMap<DepartmentEntity, DepartamentResponse>();
-            CreateMap<CreateUserRequest, UserEntity>();
+            CreateMap<CreateUserRequest, UserEntity>().ReverseMap();
         }
     }
 }
