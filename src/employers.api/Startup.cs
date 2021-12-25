@@ -1,4 +1,4 @@
-using AutoMapper;
+using System.Text;
 using employers.api.Middlewares.Erros;
 using employers.infrastructure.Ioc;
 using employers.infrastructure.SwaggerExtensions;
@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace employers.api
 {
@@ -77,8 +76,8 @@ namespace employers.api
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-            services.SwaggerServices();
             services.AddAutoMapper(typeof(Startup));
+            services.SwaggerServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
