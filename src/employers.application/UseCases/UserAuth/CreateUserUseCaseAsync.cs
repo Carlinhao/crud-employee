@@ -2,12 +2,12 @@
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-using AutoMapper;
 using employers.application.Interfaces.UserAuth;
 using employers.domain.Entities.UserAuth;
 using employers.domain.Interfaces.Repositories.UserAuth;
 using employers.domain.Requests;
 using employers.application.Exceptions.RegraNegocio;
+using AutoMapper;
 
 namespace employers.application.UseCases.UserAuth
 {
@@ -28,15 +28,7 @@ namespace employers.application.UseCases.UserAuth
 
         public async Task<int> RunAsync(CreateUserRequest request)
         {
-            // TODO Verify error automapper.;
-            // var entity = _mapper.Map<UserEntity>(request);
-
-            var entity = new UserEntity
-            {
-                FullName = request.FullName,
-                UserName = request.UserName,
-                Password = request.Password
-            };
+            var entity = _mapper.Map<UserEntity>(request);
 
             var thereAreUser = await _userRepository.FindUser(request.UserName);
 
