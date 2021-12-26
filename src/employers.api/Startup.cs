@@ -1,5 +1,6 @@
 using System.Text;
 using employers.api.Middlewares.Erros;
+using employers.application.Mapper;
 using employers.infrastructure.Ioc;
 using employers.infrastructure.SwaggerExtensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -76,7 +77,7 @@ namespace employers.api
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(MappingProfile));
             services.SwaggerServices();
         }
 
