@@ -1,4 +1,6 @@
-﻿using Dapper.FluentMap;
+﻿using System.Data;
+using System.Data.SqlClient;
+using Dapper.FluentMap;
 using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.ExportReport;
@@ -17,8 +19,6 @@ using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Interfaces.Repositories.Occupation;
 using employers.domain.Interfaces.Repositories.UserAuth;
 using employers.domain.Token;
-using employers.infrastructure.DbConfiguration.Implementation;
-using employers.infrastructure.DbConfiguration.Interfaces;
 using employers.infrastructure.Mapping;
 using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
@@ -26,10 +26,6 @@ using employers.infrastructure.Repositories.Occupation;
 using employers.infrastructure.Repositories.UserAuth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
 
 namespace employers.infrastructure.Ioc
 {
