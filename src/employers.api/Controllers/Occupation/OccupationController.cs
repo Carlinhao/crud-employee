@@ -9,7 +9,7 @@ namespace employers.api.Controllers.Occupation
 {
     [Authorize]
     [ApiVersion("1")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/occupation")]
     [ApiController]
     public class OccupationController : ControllerBase
     {
