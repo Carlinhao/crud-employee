@@ -10,7 +10,7 @@ namespace employers.api.Controllers.Auth
     /// Controller responsable by authentication
     /// </summary>
     [ApiVersion("1")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
