@@ -59,6 +59,12 @@ namespace employers.infrastructure.Ioc
 
             // DbConfig
             services.AddScoped<IDbConnection>(db => new SqlConnection(configuration.GetConnectionString("sqlConnect")));
+            services.AddScoped<IDbTransaction>(s =>
+            {
+                IDbConnection connection = s.GetRequiredService<IDbConnection>();
+                connection.Open();
+                return connection.BeginTransaction();
+            });
 
             // Token
             services.AddTransient<ITokenGenerate, TokenGenerate>();
