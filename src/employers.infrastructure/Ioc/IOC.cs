@@ -14,12 +14,14 @@ using employers.application.UseCases.ExportReport;
 using employers.application.UseCases.Occupation;
 using employers.application.UseCases.Token;
 using employers.application.UseCases.UserAuth;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Interfaces.Repositories.Employers;
 using employers.domain.Interfaces.Repositories.Occupation;
 using employers.domain.Interfaces.Repositories.UserAuth;
 using employers.domain.Token;
 using employers.infrastructure.Mapping;
+using employers.infrastructure.Repositories;
 using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
 using employers.infrastructure.Repositories.Occupation;
@@ -59,7 +61,7 @@ namespace employers.infrastructure.Ioc
 
             // DbConfig
             services.AddScoped<IDbConnection>(db => new SqlConnection(configuration.GetConnectionString("sqlConnect")));
-            services.AddScoped<IDbTransaction>(s =>
+            services.AddScoped(s =>
             {
                 IDbConnection connection = s.GetRequiredService<IDbConnection>();
                 connection.Open();
@@ -74,6 +76,9 @@ namespace employers.infrastructure.Ioc
 
             //Export File
             services.AddTransient<IExportCsvAsync, ExportCsvAsync>();
+
+            // Unit of Work
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         public static void Rister()
