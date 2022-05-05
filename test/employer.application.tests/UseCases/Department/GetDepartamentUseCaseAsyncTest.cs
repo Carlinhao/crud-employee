@@ -1,5 +1,6 @@
 ﻿using employers.application.UseCases.Departament;
 using employers.domain.Entities;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Interfaces.Repositories.Departament;
 using Moq;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace employer.application.tests.UseCases.Department
 {
     public class GetDepartamentUseCaseAsyncTest
     {
-        private readonly Mock<IDepartmentRepository> _departmentRepository;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
 
         public GetDepartamentUseCaseAsyncTest()
         {
-            _departmentRepository = new Mock<IDepartmentRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
         [Fact(DisplayName = "Get all department")]
@@ -23,8 +24,8 @@ namespace employer.application.tests.UseCases.Department
         {
             // Arrange
             var department = GetDepartment();
-            var useCase = new GetDepartamentUseCaseAsync(_departmentRepository.Object);
-            _departmentRepository.Setup(r => r.GetAll()).ReturnsAsync(department);
+            var useCase = new GetDepartamentUseCaseAsync(_unitOfWork.Object);
+            _unitOfWork.Setup(r => r.DepartmentRepository.GetAll()).ReturnsAsync(department);
 
             // Act
             var result = await useCase.RunAsync();

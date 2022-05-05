@@ -1,5 +1,6 @@
 ﻿using employers.application.Notifications;
 using employers.application.UseCases.Departament;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Requests;
 using Moq;
@@ -13,11 +14,13 @@ namespace employer.application.tests.UseCases.Department
     {
         private readonly Mock<IDepartmentRepository> _departmentRepository;
         private readonly Mock<INotificationMessages> _notificationMessages;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
 
         public InsertDepartmentUseCaseAsyncTest()
         {
             _departmentRepository = new Mock<IDepartmentRepository>();
             _notificationMessages = new Mock<INotificationMessages>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
         [Fact(DisplayName = "Insert Department Success")]
@@ -29,7 +32,7 @@ namespace employer.application.tests.UseCases.Department
             var request = GetDepartmentRequest();
 
             // Act
-            _departmentRepository.Setup(x => x.InsertAsync(request)).ReturnsAsync(1);
+            _unitOfWork.Setup(x => x.DepartmentRepository.InsertAsync(request)).ReturnsAsync(1);
             var result = await useCase.RunAsync(request);
 
             // Assert
@@ -57,7 +60,8 @@ namespace employer.application.tests.UseCases.Department
         private InsertDepartmentUseCaseAsync GetInsertUseCase()
         {
             return new InsertDepartmentUseCaseAsync(_departmentRepository.Object,
-                                                    _notificationMessages.Object);
+                                                    _notificationMessages.Object,
+                                                    _unitOfWork.Object);
         }
 
         private DepartmentRequest GetDepartmentRequest()
