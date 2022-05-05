@@ -15,7 +15,7 @@ namespace employers.api.Controllers
     /// </summary>
     [Authorize]
     [ApiVersion("1")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/department")]
     [ApiController]
     public class DepartmentController : ControllerBase
     {

@@ -12,13 +12,13 @@ namespace employers.api.Controllers.CreateUser
     /// </summary>
     [Authorize]
     [ApiVersion("1")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/user")]
     [ApiController]
-    public class CreateUserController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly ICreateUserUseCaseAsync _createUserUseCaseAsync;
 
-        public CreateUserController(ICreateUserUseCaseAsync createUserUseCaseAsync)
+        public UserController(ICreateUserUseCaseAsync createUserUseCaseAsync)
         {
             _createUserUseCaseAsync = createUserUseCaseAsync;
         }

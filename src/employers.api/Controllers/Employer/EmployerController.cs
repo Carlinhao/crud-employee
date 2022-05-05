@@ -14,7 +14,7 @@ namespace employers.api.Controllers
 {
     [Authorize]
     [ApiVersion("1")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/employer")]
     [ApiController]
     public class EmployerController : ControllerBase
     {

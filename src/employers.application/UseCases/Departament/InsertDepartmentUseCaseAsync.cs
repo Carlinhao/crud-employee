@@ -1,5 +1,6 @@
 ﻿using employers.application.Interfaces.Departament;
 using employers.application.Notifications;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Requests;
 using employers.domain.Validators;
@@ -13,12 +14,15 @@ namespace employers.application.UseCases.Departament
     {
         private readonly IDepartmentRepository _departamentRepository;
         private readonly INotificationMessages _notificationMessages;
+        private readonly IUnitOfWork _unitOfWork;
 
         public InsertDepartmentUseCaseAsync(IDepartmentRepository departamentRepository,
-                                            INotificationMessages notificationMessages)
+                                            INotificationMessages notificationMessages,
+                                            IUnitOfWork unitOfWork)
         {
             _departamentRepository = departamentRepository;
             _notificationMessages = notificationMessages;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<int?> RunAsync(DepartmentRequest departmentRequest)
@@ -36,9 +40,12 @@ namespace employers.application.UseCases.Departament
                 return 0;
             }
 
-            var result = await _departamentRepository.InsertAsync(departmentRequest);
+            //var result = await _departamentRepository.InsertAsync(departmentRequest);
 
-            return result;
+            await _unitOfWork.DepartmentRepository.InsertAsync(departmentRequest);
+            _unitOfWork.Transaction();
+
+            return 1;
         }
     }
 }
