@@ -40,7 +40,7 @@ namespace employers.api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetAll([FromServices] IGetDepartamentUseCaseAsync getAsync)
         {
-            _logger.LogDebug("Buscando todos os Departamentos");
+            _logger.LogInformation("Find all department");
             var result = await getAsync.RunAsync();
             if (result == null) 
                 return NoContent();
@@ -56,20 +56,24 @@ namespace employers.api.Controllers
         /// <returns></returns>
         /// <response code="200">Return a department by id.</response>
         /// <response code="400">Return when return an error.</response>
+        /// <response code="404">Return when not found a department.</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(
             [FromServices] IGetDepartamentByIdUseCaseAsync getAsync,
             int id)
         {
             var result = await getAsync.RunAsync(id);
+            if (result == null)
+                return NotFound(result);
 
-            if(_notificationMessages.HasNotification())
+            if (_notificationMessages.HasNotification())
             {
                 return BadRequest(_notificationMessages.Notications());
             }
-            _logger.LogDebug("Buscando Departamentos por Id");
+            _logger.LogInformation("Find department by id");
             return Ok(result);
         }
 
