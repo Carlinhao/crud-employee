@@ -34,12 +34,17 @@ namespace employers.api.Controllers
         /// <param name="getAsync"></param>
         /// <returns>Return a list of the department.</returns>
         /// <response code="200">Return all departmen</response>
+        /// <response code="204">Return empty payload</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetAll([FromServices] IGetDepartamentUseCaseAsync getAsync)
         {
             _logger.LogDebug("Buscando todos os Departamentos");
             var result = await getAsync.RunAsync();
+            if (result == null) 
+                return NoContent();
+
             return Ok(result);
         }
 
