@@ -83,10 +83,10 @@ namespace employers.api.Controllers
         /// <param name="postAsync"></param>
         /// <param name="departmentRequest"></param>
         /// <returns></returns>
-        /// <response code="200">Return number of department created</response>
+        /// <response code="201">Return number of department created</response>
         /// <response code="400">Return when return an error message.</response>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostAsync(
             [FromServices] IInsertDepartmentUseCaseAsync postAsync,
@@ -100,7 +100,7 @@ namespace employers.api.Controllers
                 return BadRequest(_notificationMessages.Notications());
             }
 
-            return Ok(result);
+            return Created(uri: "api/v1/department", result);
         }
     }
 }
