@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace employers.api.Controllers.Occupation
 {
+    /// <summary>
+    /// Controller responsable by occupations.
+    /// </summary>
     [Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/occupation")]
@@ -31,7 +34,7 @@ namespace employers.api.Controllers.Occupation
         }
 
         /// <summary>
-        /// Update a register
+        /// Update a register.
         /// </summary>
         /// <param name="updateOccupation"></param>
         /// <param name="request"></param>

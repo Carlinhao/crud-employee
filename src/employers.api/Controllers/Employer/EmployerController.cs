@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace employers.api.Controllers
 {
+    /// <summary>
+    /// Controller responsable by employers.
+    /// </summary>
     [Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/employer")]
