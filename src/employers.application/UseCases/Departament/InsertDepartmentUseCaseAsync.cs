@@ -12,15 +12,12 @@ namespace employers.application.UseCases.Departament
 {
     public class InsertDepartmentUseCaseAsync : IInsertDepartmentUseCaseAsync
     {
-        private readonly IDepartmentRepository _departamentRepository;
         private readonly INotificationMessages _notificationMessages;
         private readonly IUnitOfWork _unitOfWork;
 
-        public InsertDepartmentUseCaseAsync(IDepartmentRepository departamentRepository,
-                                            INotificationMessages notificationMessages,
+        public InsertDepartmentUseCaseAsync(INotificationMessages notificationMessages,
                                             IUnitOfWork unitOfWork)
         {
-            _departamentRepository = departamentRepository;
             _notificationMessages = notificationMessages;
             _unitOfWork = unitOfWork;
         }
@@ -42,10 +39,10 @@ namespace employers.application.UseCases.Departament
 
             //var result = await _departamentRepository.InsertAsync(departmentRequest);
 
-            await _unitOfWork.DepartmentRepository.InsertAsync(departmentRequest);
+            var result = await _unitOfWork.DepartmentRepository.InsertAsync(departmentRequest);
             _unitOfWork.Transaction();
 
-            return 1;
+            return result;
         }
     }
 }
