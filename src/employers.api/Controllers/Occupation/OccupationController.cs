@@ -2,6 +2,7 @@
 using employers.domain.Requests;
 using employers.domain.Responses;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -13,17 +14,30 @@ namespace employers.api.Controllers.Occupation
     [ApiController]
     public class OccupationController : ControllerBase
     {
-
+        /// <summary>
+        /// Save occupation in database.
+        /// </summary>
+        /// <param name="updateOccupation"></param>
+        /// <param name="request"></param>
+        /// <returns>Return quantity element save</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<ResultResponse>> InsertAsync([FromServices] IInsertOccupationUseCaseAsync updateOccupation,
                                                                     [FromBody] OccupationRequest request)
         {
             var result = await updateOccupation.RunAsync(request);
 
-            return Ok(result);
+            return Created("api/v1/occupation", result);
         }
 
+        /// <summary>
+        /// Update a register
+        /// </summary>
+        /// <param name="updateOccupation"></param>
+        /// <param name="request"></param>
+        /// <returns>Return response with success</returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ResultResponse>> UpdateAsync([FromServices] IUpdateOccupationUseCaseAsync updateOccupation, 
                                                                     [FromBody] OccupationUpdateRequest request)
         {
@@ -32,10 +46,21 @@ namespace employers.api.Controllers.Occupation
             return Ok(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="useCaseAsync"></param>
+        /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> GetAllAsync([FromServices] IGetOccupationUseCaseAsync useCaseAsync)
         {
-            return Ok(await useCaseAsync.RunAsync());
+            var result = await useCaseAsync.RunAsync();
+            if (result is null )
+                return NotFound();
+            
+            return Ok(result);
         }
     }
 }
