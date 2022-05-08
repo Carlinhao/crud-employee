@@ -1,24 +1,21 @@
-﻿using employers.application.Notifications;
+﻿using System.Net;
+using System.Threading.Tasks;
+using employers.application.Notifications;
 using employers.application.UseCases.Departament;
 using employers.domain.Interfaces.Repositories;
-using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Requests;
 using Moq;
-using System.Net;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Department
 {
     public class InsertDepartmentUseCaseAsyncTest
     {
-        private readonly Mock<IDepartmentRepository> _departmentRepository;
         private readonly Mock<INotificationMessages> _notificationMessages;
         private readonly Mock<IUnitOfWork> _unitOfWork;
 
         public InsertDepartmentUseCaseAsyncTest()
         {
-            _departmentRepository = new Mock<IDepartmentRepository>();
             _notificationMessages = new Mock<INotificationMessages>();
             _unitOfWork = new Mock<IUnitOfWork>();
         }
@@ -59,8 +56,7 @@ namespace employer.application.tests.UseCases.Department
 
         private InsertDepartmentUseCaseAsync GetInsertUseCase()
         {
-            return new InsertDepartmentUseCaseAsync(_departmentRepository.Object,
-                                                    _notificationMessages.Object,
+            return new InsertDepartmentUseCaseAsync(_notificationMessages.Object,
                                                     _unitOfWork.Object);
         }
 
