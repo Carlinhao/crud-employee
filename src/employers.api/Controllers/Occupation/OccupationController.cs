@@ -47,10 +47,10 @@ namespace employers.api.Controllers.Occupation
         }
 
         /// <summary>
-        /// 
+        /// Returns all occupation.
         /// </summary>
         /// <param name="useCaseAsync"></param>
-        /// <returns></returns>
+        /// <returns>Returns all occupation</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
