@@ -13,22 +13,26 @@ namespace employers.infrastructure.Repositories.UserAuth
     {
         private readonly StringBuilder _stringBuilder;
         private readonly IDbConnection _connection;
+        private readonly IDbTransaction _dbTransaction;
 
-        public UserRepository(IDbConnection connection)
+        public UserRepository(IDbConnection connection,
+                              IDbTransaction dbTransaction)
         {
             _stringBuilder = new StringBuilder();
             _connection = connection;
+            _dbTransaction = dbTransaction;
         }
 
         public Task<int> DisableUser(int id)
         {
+            // TODO - Do get by id
             throw new NotImplementedException();
         }
 
         public async Task<int?> FindUser(string userName)
         {
             _stringBuilder.Append($"SELECT COUNT(1) FROM User_Auth WHERE NAME_USER = '{userName}'");
-            var result = await _connection.QueryAsync<int>(_stringBuilder.ToString());
+            var result = await _connection.QueryAsync<int>(_stringBuilder.ToString(), null, _dbTransaction);
 
             return result.FirstOrDefault();
         }
@@ -38,7 +42,7 @@ namespace employers.infrastructure.Repositories.UserAuth
             _stringBuilder.Append($"INSERT INTO User_Auth ");
             _stringBuilder.Append($"VALUES ('{userEntity.UserName}', '{userEntity.FullName}', '{userEntity.Password}', '', '', '')");
 
-            var result = await _connection.ExecuteAsync(_stringBuilder.ToString());
+            var result = await _connection.ExecuteAsync(_stringBuilder.ToString(), null, _dbTransaction);
 
             return result;
         }

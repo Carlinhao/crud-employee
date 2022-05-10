@@ -1,22 +1,22 @@
-﻿using employers.application.Interfaces.Departament;
+﻿using System.Net;
+using System.Threading.Tasks;
+using employers.application.Interfaces.Departament;
 using employers.application.Notifications;
 using employers.domain.Entities;
-using employers.domain.Interfaces.Repositories.Departament;
-using System.Net;
-using System.Threading.Tasks;
+using employers.domain.Interfaces.Repositories;
 
 namespace employers.application.UseCases.Departament
 {
     public class GetDepartamentByIdUseCaseAsync : IGetDepartamentByIdUseCaseAsync
     {
-        private readonly IDepartmentRepository _departamentRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly INotificationMessages _notificationMessages;
 
         public GetDepartamentByIdUseCaseAsync(
-            IDepartmentRepository departamentRepository,
+            IUnitOfWork unitOfWork,
             INotificationMessages notificationMessages)
         {
-            _departamentRepository = departamentRepository;
+            _unitOfWork = unitOfWork;
             _notificationMessages = notificationMessages;
         }
 
@@ -28,7 +28,7 @@ namespace employers.application.UseCases.Departament
                 return new DepartmentEntity();
             }
 
-            var result = await _departamentRepository.GetById(id);
+            var result = await _unitOfWork.DepartmentRepository.GetById(id);
 
             return result;
         }

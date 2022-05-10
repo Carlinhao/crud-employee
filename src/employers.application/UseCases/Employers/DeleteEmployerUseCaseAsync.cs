@@ -1,19 +1,19 @@
-﻿using employers.application.Interfaces.Empregado;
-using employers.application.Notifications;
-using employers.domain.Interfaces.Repositories.Employers;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
+using employers.application.Interfaces.Empregado;
+using employers.application.Notifications;
+using employers.domain.Interfaces.Repositories;
 
 namespace employers.application.UseCases.Employers
 {
     public class DeleteEmployerUseCaseAsync : IDeleteEmployerUseCaseAsync
     {
-        private readonly IEmployerRepository _employerRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly INotificationMessages _notification;
-        public DeleteEmployerUseCaseAsync(IEmployerRepository employerRepository,
+        public DeleteEmployerUseCaseAsync(IUnitOfWork unitOfWork,
             INotificationMessages notification)
         {
-            _employerRepository = employerRepository;
+            _unitOfWork = unitOfWork;
             _notification = notification;
         }
 
@@ -25,7 +25,7 @@ namespace employers.application.UseCases.Employers
                 return 0;
             }
 
-            var result = await _employerRepository.DeleteAsync(id);            
+            var result = await _unitOfWork.EmployerRepository.DeleteAsync(id);            
             return result;
         }
     }

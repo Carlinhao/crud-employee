@@ -1,21 +1,21 @@
-﻿using employers.application.Notifications;
-using employers.application.UseCases.Departament;
-using employers.domain.Interfaces.Repositories.Departament;
-using Moq;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
+using employers.application.Notifications;
+using employers.application.UseCases.Departament;
+using employers.domain.Interfaces.Repositories;
+using Moq;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Department
 {
     public class GetDepartamentByIdUseCaseAsyncTest
     {
-        private readonly Mock<IDepartmentRepository> _repository;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly Mock<INotificationMessages> _notificationMessages;
 
         public GetDepartamentByIdUseCaseAsyncTest()
         {
-            _repository = new Mock<IDepartmentRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
             _notificationMessages = new Mock<INotificationMessages>();
         }
 
@@ -24,7 +24,7 @@ namespace employer.application.tests.UseCases.Department
         public async Task GetDepartamentByIdUseCaseAsync_WhenInvalidID_MustDisplayMessage()
         {
             // Arrange
-            var useCase = new GetDepartamentByIdUseCaseAsync(_repository.Object, _notificationMessages.Object);
+            var useCase = new GetDepartamentByIdUseCaseAsync(_unitOfWork.Object, _notificationMessages.Object);
 
             // Act
             await useCase.RunAsync(0);
