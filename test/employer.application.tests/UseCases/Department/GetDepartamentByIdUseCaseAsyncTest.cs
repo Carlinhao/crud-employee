@@ -1,10 +1,9 @@
-﻿using employers.application.Notifications;
+﻿using System.Net;
+using System.Threading.Tasks;
+using employers.application.Notifications;
 using employers.application.UseCases.Departament;
 using employers.domain.Interfaces.Repositories;
-using employers.domain.Interfaces.Repositories.Departament;
 using Moq;
-using System.Net;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Department

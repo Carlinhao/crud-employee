@@ -1,21 +1,21 @@
-﻿using employers.application.Notifications;
-using employers.application.UseCases.Employers;
-using employers.domain.Interfaces.Repositories.Employers;
-using Moq;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
+using employers.application.Notifications;
+using employers.application.UseCases.Employers;
+using employers.domain.Interfaces.Repositories;
+using Moq;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Employer
 {
     public class DeleteEmployerUseCaseAsyncTest
     {
-        private readonly Mock<IEmployerRepository> _employerRepository;
+        private readonly Mock<IUnitOfWork> _iUnitOfWork;
         private readonly Mock<INotificationMessages> _notification;
 
         public DeleteEmployerUseCaseAsyncTest()
         {
-            _employerRepository = new Mock<IEmployerRepository>();
+            _iUnitOfWork = new Mock<IUnitOfWork>();
             _notification = new Mock<INotificationMessages>();
         }
 
@@ -24,7 +24,7 @@ namespace employer.application.tests.UseCases.Employer
         public async Task DeleteEmployerUseCaseAsync__WhenInvalidID_MustDisplayMessage()
         {
             // Arrange
-            var useCase = new DeleteEmployerUseCaseAsync(_employerRepository.Object, _notification.Object);
+            var useCase = new DeleteEmployerUseCaseAsync(_iUnitOfWork.Object, _notification.Object);
 
             // Act
             await useCase.RunAsync(0);
