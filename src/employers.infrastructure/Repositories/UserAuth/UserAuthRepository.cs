@@ -15,18 +15,21 @@ namespace employers.infrastructure.Repositories.UserAuth
     {
         private readonly StringBuilder _stringBuilder;
         private readonly IDbConnection _connection;
+        private readonly IDbTransaction _transaction;
 
-        public UserAuthRepository(IDbConnection connection)
+        public UserAuthRepository(IDbConnection connection,
+                                  IDbTransaction transaction)
         {
             _connection = connection;
             _stringBuilder = new StringBuilder();
+            _transaction = transaction;
         }
-        
+
         public async Task<UserEntity> ValidateCredentials(UserInfoRequest userInfoRequest)
         {
             var password = ComputeHash(userInfoRequest.Password, new SHA256CryptoServiceProvider());
             var query = $" SELECT * FROM User_Auth WHERE NAME_USER = '{ userInfoRequest.UserName }' AND USER_PWD = '{ password }'";
-            var result = await _connection.QueryFirstAsync<UserEntity>(query);
+            var result = await _connection.QueryFirstAsync<UserEntity>(query, null, _transaction);
 
             return result;
         }
@@ -34,7 +37,7 @@ namespace employers.infrastructure.Repositories.UserAuth
         public async Task<UserEntity> ValidateCredentials(string userName)
         {
             var query = $" SELECT * FROM User_Auth WHERE NAME_USER = '{ userName }' ";
-            var result = await _connection.QueryFirstAsync<UserEntity>(query);
+            var result = await _connection.QueryFirstAsync<UserEntity>(query, null, _transaction);
 
             return result;
         }
@@ -50,13 +53,13 @@ namespace employers.infrastructure.Repositories.UserAuth
             _stringBuilder.Append($"REFRESH_TOKEN_EXPIRE = '{request.RefreshTokenExpire}' ");
             _stringBuilder.Append($"WHERE ID_USER = {user.Id}");
 
-            await _connection.QueryAsync<UserEntity>(_stringBuilder.ToString());
+            await _connection.QueryAsync<UserEntity>(_stringBuilder.ToString(), null, _transaction);
         }
 
         private async Task<UserEntity> GetIdByUserName(UserEntity request)
         {
             var query = $" SELECT * FROM User_Auth WHERE NAME_USER = '{ request.UserName }'";
-            var result = await _connection.QueryFirstAsync<UserEntity>(query);
+            var result = await _connection.QueryFirstAsync<UserEntity>(query, null, _transaction);
 
             return result;
         }
