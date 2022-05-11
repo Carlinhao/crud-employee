@@ -1,42 +1,39 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
+using AutoMapper;
+using employers.application.Exceptions.RegraNegocio;
 using employers.application.Interfaces.UserAuth;
 using employers.domain.Entities.UserAuth;
-using employers.domain.Interfaces.Repositories.UserAuth;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
-using employers.application.Exceptions.RegraNegocio;
-using AutoMapper;
 
 namespace employers.application.UseCases.UserAuth
 {
     public class CreateUserUseCaseAsync : ICreateUserUseCaseAsync
     {
         private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
-        private readonly IUserAuthRepository _userAuthRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CreateUserUseCaseAsync(IMapper mapper,
-                                      IUserRepository userRepository,
-                                      IUserAuthRepository userAuthRepository)
+                                      IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _userRepository = userRepository;
-            _userAuthRepository = userAuthRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<int> RunAsync(CreateUserRequest request)
         {
             var entity = _mapper.Map<UserEntity>(request);
 
-            var thereAreUser = await _userRepository.FindUser(request.UserName);
+            var thereAreUser = await _unitOfWork.UserRepository.FindUser(request.UserName);
 
             if (thereAreUser == 1)
                 throw new RegranegocioException("There is already a user with the same name.");
 
             entity.Password = ComputeHash(request.Password, new SHA256CryptoServiceProvider());
-            return await _userRepository.InsertUser(entity);
+            return await _unitOfWork.UserRepository.InsertUser(entity);
         }
 
         public string ComputeHash(string input, SHA256CryptoServiceProvider algorithm)

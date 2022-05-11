@@ -1,21 +1,20 @@
-﻿using employers.application.UseCases.Employers;
-using employers.domain.Entities.Employee;
-using employers.domain.Interfaces.Repositories.Employers;
-using Moq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using employers.application.UseCases.Employers;
+using employers.domain.Entities.Employee;
+using employers.domain.Interfaces.Repositories;
+using Moq;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Employer
 {
     public class GetEmployerUseCaseAsyncTest
     {
-        private readonly Mock<IEmployerRepository> _employerRepository;
-
+        private readonly Mock<IUnitOfWork> _unitOfWork;
         public GetEmployerUseCaseAsyncTest()
         {
-            _employerRepository = new Mock<IEmployerRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
         [Fact(DisplayName = "Must return all Employer")]
@@ -23,11 +22,11 @@ namespace employer.application.tests.UseCases.Employer
         public async Task GetEmployerUseCaseAsync_WhenRequestSuccess_MustReturnAllEmployer()
         {
             // Arrange
-            var useCase = new GetEmployerUseCaseAsync(_employerRepository.Object);
+            var useCase = new GetEmployerUseCaseAsync(_unitOfWork.Object);
             var employer = GetEmployer();
 
             // Act
-            _employerRepository.Setup(x => x.GetAll()).ReturnsAsync(employer);
+            _unitOfWork.Setup(x => x.EmployerRepository.GetAll()).ReturnsAsync(employer);
             var result = await useCase.RunAsync();
 
             // Assert

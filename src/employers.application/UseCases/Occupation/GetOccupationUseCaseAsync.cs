@@ -1,4 +1,5 @@
 ﻿using employers.application.Interfaces.Occupation;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Interfaces.Repositories.Occupation;
 using employers.domain.Responses;
 using System.Threading.Tasks;
@@ -7,16 +8,16 @@ namespace employers.application.UseCases.Occupation
 {
     public class GetOccupationUseCaseAsync : IGetOccupationUseCaseAsync
     {
-        private readonly IOccupationRepository _occupationRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetOccupationUseCaseAsync(IOccupationRepository occupationRepository)
+        public GetOccupationUseCaseAsync(IUnitOfWork unitOfWork)
         {
-            _occupationRepository = occupationRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ResultResponse> RunAsync()
         {
-            return await _occupationRepository.GetAllAsync();
+            return await _unitOfWork.OccupationRepository.GetAllAsync();
         }
     }
 }

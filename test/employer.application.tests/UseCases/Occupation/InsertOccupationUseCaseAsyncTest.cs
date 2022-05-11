@@ -1,20 +1,20 @@
-﻿using employers.application.UseCases.Occupation;
-using employers.domain.Interfaces.Repositories.Occupation;
+﻿using System.Threading.Tasks;
+using employers.application.UseCases.Occupation;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
 using employers.domain.Responses;
 using Moq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Occupation
 {
     public class InsertOccupationUseCaseAsyncTest
     {
-        private readonly Mock<IOccupationRepository> _repository;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
 
         public InsertOccupationUseCaseAsyncTest()
         {
-            _repository = new Mock<IOccupationRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
         [Fact(DisplayName = "Insert an Occupation")]
@@ -24,8 +24,8 @@ namespace employer.application.tests.UseCases.Occupation
             // Arrange
             var request = GetOccupationRequest();
             var response = GetResultResponse();
-            var useCase = new InsertOccupationUseCaseAsync(_repository.Object);
-            _repository.Setup(x => x.InsertAsync(request)).ReturnsAsync(response);
+            var useCase = new InsertOccupationUseCaseAsync(_unitOfWork.Object);
+            _unitOfWork.Setup(x => x.OccupationRepository.InsertAsync(request)).ReturnsAsync(response);
 
             // Act
             var result = await useCase.RunAsync(request);

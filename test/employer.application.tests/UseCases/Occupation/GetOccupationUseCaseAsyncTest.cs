@@ -1,19 +1,19 @@
-﻿using employers.application.UseCases.Occupation;
-using employers.domain.Interfaces.Repositories.Occupation;
+﻿using System.Threading.Tasks;
+using employers.application.UseCases.Occupation;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Responses;
 using Moq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Occupation
 {
     public class GetOccupationUseCaseAsyncTest
     {
-        private readonly Mock<IOccupationRepository> _repository;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
 
         public GetOccupationUseCaseAsyncTest()
         {
-            _repository = new Mock<IOccupationRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
         [Fact(DisplayName = "Return a list of Occupation")]
@@ -21,11 +21,11 @@ namespace employer.application.tests.UseCases.Occupation
         public async Task GetOccupationUseCaseAsync_RunAsync_MsutReturnAllOccupation()
         {
             // Arrange
-            var useCase = new GetOccupationUseCaseAsync(_repository.Object);
+            var useCase = new GetOccupationUseCaseAsync(_unitOfWork.Object);
             var response = GetAllOccupation();
 
             // Act
-            _repository.Setup(x => x.GetAllAsync()).ReturnsAsync(response);
+            _unitOfWork.Setup(x => x.OccupationRepository.GetAllAsync()).ReturnsAsync(response);
             var result = await useCase.RunAsync();
 
             // Assert

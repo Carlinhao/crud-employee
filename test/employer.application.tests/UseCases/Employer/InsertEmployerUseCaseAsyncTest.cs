@@ -1,22 +1,22 @@
-﻿using employers.application.Notifications;
+﻿using System.Net;
+using System.Threading.Tasks;
+using employers.application.Notifications;
 using employers.application.UseCases.Employers;
-using employers.domain.Interfaces.Repositories.Employers;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
 using Moq;
-using System.Net;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Employer
 {
     public class InsertEmployerUseCaseAsyncTest
     {
-        private readonly Mock<IEmployerRepository> _employerRepository;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly Mock<INotificationMessages> _notificationMessages;
 
         public InsertEmployerUseCaseAsyncTest()
         {
-            _employerRepository = new Mock<IEmployerRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
             _notificationMessages = new Mock<INotificationMessages>();
         }
 
@@ -27,7 +27,7 @@ namespace employer.application.tests.UseCases.Employer
             // Arrange
             var useCase = InsertEmployerUseCase();
             var employerRequest = GetEmployer();
-            _employerRepository.Setup(x => x.InsertAsync(employerRequest)).ReturnsAsync(1);
+            _unitOfWork.Setup(x => x.EmployerRepository.InsertAsync(employerRequest)).ReturnsAsync(1);
 
             // Act
             var result = await useCase.RunAsync(employerRequest);
@@ -55,7 +55,7 @@ namespace employer.application.tests.UseCases.Employer
 
         private InsertEmployerUseCaseAsync InsertEmployerUseCase()
         {
-            return new InsertEmployerUseCaseAsync(_employerRepository.Object, _notificationMessages.Object);
+            return new InsertEmployerUseCaseAsync(_notificationMessages.Object, _unitOfWork.Object);
         }
 
         private EmployerRequest GetEmployer()

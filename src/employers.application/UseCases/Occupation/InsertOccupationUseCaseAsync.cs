@@ -1,23 +1,23 @@
-﻿using employers.application.Interfaces.Occupation;
-using employers.domain.Interfaces.Repositories.Occupation;
+﻿using System.Threading.Tasks;
+using employers.application.Interfaces.Occupation;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
 using employers.domain.Responses;
-using System.Threading.Tasks;
 
 namespace employers.application.UseCases.Occupation
 {
     public class InsertOccupationUseCaseAsync : IInsertOccupationUseCaseAsync
     {
-        private readonly IOccupationRepository _occupationRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public InsertOccupationUseCaseAsync(IOccupationRepository occupationRepository)
+        public InsertOccupationUseCaseAsync(IUnitOfWork unitOfWork)
         {
-            _occupationRepository = occupationRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ResultResponse> RunAsync(OccupationRequest request)
         {
-            return await _occupationRepository.InsertAsync(request);
+            return await _unitOfWork.OccupationRepository.InsertAsync(request);
         }
     }
 }

@@ -1,24 +1,24 @@
-﻿using employers.application.Interfaces.Empregado;
-using employers.application.Notifications;
-using employers.domain.Interfaces.Repositories.Employers;
-using employers.domain.Requests;
-using employers.domain.Validators;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using employers.application.Interfaces.Empregado;
+using employers.application.Notifications;
+using employers.domain.Interfaces.Repositories;
+using employers.domain.Requests;
+using employers.domain.Validators;
 
 namespace employers.application.UseCases.Employers
 {
     public class InsertEmployerUseCaseAsync : IInsertEmployerUseCaseAsync
     {
-        private readonly IEmployerRepository _employerRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly INotificationMessages _notificationMessages;
 
-        public InsertEmployerUseCaseAsync(IEmployerRepository employerRepository,
-                                          INotificationMessages notificationMessages)
+        public InsertEmployerUseCaseAsync(INotificationMessages notificationMessages,
+                                          IUnitOfWork unitOfWork)
         {
-            _employerRepository = employerRepository;
             _notificationMessages = notificationMessages;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<int?> RunAsync(EmployerRequest request)
@@ -37,7 +37,7 @@ namespace employers.application.UseCases.Employers
                 return 0;
             }
 
-            var result = await _employerRepository.InsertAsync(request);
+            var result = await _unitOfWork.EmployerRepository.InsertAsync(request);
 
             return result;
         }

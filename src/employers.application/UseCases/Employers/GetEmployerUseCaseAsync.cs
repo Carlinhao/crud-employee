@@ -1,23 +1,23 @@
-﻿using employers.application.Interfaces.Empregado;
-using employers.domain.Entities.Employee;
-using employers.domain.Interfaces.Repositories.Employers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using employers.application.Interfaces.Empregado;
+using employers.domain.Entities.Employee;
+using employers.domain.Interfaces.Repositories;
 
 namespace employers.application.UseCases.Employers
 {
     public class GetEmployerUseCaseAsync : IGetEmployerUseCaseAsync
     {
-        private readonly IEmployerRepository _employerRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetEmployerUseCaseAsync(IEmployerRepository employerRepository)
+        public GetEmployerUseCaseAsync(IUnitOfWork unitOfWork)
         {
-            _employerRepository = employerRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<EmployeeEntity>> RunAsync()
         {
-            var result = await _employerRepository.GetAll();
+            var result = await _unitOfWork.EmployerRepository.GetAll();
 
             return result;
         }

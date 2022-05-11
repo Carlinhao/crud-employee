@@ -1,20 +1,20 @@
-﻿using employers.application.UseCases.Occupation;
-using employers.domain.Interfaces.Repositories.Occupation;
+﻿using System.Threading.Tasks;
+using employers.application.UseCases.Occupation;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
 using employers.domain.Responses;
 using Moq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace employer.application.tests.UseCases.Occupation
 {
     public class UpdateOccupationUseCaseAsyncTest
     {
-        private readonly Mock<IOccupationRepository> _repository;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
 
         public UpdateOccupationUseCaseAsyncTest()
         {
-            _repository = new Mock<IOccupationRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
         [Fact(DisplayName = "Update Occupation")]
@@ -22,12 +22,12 @@ namespace employer.application.tests.UseCases.Occupation
         public async Task GetOccupationUseCaseAsync_RunAsync_MsutReturnAllOccupation()
         {
             // Arrange
-            var useCase = new UpdateOccupationUseCaseAsync(_repository.Object);
+            var useCase = new UpdateOccupationUseCaseAsync(_unitOfWork.Object);
             var response = GetResultResponse();
             var request = GetOccupationUpdateRequest();
 
             // Act
-            _repository.Setup(x => x.UpdateAsync(request)).ReturnsAsync(response);
+            _unitOfWork.Setup(x => x.OccupationRepository.UpdateAsync(request)).ReturnsAsync(response);
 
             var result = await useCase.RunAsync(request);
 

@@ -1,12 +1,12 @@
-﻿using employers.application.Notifications;
+﻿using System.Net;
+using System.Threading.Tasks;
+using employers.application.Notifications;
 using employers.application.UseCases.Employers;
 using employers.domain.Entities.Employee;
-using employers.domain.Interfaces.Repositories.Employers;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Responses;
 using FluentAssertions;
 using Moq;
-using System.Net;
-using System.Threading.Tasks;
 using Xunit;
 
 
@@ -14,12 +14,12 @@ namespace employer.application.tests.UseCases.Employer
 {
     public class UpdateEmployerUseCaseAsyncTest
     {
-        private readonly Mock<IEmployerRepository> _employerRepository;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly Mock<INotificationMessages> _notificationMessages;
 
         public UpdateEmployerUseCaseAsyncTest()
         {
-            _employerRepository = new Mock<IEmployerRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
             _notificationMessages = new Mock<INotificationMessages>();
         }
 
@@ -33,7 +33,7 @@ namespace employer.application.tests.UseCases.Employer
             var response = GetResponse();
 
             // Act
-            _employerRepository.Setup(x => x.UpdateAsync(request)).ReturnsAsync(response);
+            _unitOfWork.Setup(x => x.EmployerRepository.UpdateAsync(request)).ReturnsAsync(response);
 
             var result = await useCase.RunAsync(request);
 
@@ -59,7 +59,7 @@ namespace employer.application.tests.UseCases.Employer
 
         private UpdateEmployerUseCaseAsync UpdateEmployerUseCase()
         {
-            return new UpdateEmployerUseCaseAsync(_employerRepository.Object, _notificationMessages.Object);
+            return new UpdateEmployerUseCaseAsync(_notificationMessages.Object, _unitOfWork.Object);
         }
 
         private EmployeeEntity GetEmployerEntity()
