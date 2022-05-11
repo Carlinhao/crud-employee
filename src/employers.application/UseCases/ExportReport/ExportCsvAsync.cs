@@ -1,22 +1,22 @@
-﻿using employers.application.Interfaces.ExportReport;
-using employers.domain.Interfaces.Repositories.Employers;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
+using employers.application.Interfaces.ExportReport;
+using employers.domain.Interfaces.Repositories;
 
 namespace employers.application.UseCases.ExportReport
 {
     public class ExportCsvAsync : IExportCsvAsync
     {
-        private readonly IEmployerRepository _employerRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ExportCsvAsync(IEmployerRepository employerRepository)
+        public ExportCsvAsync(IUnitOfWork unitOfWork)
         {
-            _employerRepository = employerRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<string> ExportCsv()
         {
-            var request = await _employerRepository.GetAll();
+            var request = await _unitOfWork.EmployerRepository.GetAll();
 
             var sb = new StringBuilder();
             sb.AppendFormat("Id, Name, Gender, Id Departament, Id Occupation, Active");
