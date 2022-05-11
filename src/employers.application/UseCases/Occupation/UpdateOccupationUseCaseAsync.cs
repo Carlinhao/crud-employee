@@ -1,23 +1,23 @@
-﻿using employers.application.Interfaces.Occupation;
-using employers.domain.Interfaces.Repositories.Occupation;
+﻿using System.Threading.Tasks;
+using employers.application.Interfaces.Occupation;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
 using employers.domain.Responses;
-using System.Threading.Tasks;
 
 namespace employers.application.UseCases.Occupation
 {
     public class UpdateOccupationUseCaseAsync : IUpdateOccupationUseCaseAsync
     {
-        private readonly IOccupationRepository _occupationRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateOccupationUseCaseAsync(IOccupationRepository occupationRepository)
+        public UpdateOccupationUseCaseAsync(IUnitOfWork unitOfWork)
         {
-            _occupationRepository = occupationRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ResultResponse> RunAsync(OccupationUpdateRequest request)
         {
-            var result = await _occupationRepository.UpdateAsync(request);
+            var result = await _unitOfWork.OccupationRepository.UpdateAsync(request);
 
             return result;
         }
