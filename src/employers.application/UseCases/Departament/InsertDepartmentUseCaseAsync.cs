@@ -37,8 +37,6 @@ namespace employers.application.UseCases.Departament
                 return 0;
             }
 
-            //var result = await _departamentRepository.InsertAsync(departmentRequest);
-
             var result = await _unitOfWork.DepartmentRepository.InsertAsync(departmentRequest);
             _unitOfWork.Transaction();
 
