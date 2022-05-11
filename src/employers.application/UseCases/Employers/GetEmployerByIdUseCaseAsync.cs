@@ -1,22 +1,22 @@
-﻿using employers.application.Interfaces.Empregado;
+﻿using System.Net;
+using System.Threading.Tasks;
+using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
 using employers.domain.Entities.Employee;
-using employers.domain.Interfaces.Repositories.Employers;
-using System.Net;
-using System.Threading.Tasks;
+using employers.domain.Interfaces.Repositories;
 
 namespace employers.application.UseCases.Employers
 {
     public class GetEmployerByIdUseCaseAsync : IGetEmployerByIdUseCaseAsync
     {
-        private readonly IEmployerRepository _employerRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly INotificationMessages _notification;
 
-        public GetEmployerByIdUseCaseAsync(IEmployerRepository employerRepository,
-                                           INotificationMessages notification)
+        public GetEmployerByIdUseCaseAsync(INotificationMessages notification,
+                                           IUnitOfWork unitOfWork)
         {
-            _employerRepository = employerRepository;
             _notification = notification;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<EmployeeEntity> RunAsync(int id)
@@ -28,7 +28,7 @@ namespace employers.application.UseCases.Employers
                 return new EmployeeEntity();
             }
 
-            var result = await _employerRepository.GetById(id);
+            var result = await _unitOfWork.EmployerRepository.GetById(id);
 
             return result;
         }
