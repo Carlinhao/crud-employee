@@ -1,10 +1,10 @@
-﻿using employers.application.Interfaces.UserAuth;
-using employers.domain.Interfaces.Repositories.UserAuth;
+﻿using System;
+using System.Threading.Tasks;
+using employers.application.Interfaces.UserAuth;
+using employers.domain.Interfaces.Repositories;
 using employers.domain.Responses;
 using employers.domain.Token;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Threading.Tasks;
 
 namespace employers.application.UseCases.UserAuth
 {
@@ -13,16 +13,16 @@ namespace employers.application.UseCases.UserAuth
         private const string DATE_FORMATE = "yyyy-MM--dd HH:mm:ss";
 
         private readonly ITokenGenerate _tokenGenerate;
-        private readonly IUserAuthRepository _userAuthRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
 
         public UserAuthRefreshTokenUseCaseAsync(
-            ITokenGenerate tokenGenerate, 
-            IUserAuthRepository userAuthRepository, 
+            ITokenGenerate tokenGenerate,
+            IUnitOfWork unitOfWork, 
             IConfiguration configuration)
         {
             _tokenGenerate = tokenGenerate;
-            _userAuthRepository = userAuthRepository;
+            _unitOfWork = unitOfWork;
             _configuration = configuration;
         }
 
@@ -32,7 +32,7 @@ namespace employers.application.UseCases.UserAuth
             var refreshToken = request.RefreshToken;
             var principal = await _tokenGenerate.GetPrincipalFromExpiredToken(accessToken);
             
-            var user = await _userAuthRepository.ValidateCredentials(principal.Identity.Name);
+            var user = await _unitOfWork.UserAuthRepository.ValidateCredentials(principal.Identity.Name);
 
             if (user == null || 
                 user.RefreshToken != refreshToken || 
@@ -43,7 +43,7 @@ namespace employers.application.UseCases.UserAuth
 
             user.RefreshToken = refreshToken;
 
-            await _userAuthRepository.RefresUserInfo(user);
+            await _unitOfWork.UserAuthRepository.RefresUserInfo(user);
 
             var createDate = DateTime.Now;
             var expireDate = createDate.AddMinutes(Convert.ToDouble(_configuration.GetSection("TokenExtensions:Minutes").Value));
