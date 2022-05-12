@@ -18,6 +18,7 @@ namespace employers.application.UseCases.Occupation
         public async Task<ResultResponse> RunAsync(OccupationUpdateRequest request)
         {
             var result = await _unitOfWork.OccupationRepository.UpdateAsync(request);
+            _unitOfWork.Transaction();
 
             return result;
         }

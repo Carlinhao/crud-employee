@@ -38,6 +38,7 @@ namespace employers.application.UseCases.Employers
             }
 
             var result = await _unitOfWork.EmployerRepository.InsertAsync(request);
+            _unitOfWork.Transaction();
 
             return result;
         }

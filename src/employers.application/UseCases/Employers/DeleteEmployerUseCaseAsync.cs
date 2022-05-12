@@ -25,7 +25,8 @@ namespace employers.application.UseCases.Employers
                 return 0;
             }
 
-            var result = await _unitOfWork.EmployerRepository.DeleteAsync(id);            
+            var result = await _unitOfWork.EmployerRepository.DeleteAsync(id);
+            _unitOfWork.Transaction();
             return result;
         }
     }
