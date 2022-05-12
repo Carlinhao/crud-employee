@@ -1,12 +1,11 @@
-﻿using employers.application.Interfaces.Departament;
-using employers.application.Notifications;
-using employers.domain.Interfaces.Repositories;
-using employers.domain.Interfaces.Repositories.Departament;
-using employers.domain.Requests;
-using employers.domain.Validators;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using employers.application.Interfaces.Departament;
+using employers.application.Notifications;
+using employers.domain.Interfaces.Repositories;
+using employers.domain.Requests;
+using employers.domain.Validators;
 
 namespace employers.application.UseCases.Departament
 {

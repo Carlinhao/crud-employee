@@ -17,7 +17,10 @@ namespace employers.application.UseCases.Occupation
 
         public async Task<ResultResponse> RunAsync(OccupationRequest request)
         {
-            return await _unitOfWork.OccupationRepository.InsertAsync(request);
+            var result = await _unitOfWork.OccupationRepository.InsertAsync(request);
+            _unitOfWork.Transaction();
+
+            return result;
         }
     }
 }

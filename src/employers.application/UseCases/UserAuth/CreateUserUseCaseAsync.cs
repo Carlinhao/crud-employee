@@ -33,7 +33,11 @@ namespace employers.application.UseCases.UserAuth
                 throw new RegranegocioException("There is already a user with the same name.");
 
             entity.Password = ComputeHash(request.Password, new SHA256CryptoServiceProvider());
-            return await _unitOfWork.UserRepository.InsertUser(entity);
+
+            var result = await _unitOfWork.UserRepository.InsertUser(entity);
+            _unitOfWork.Transaction();
+
+            return result;
         }
 
         public string ComputeHash(string input, SHA256CryptoServiceProvider algorithm)
