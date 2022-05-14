@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Prometheus;
 
 namespace employers.api
 {
@@ -78,7 +79,7 @@ namespace employers.api
                 options.SubstituteApiVersionInUrl = true;
             });
             services.AddAutoMapper(typeof(MappingProfile));
-            services.SwaggerServices();
+            services.SwaggerServices();            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -93,6 +94,7 @@ namespace employers.api
 
             app.UseAuthentication();
             app.UseRouting();
+            app.UseHttpMetrics();
             app.UseAuthorization();
 
             app.UseCors();
@@ -100,6 +102,7 @@ namespace employers.api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapMetrics();
             });
             app.SwaggerConfigure();
 
