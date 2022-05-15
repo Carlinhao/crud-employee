@@ -1,4 +1,5 @@
 using System.Text;
+using employers.api.ConfigExtensions;
 using employers.api.Middlewares.Erros;
 using employers.application.Mapper;
 using employers.infrastructure.Ioc;
@@ -28,56 +29,11 @@ namespace employers.api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration.GetSection("TokenExtensions:Issuer").Value,
-                    ValidAudience = Configuration.GetSection("TokenExtensions:Audience").Value,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("TokenExtensions:Secret").Value))
-                };
-            });
-
-            services.AddAuthorization(auth => 
-            {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build());
-            });
-
-            services.AddCors(options => options.AddDefaultPolicy(builder =>
-            {
-                builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            }));
-
+            services.GetServicesExtensions(Configuration);
             services.AddControllers();
-
             services.IocConfiguration(Configuration);
             IOC.Rister();
-
-            services.AddApiVersioning(options =>
-            {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.ReportApiVersions = true;
-            });
-
-            services.AddVersionedApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
+            services.GetApiVersioningExtentions();
             services.AddAutoMapper(typeof(MappingProfile));
             services.SwaggerServices();            
         }
