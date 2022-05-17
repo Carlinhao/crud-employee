@@ -23,6 +23,7 @@ namespace employers.api.Controllers.Occupation
         /// <param name="updateOccupation"></param>
         /// <param name="request"></param>
         /// <returns>Return quantity element save</returns>
+        /// <response code="201">Created</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<ResultResponse>> InsertAsync([FromServices] IInsertOccupationUseCaseAsync updateOccupation,
