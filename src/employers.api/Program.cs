@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace employers.api
@@ -14,6 +15,12 @@ namespace employers.api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureAppConfiguration((context, config) => 
+                    {
+                        var env = context.HostingEnvironment.EnvironmentName;
+                        config.AddJsonFile($"appsettings.{env}", optional:false,reloadOnChange: true);
+                        config.AddEnvironmentVariables();
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }
