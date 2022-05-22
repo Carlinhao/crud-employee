@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -17,11 +18,15 @@ namespace employer.api.tests.Controllers
     {
         private readonly Mock<ILogger<DepartmentController>> _logger;
         private readonly Mock<INotificationMessages> _notificationMessages;
+        private readonly Mock<IGetDepartamentUseCaseAsync> _useCaseAsync;
+        private readonly Mock<IGetDepartamentByIdUseCaseAsync> _useByIdCaseAsync;
 
         public DepartmentControllerTest()
         {
             _logger = new Mock<ILogger<DepartmentController>>();
             _notificationMessages = new Mock<INotificationMessages>();
+            _useCaseAsync = new Mock<IGetDepartamentUseCaseAsync>();
+            _useByIdCaseAsync = new Mock<IGetDepartamentByIdUseCaseAsync>();
         }
 
         [Fact(DisplayName = "Test method Get Department")]
@@ -30,7 +35,6 @@ namespace employer.api.tests.Controllers
         {
             // Arrange
             var departmentController = GetDepartmentController();
-            Mock<IGetDepartamentUseCaseAsync> _useCaseAsync = new Mock<IGetDepartamentUseCaseAsync>();
             var response = GetDepartmentEntity();
             _useCaseAsync.Setup(x => x.RunAsync()).ReturnsAsync(response);
             var result = await departmentController.GetAll(_useCaseAsync.Object);
@@ -52,10 +56,10 @@ namespace employer.api.tests.Controllers
         {
             // Arrange
             var departmentController = GetDepartmentController();
-            Mock<IGetDepartamentByIdUseCaseAsync> _useCaseAsync = new Mock<IGetDepartamentByIdUseCaseAsync>();
+
             var response = new DepartmentEntity() { Id = 1, Name = "Business" };
-            _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
-            var getById = await departmentController.GetById(_useCaseAsync.Object, 1);
+            _useByIdCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
+            var getById = await departmentController.GetById(_useByIdCaseAsync.Object, 1);
 
             // Act
             var objectResult = getById.Should().BeOfType<OkObjectResult>().Subject;
@@ -63,6 +67,24 @@ namespace employer.api.tests.Controllers
 
             // Assert
             objectResponse.Should().Be(response, "Return correct object.");
+        }
+
+
+        [Fact(DisplayName = "Test method Get Department must return status code 204")]
+        [Trait("Category", "DepartmentController")]
+        public async Task GetAll_WhenNotFoundData_MustReturnStatusCodes204()
+        {
+            // Arrange
+            var controller = GetDepartmentController();
+            IEnumerable<DepartmentEntity> departments = null;
+            _useCaseAsync.Setup(x => x.RunAsync()).ReturnsAsync(departments);
+
+            // Act
+            var data = await controller.GetAll(_useCaseAsync.Object);
+            var dataObjectResult = data.Should().BeOfType<NoContentResult>().Subject;
+
+            // Assert
+            Assert.Equal((int)HttpStatusCode.NoContent, dataObjectResult.StatusCode);
         }
 
         private DepartmentController GetDepartmentController()
