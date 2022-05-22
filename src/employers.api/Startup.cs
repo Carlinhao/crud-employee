@@ -1,18 +1,13 @@
-using System.Text;
-using employers.api.ConfigExtensions;
+using employers.infrastructure.SwaggerExtensions;
 using employers.api.Middlewares.Erros;
+using employers.api.ConfigExtensions;
 using employers.application.Mapper;
 using employers.infrastructure.Ioc;
-using employers.infrastructure.SwaggerExtensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Prometheus;
 
 namespace employers.api
