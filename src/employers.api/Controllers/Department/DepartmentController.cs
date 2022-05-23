@@ -84,7 +84,7 @@ namespace employers.api.Controllers
         /// <param name="departmentRequest"></param>
         /// <returns></returns>
         /// <response code="201">Return number of department created</response>
-        /// <response code="400">Return when return an error message.</response>
+        /// <response code="400">Return when return an error message.</response>    
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

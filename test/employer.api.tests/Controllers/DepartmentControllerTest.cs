@@ -87,6 +87,25 @@ namespace employer.api.tests.Controllers
             Assert.Equal((int)HttpStatusCode.NoContent, dataObjectResult.StatusCode);
         }
 
+
+        [Fact(DisplayName = "")]
+        [Trait("Category", "DepartmentController")]
+        public async Task GetById__WhenNotFoundData_MustReturnStatusCodes204()
+        {
+            // Arrange
+            var controller = GetDepartmentController();
+            DepartmentEntity response = null;
+            _useByIdCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
+
+            // Act
+            var data = await controller.GetById(_useByIdCaseAsync.Object, 1);
+            var dataObjectResult = data.Should().BeOfType<NotFoundObjectResult>().Subject;
+
+            // Assert
+            Assert.Equal((int)HttpStatusCode.NotFound, dataObjectResult.StatusCode);
+        }
+
+
         private DepartmentController GetDepartmentController()
         {
             return new DepartmentController(_logger.Object, _notificationMessages.Object);
