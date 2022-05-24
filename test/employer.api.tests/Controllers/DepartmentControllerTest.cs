@@ -88,7 +88,7 @@ namespace employer.api.tests.Controllers
         }
 
 
-        [Fact(DisplayName = "")]
+        [Fact(DisplayName = "Validate status code 404")]
         [Trait("Category", "DepartmentController")]
         public async Task GetById__WhenNotFoundData_MustReturnStatusCodes204()
         {
