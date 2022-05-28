@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace employers.api.Middlewares.Erros
 {
+    [ExcludeFromCodeCoverage]
     public class GlobalErrorHandler
     {
         private readonly RequestDelegate _next;
