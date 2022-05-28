@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace employers.api
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)
@@ -18,7 +20,7 @@ namespace employers.api
                     webBuilder.ConfigureAppConfiguration((context, config) => 
                     {
                         var env = context.HostingEnvironment.EnvironmentName;
-                        config.AddJsonFile($"appsettings.{env}", optional:false,reloadOnChange: true);
+                        config.AddJsonFile($"appsettings.{env}.json", optional:false,reloadOnChange: true);
                         config.AddEnvironmentVariables();
                     });
                     webBuilder.UseStartup<Startup>();
