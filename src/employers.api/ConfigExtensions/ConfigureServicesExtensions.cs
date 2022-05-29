@@ -4,9 +4,11 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace employers.api.ConfigExtensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ConfigureServicesExtensions
     {
         public static void GetServicesExtensions(this IServiceCollection services, IConfiguration configuration)

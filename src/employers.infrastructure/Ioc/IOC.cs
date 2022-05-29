@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using Dapper.FluentMap;
 using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.Empregado;
@@ -31,6 +32,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace employers.infrastructure.Ioc
 {
+    [ExcludeFromCodeCoverage]
     public static class IOC
     {
         public static void IocConfiguration(this IServiceCollection services,

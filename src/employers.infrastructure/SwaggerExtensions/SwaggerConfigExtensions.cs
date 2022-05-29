@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.OpenApi.Models;
 
 namespace employers.infrastructure.SwaggerExtensions
 {
+    [ExcludeFromCodeCoverage]
     public static class SwaggerConfigExtensions
     {
         public static void SwaggerServices(this IServiceCollection services)

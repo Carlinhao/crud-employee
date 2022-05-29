@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace employers.api.ConfigExtensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ConfigApiVersioningExtentions
     {
         public static void GetApiVersioningExtentions(this IServiceCollection services)

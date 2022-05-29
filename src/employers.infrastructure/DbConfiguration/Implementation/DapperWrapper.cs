@@ -1,9 +1,11 @@
 ﻿using employers.infrastructure.DbConfiguration.Interfaces;
 using System;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace employers.infrastructure.DbConfiguration.Implementation
 {
+    [ExcludeFromCodeCoverage]
     public class DapperWrapper : IDapperWrapper
     {
         private bool _disposed = false;
