@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using employers.domain.Interfaces.Repositories;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Interfaces.Repositories.Employers;
@@ -12,6 +13,7 @@ using employers.infrastructure.Repositories.UserAuth;
 
 namespace employers.infrastructure.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IDbConnection _connection;
