@@ -10,6 +10,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Restore projects"
+          command: dotnet restore employer.solution.sln
+      - run:
           name: "Build projects"
           command: dotnet build employer.solution.sln
       - run:
