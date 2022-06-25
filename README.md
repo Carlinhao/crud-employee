@@ -6,11 +6,11 @@ Base project of rest api.
 
 
 ## Technologies:
-* ASP .NET Core 3.1 (REST, Middleware, Aplication Settings...)
+* .NET 6.0 (REST, Middleware, Aplication Settings...)
 * Dependency Injection
 * Swagger
 * Log (ILogger)
-* ORM (Dapper)
+* Micro ORM (Dapper)
 * Testing (xUnit)
 * Stryker.NET Mutator
 
