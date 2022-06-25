@@ -1,5 +1,18 @@
 version: 2.1
 
+workflows:
+  version: 2
+  test:
+    jobs:
+      - build-net6
+      - test-netcore:
+          name: .NET 6.0
+          docker-image: mcr.microsoft.com/dotnet/sdk:6.0
+          build-target-framework: netstandard2.0
+          test-target-framework: net6.0
+          requires:
+            - build-net6
+
 orbs:
   win: circleci/windows@2.2.0
 
@@ -9,6 +22,9 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: "Restore projects"
+          command: dotnet restore employer.solution.sln
       - run:
           name: "Build projects"
           command: dotnet build employer.solution.sln
