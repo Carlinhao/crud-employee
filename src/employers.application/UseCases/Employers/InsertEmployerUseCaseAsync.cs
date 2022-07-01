@@ -27,7 +27,7 @@ namespace employers.application.UseCases.Employers
 
             var notification = UtilValidators.ValidadorResult(new EmployerRequestValidator(), request);
 
-            if (notification.Errors.Count() > 0)
+            if (notification.Errors.Count > 0)
             {
                 foreach (var item in notification.Errors.Select(x => x.ErrorMessage).ToArray().Distinct())
                 {
