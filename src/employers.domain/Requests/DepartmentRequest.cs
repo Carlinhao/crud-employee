@@ -21,21 +21,21 @@ namespace employers.domain.Requests
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("Nome é obrigatório!")
+                .WithMessage("Name is required.")
                 .NotNull()
-                .WithMessage("Nome é obrigatório!");
+                .WithMessage("Name is required."); 
 
             RuleFor(x => x.Manager)
                 .NotEmpty()
-                .WithMessage("Manager é obrigatório!")
+                .WithMessage("Manager is required.")
                 .NotNull()
-                .WithMessage("Manager é obrigatório!");
+                .WithMessage("Manager is required.");
 
             RuleFor(x => x.Description)
                 .NotEmpty()
-                .WithMessage("Description é obrigatório!")
+                .WithMessage("Description is required.")
                 .NotNull()
-                .WithMessage("Description é obrigatório!");
+                .WithMessage("Description is required.");
         }
     }
 }
