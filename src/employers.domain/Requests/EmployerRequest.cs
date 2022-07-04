@@ -27,33 +27,35 @@ namespace employers.domain.Requests
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                    .WithMessage("Name is required")
+                    .WithMessage("Name is required.")
                 .NotNull()
-                    .WithMessage("Name is required");
+                    .WithMessage("Name is required.");
 
             RuleFor(x => x.IdDepartment)
                 .NotEmpty()
-                    .WithMessage("Id Department is required")
+                    .WithMessage("Id Department is required.")
                 .NotNull()
-                    .WithMessage("Id Department is required");
+                    .WithMessage("Id Department is required.");
 
-            RuleFor(x => x.IdOccupation)
+            RuleFor(x => x.IdOccupation.ToString())
                 .NotEmpty()
-                    .WithMessage("Id Occupation is required")
+                    .WithMessage("Id Occupation is required.")
                 .NotNull()
-                    .WithMessage("Id Occupation is required");
+                    .WithMessage("Id Occupation is required.")
+                .Matches("[0-9]")
+                    .WithMessage("Only numbers.");
 
             RuleFor(x => x.Gender)
                 .NotEmpty()
-                    .WithMessage("Gender is required")
+                    .WithMessage("Gender is required.")
                 .NotNull()
-                    .WithMessage("Gender is required")
+                    .WithMessage("Gender is required.")
                 .Must(x => x.Equals('F') || x.Equals('M') || x.Equals('O'))
-                    .WithMessage("Options: Female 'F', Male 'M' or Other 'O'");
+                    .WithMessage("Options: Female 'F', Male 'M' or Other 'O'.");
 
             RuleFor(x => x.Active)
                 .NotEmpty()
-                    .WithMessage("Active is required");
+                    .WithMessage("Active is required.");
         }
     }
 }

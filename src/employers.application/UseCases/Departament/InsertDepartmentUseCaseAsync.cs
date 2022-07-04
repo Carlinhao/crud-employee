@@ -25,7 +25,7 @@ namespace employers.application.UseCases.Departament
         {
             var error = UtilValidators.ValidadorResult(new DepartmentRequestValidator(), departmentRequest);
 
-            if (error.Errors.Count() > 0)
+            if (error.Errors.Count > 0)
             {
                 foreach (var item in error.Errors.Select(x => x.ErrorMessage).ToArray().Distinct())
                 {

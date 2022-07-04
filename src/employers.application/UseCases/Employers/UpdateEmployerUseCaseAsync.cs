@@ -28,7 +28,7 @@ namespace employers.application.UseCases.Employers
 
             var employerValidator = UtilValidators.ValidadorResult(new EmployerEntityValidator(), entity);
 
-            if(employerValidator.Errors.Count() > 0)
+            if(employerValidator.Errors.Count > 0)
             {
                 foreach (var item in employerValidator.Errors.Select(x => x.ErrorMessage).ToArray().Distinct())
                 {
