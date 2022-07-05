@@ -49,7 +49,7 @@ namespace employer.application.tests.UseCases.Employer
             var result = await useCase.RunAsync(employerRequest);
 
             // Assert
-            _notificationMessages.Verify(x => x.AddNotification("InsertEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(6));
+            _notificationMessages.Verify(x => x.AddNotification("InsertEmployerUseCaseAsync", It.IsAny<string>(), HttpStatusCode.BadRequest), Times.Exactly(5));
 
         }
 
