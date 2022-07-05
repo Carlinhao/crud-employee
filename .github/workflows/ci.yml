@@ -1,0 +1,32 @@
+name: Build and Test
+
+on:
+  [push]
+  # pull_request:
+  #   branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore employer.solution.sln
+
+      - name: Build
+        run: dotnet build employer.solution.sln -c Release --no-restore
+
+      - name: Test Api
+        run: dotnet test test/employer.api.tests -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
+
+      - name: Test Applications
+        run: dotnet test test/employer.application.tests -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
