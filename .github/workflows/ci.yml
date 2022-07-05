@@ -20,10 +20,13 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore employer.solution.sln
 
       - name: Build
-        run: dotnet build -c Release --no-restore
+        run: dotnet build employer.solution.sln -c Release --no-restore
 
-      - name: Test
-        run: dotnet test -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
+      - name: Test Api
+        run: dotnet test test/employer.api.tests -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
+
+      - name: Test Applications
+        run: dotnet test test/employer.application.tests -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
