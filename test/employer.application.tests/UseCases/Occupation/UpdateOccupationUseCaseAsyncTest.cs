@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using employers.application.Notifications;
 using employers.application.UseCases.Occupation;
 using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
@@ -11,10 +12,12 @@ namespace employer.application.tests.UseCases.Occupation
     public class UpdateOccupationUseCaseAsyncTest
     {
         private readonly Mock<IUnitOfWork> _unitOfWork;
+        private readonly Mock<INotificationMessages> _notifications;
 
         public UpdateOccupationUseCaseAsyncTest()
         {
             _unitOfWork = new Mock<IUnitOfWork>();
+            _notifications = new Mock<INotificationMessages>();
         }
 
         [Fact(DisplayName = "Update Occupation")]
@@ -22,7 +25,7 @@ namespace employer.application.tests.UseCases.Occupation
         public async Task GetOccupationUseCaseAsync_RunAsync_MsutReturnAllOccupation()
         {
             // Arrange
-            var useCase = new UpdateOccupationUseCaseAsync(_unitOfWork.Object);
+            var useCase = new UpdateOccupationUseCaseAsync(_unitOfWork.Object, _notifications.Object);
             var response = GetResultResponse();
             var request = GetOccupationUpdateRequest();
 
