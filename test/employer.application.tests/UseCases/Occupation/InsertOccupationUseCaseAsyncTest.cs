@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using employers.application.Notifications;
 using employers.application.UseCases.Occupation;
 using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
@@ -11,10 +12,12 @@ namespace employer.application.tests.UseCases.Occupation
     public class InsertOccupationUseCaseAsyncTest
     {
         private readonly Mock<IUnitOfWork> _unitOfWork;
+        private readonly Mock<INotificationMessages> _notifications;
 
         public InsertOccupationUseCaseAsyncTest()
         {
             _unitOfWork = new Mock<IUnitOfWork>();
+            _notifications = new Mock<INotificationMessages>();
         }
 
         [Fact(DisplayName = "Insert an Occupation")]
@@ -24,7 +27,7 @@ namespace employer.application.tests.UseCases.Occupation
             // Arrange
             var request = GetOccupationRequest();
             var response = GetResultResponse();
-            var useCase = new InsertOccupationUseCaseAsync(_unitOfWork.Object);
+            var useCase = new InsertOccupationUseCaseAsync(_unitOfWork.Object, _notifications.Object);
             _unitOfWork.Setup(x => x.OccupationRepository.InsertAsync(request)).ReturnsAsync(response);
 
             // Act
