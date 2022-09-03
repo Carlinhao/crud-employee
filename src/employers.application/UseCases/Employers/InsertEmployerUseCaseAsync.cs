@@ -29,7 +29,7 @@ namespace employers.application.UseCases.Employers
 
             if (notification.Errors.Count > 0)
             {
-                foreach (var item in notification.Errors.Select(x => x.ErrorMessage).ToArray().Distinct())
+                foreach (var item in notification.Errors.Select(x => x.ErrorMessage).Distinct())
                 {
                     _notificationMessages.AddNotification("InsertEmployerUseCaseAsync", item, HttpStatusCode.BadRequest);
                 }
