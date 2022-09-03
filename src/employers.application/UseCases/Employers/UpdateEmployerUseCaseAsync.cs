@@ -30,7 +30,7 @@ namespace employers.application.UseCases.Employers
 
             if(employerValidator.Errors.Count > 0)
             {
-                foreach (var item in employerValidator.Errors.Select(x => x.ErrorMessage).ToArray().Distinct())
+                foreach (var item in employerValidator.Errors.Select(x => x.ErrorMessage).Distinct())
                 {
                     _notificationMessages.AddNotification("UpdateEmployerUseCaseAsync", item, HttpStatusCode.BadRequest);
                 }

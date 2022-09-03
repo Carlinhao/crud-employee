@@ -27,7 +27,7 @@ namespace employers.application.UseCases.Departament
 
             if (error.Errors.Count > 0)
             {
-                foreach (var item in error.Errors.Select(x => x.ErrorMessage).ToArray().Distinct())
+                foreach (var item in error.Errors.Select(x => x.ErrorMessage).Distinct())
                 {
                     _notificationMessages.AddNotification("InsertDepartmentUseCaseAsync", item, HttpStatusCode.BadRequest);
 

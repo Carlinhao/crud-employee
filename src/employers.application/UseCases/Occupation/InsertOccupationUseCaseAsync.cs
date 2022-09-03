@@ -27,7 +27,7 @@ namespace employers.application.UseCases.Occupation
 
             if (error.Errors.Count > 0 )
             {
-                foreach (var item in error.Errors.Select(x => x.ErrorMessage).ToArray().Distinct())
+                foreach (var item in error.Errors.Select(x => x.ErrorMessage).Distinct())
                 {
                     _notificationMessages.AddNotification("InsertOccupationUseCaseAsync", item, HttpStatusCode.BadRequest);
                 }

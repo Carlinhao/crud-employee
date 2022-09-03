@@ -28,7 +28,7 @@ namespace employers.application.UseCases.Occupation
 
             if (erros.Errors.Count > 0)
             {
-                foreach (var item in erros.Errors.Select(x => x.ErrorMessage).ToArray().Distinct())
+                foreach (var item in erros.Errors.Select(x => x.ErrorMessage).Distinct())
                 {
                     _notification.AddNotification("", item, HttpStatusCode.BadRequest);
                 }
