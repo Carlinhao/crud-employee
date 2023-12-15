@@ -1,4 +1,5 @@
-﻿using employers.application.Interfaces.Occupation;
+﻿using Asp.Versioning;
+using employers.application.Interfaces.Occupation;
 using employers.domain.Requests;
 using employers.domain.Responses;
 using Microsoft.AspNetCore.Authorization;

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Asp.Versioning;
 using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Notifications;

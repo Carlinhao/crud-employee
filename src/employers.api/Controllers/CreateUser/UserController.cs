@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Asp.Versioning;
 using employers.application.Interfaces.UserAuth;
 using employers.domain.Requests;
 using Microsoft.AspNetCore.Authorization;
