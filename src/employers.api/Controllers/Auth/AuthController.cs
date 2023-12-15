@@ -1,4 +1,5 @@
-﻿using employers.application.Interfaces.UserAuth;
+﻿using Asp.Versioning;
+using employers.application.Interfaces.UserAuth;
 using employers.domain.Responses;
 using employers.domain.UserAuth;
 using Microsoft.AspNetCore.Mvc;

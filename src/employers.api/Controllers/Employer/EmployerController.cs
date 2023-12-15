@@ -1,4 +1,5 @@
-﻿using employers.application.Interfaces.Empregado;
+﻿using Asp.Versioning;
+using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.ExportReport;
 using employers.application.Notifications;
 using employers.domain.Entities.Employee;
