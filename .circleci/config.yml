@@ -17,11 +17,11 @@ jobs:
                   command: dotnet build employer.solution.sln
             - run:
                   name: "Running Api Tests"
-                  command: dotnet test test/employer.api.tests\ -v n --results-directory:test_coverage --collect:"Code Coverage"
+                  command: dotnet test test/employer.api.tests\ --logger:"junit;LogFilePath=test-results/dotnet-sample-cfd/xunit.xml"
             - run:
                   name: "Running Application Tests"
-                  command: dotnet test test/employer.application.tests\ -v n --results-directory:test_coverage --collect:"Code Coverage"
+                  command: dotnet test test/employer.application.tests\ --logger:"junit;LogFilePath=test-results/dotnet-sample-cfd/xunit.xml"
             - store_artifacts:
-                  path: C:\Users\circleci\project\test_coverage
+                  path: ./project/test-results
             - store_test_results:
-                  path: C:\Users\circleci\project\test_result
+                  path: ./project/test-results
