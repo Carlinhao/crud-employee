@@ -22,6 +22,6 @@ jobs:
                   name: "Running Application Tests"
                   command: dotnet test test/employer.application.tests\ --logger:"junit;LogFilePath=test-results/dotnet-sample-cfd/xunit.xml"
             - store_artifacts:
-                  path: ./project/test-results
+                  path: ./test/employer.application.tests/test-results
             - store_test_results:
-                  path: ./project/test-results
+                  path: ./test/employer.application.tests/test-results
