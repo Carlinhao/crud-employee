@@ -20,9 +20,7 @@ jobs:
                   command: dotnet test test/employer.api.tests\ --logger:"junit;LogFilePath=test-results/dotnet-sample-cfd/xunit.xml"
             - run:
                   name: "Running Application Tests"
-                  command: |
-                  mkdir test-results
-                  dotnet test test/employer.application.tests\ --logger:"junit;LogFilePath=test-results/dotnet-sample-cfd/xunit.xml"
+                  command: dotnet test test/employer.application.tests\ --logger:"junit;LogFilePath=test-results/xunit.xml"
             - store_artifacts:
                   path: ./test/employer.application.tests/test-results
             - store_test_results:
