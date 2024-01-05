@@ -32,7 +32,7 @@ namespace employers.application.UseCases.UserAuth
             if (thereAreUser == 1)
                 throw new RegranegocioException("There is already a user with the same name.");
 
-            entity.Password = ComputeHash(request.Password, new SHA256CryptoServiceProvider());
+            entity.Password = ComputeHash(request.Password, new HMACMD5());
 
             var result = await _unitOfWork.UserRepository.InsertUser(entity);
             _unitOfWork.Transaction();
@@ -40,7 +40,7 @@ namespace employers.application.UseCases.UserAuth
             return result;
         }
 
-        public string ComputeHash(string input, SHA256CryptoServiceProvider algorithm)
+        public string ComputeHash(string input, HMACMD5 algorithm)
         {
             Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             Byte[] hashBytes = algorithm.ComputeHash(inputBytes);

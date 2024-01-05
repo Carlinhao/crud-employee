@@ -27,7 +27,7 @@ namespace employers.infrastructure.Repositories.UserAuth
 
         public async Task<UserEntity> ValidateCredentials(UserInfoRequest userInfoRequest)
         {
-            var password = ComputeHash(userInfoRequest.Password, new SHA256CryptoServiceProvider());
+            var password = ComputeHash(userInfoRequest.Password, new HMACMD5());
             var query = $" SELECT * FROM User_Auth WHERE NAME_USER = '{ userInfoRequest.UserName }' AND USER_PWD = '{ password }'";
             var result = await _connection.QueryFirstAsync<UserEntity>(query, null, _transaction);
 
@@ -64,7 +64,7 @@ namespace employers.infrastructure.Repositories.UserAuth
             return result;
         }
 
-        public string ComputeHash(string input, SHA256CryptoServiceProvider algorithm)
+        public string ComputeHash(string input, HMACMD5 algorithm)
         {
             Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             Byte[] hashBytes = algorithm.ComputeHash(inputBytes);
