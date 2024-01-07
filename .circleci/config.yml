@@ -3,6 +3,14 @@ version: 2.1
 orbs:
     win: circleci/windows@5
 
+workflows:
+  build-project:
+    jobs:
+      - build
+  run-unit-tests:
+    jobs:
+      - unit_tests
+
 jobs:
     build:
         executor: win/default
@@ -15,6 +23,13 @@ jobs:
             - run:
                   name: "Build projects"
                   command: dotnet build employer.solution.sln
+            
+    
+    unit_tests:
+        executor: win/default
+
+        steps:
+            - checkout
             - run:
                   name: "Running Api Tests"
                   command: dotnet test test/employer.api.tests
