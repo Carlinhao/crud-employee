@@ -7,9 +7,10 @@ workflows:
   build-project:
     jobs:
       - build
-  run-unit-tests:
-    jobs:
       - unit_tests
+#   run-unit-tests:
+#     jobs:
+#       - unit_tests
 
 jobs:
     build:
@@ -28,6 +29,7 @@ jobs:
     unit_tests:
         executor: win/default
 
+        parallelism: 4    
         steps:
             - checkout
             - run:
