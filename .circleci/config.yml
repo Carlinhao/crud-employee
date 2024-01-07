@@ -7,6 +7,7 @@ workflows:
   build-project:
     jobs:
       - build
+      - unit_tests
 
 jobs:
     build:
@@ -20,6 +21,13 @@ jobs:
             - run:
                   name: "Build projects"
                   command: dotnet build employer.solution.sln
+            
+    
+    unit_tests:
+        executor: win/default
+ 
+        steps:
+            - checkout
             - run:
                   name: "Running Api Tests"
                   command: dotnet test test/employer.api.tests
