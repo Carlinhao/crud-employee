@@ -8,9 +8,6 @@ workflows:
     jobs:
       - build
       - unit_tests
-#   run-unit-tests:
-#     jobs:
-#       - unit_tests
 
 jobs:
     build:
@@ -31,6 +28,12 @@ jobs:
  
         steps:
             - checkout
+            - run:
+                  name: "Restore projects"
+                  command: dotnet restore employer.solution.sln
+            - run:
+                  name: "Build projects"
+                  command: dotnet build employer.solution.sln
             - run:
                   name: "Running Api Tests"
                   command: dotnet test test/employer.api.tests
