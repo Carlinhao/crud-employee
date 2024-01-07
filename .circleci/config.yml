@@ -28,8 +28,7 @@ jobs:
     
     unit_tests:
         executor: win/default
-
-        parallelism: 4    
+ 
         steps:
             - checkout
             - run:
@@ -37,7 +36,7 @@ jobs:
                   command: dotnet test test/employer.api.tests
             - run:
                   name: "Running Application Tests"
-                  command: dotnet test test/employer.application.tests\ --logger:"junit;LogFilePath=test-results/xunit.xml"
+                  command: mkdir test-results && dotnet test test/employer.application.tests/ --logger:"junit;LogFilePath=test-results/xunit.xml"
             - store_artifacts:
                   path: ./test/employer.application.tests/test-results
             - store_test_results:
