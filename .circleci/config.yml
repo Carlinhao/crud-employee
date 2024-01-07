@@ -7,25 +7,11 @@ workflows:
   build-project:
     jobs:
       - build
-      - unit_tests
 
 jobs:
     build:
         executor: win/default
 
-        steps:
-            - checkout
-            - run:
-                  name: "Restore projects"
-                  command: dotnet restore employer.solution.sln
-            - run:
-                  name: "Build projects"
-                  command: dotnet build employer.solution.sln
-            
-    
-    unit_tests:
-        executor: win/default
- 
         steps:
             - checkout
             - run:
