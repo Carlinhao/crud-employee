@@ -25,6 +25,7 @@ jobs:
     
     unit_tests:
         executor: win/default 
+        parallelism: 4
         steps:
             - checkout
             - run:
