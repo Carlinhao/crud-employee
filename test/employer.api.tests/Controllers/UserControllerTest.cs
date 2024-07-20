@@ -25,7 +25,7 @@ namespace employer.api.tests.Controllers
 
             // Act
             var actionResult = await controller.InserUser(fakerRequest);
-            var result = actionResult as OkObjectResult;
+            var result = actionResult as CreatedResult;
 
             // Assert
             var resultInteger = result.Value.Should().BeAssignableTo<int>().Subject;

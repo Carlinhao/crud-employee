@@ -34,8 +34,8 @@ namespace employers.api.Controllers.CreateUser
         [ProducesResponseType(typeof(HttpResponse) ,StatusCodes.Status201Created)]
         public async Task<IActionResult> InserUser([FromBody] CreateUserRequest request)
         {
-            await _createUserUseCaseAsync.RunAsync(request);
-            return Created("",default);
+            var result = await _createUserUseCaseAsync.RunAsync(request);
+            return Created("", result);
         }
     }
 }
