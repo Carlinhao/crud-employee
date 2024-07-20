@@ -7,7 +7,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace employers.api.Middlewares.Erros
+namespace employers.api.Middlewares.Error
 {
     [ExcludeFromCodeCoverage]
     public class GlobalErrorHandler

@@ -31,10 +31,11 @@ namespace employers.api.Controllers.CreateUser
         /// <returns>Returns a number of user created</returns>
         /// <response code="200" ></response>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponse) ,StatusCodes.Status201Created)]
         public async Task<IActionResult> InserUser([FromBody] CreateUserRequest request)
         {
-            return Ok(await _createUserUseCaseAsync.RunAsync(request));
+            var result = await _createUserUseCaseAsync.RunAsync(request);
+            return Created("", result);
         }
     }
 }

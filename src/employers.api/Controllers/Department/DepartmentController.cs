@@ -37,8 +37,8 @@ namespace employers.api.Controllers
         /// <response code="200">Return all departmen</response>
         /// <response code="204">Return empty payload</response>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetAll([FromServices] IGetDepartamentUseCaseAsync getAsync)
         {
             _logger.LogInformation("Find all department");
@@ -59,9 +59,9 @@ namespace employers.api.Controllers
         /// <response code="400">Return when return an error.</response>
         /// <response code="404">Return when not found a department.</response>
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(
             [FromServices] IGetDepartamentByIdUseCaseAsync getAsync,
             int id)
@@ -87,8 +87,8 @@ namespace employers.api.Controllers
         /// <response code="201">Return number of department created</response>
         /// <response code="400">Return when return an error message.</response>    
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostAsync(
             [FromServices] IInsertDepartmentUseCaseAsync postAsync,
             [FromBody] DepartmentRequest departmentRequest)

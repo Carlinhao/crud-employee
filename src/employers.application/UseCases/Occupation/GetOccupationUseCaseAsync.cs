@@ -1,6 +1,5 @@
 ﻿using employers.application.Interfaces.Occupation;
 using employers.domain.Interfaces.Repositories;
-using employers.domain.Interfaces.Repositories.Occupation;
 using employers.domain.Responses;
 using System.Threading.Tasks;
 

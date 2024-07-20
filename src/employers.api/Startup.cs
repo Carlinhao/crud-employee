@@ -1,5 +1,4 @@
 using employers.infrastructure.SwaggerExtensions;
-using employers.api.Middlewares.Erros;
 using employers.api.ConfigExtensions;
 using employers.application.Mapper;
 using employers.infrastructure.Ioc;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
 using System.Diagnostics.CodeAnalysis;
+using employers.api.Middlewares.Error;
 
 namespace employers.api
 {

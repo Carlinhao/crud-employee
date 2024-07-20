@@ -1,20 +1,15 @@
 {
-  "stryker-config": {
-    "reporters": [
-      "progress",
-      "html"
-    ],
-    "log-level": "info",
-    "log-file": true,
-    "timeout-ms": 10000,
-    "project-file": "employers.api.csproj",
-    "max-concurrent-test-runners": 4,
-    "threshold-high": 80,
-    "threshold-low": 70,
-    "threshold-break": 60,
-    "mutation-level": "Standard",
-    "ignore-methods": [
-      "*Log*"
-    ]
-  }
+    "stryker-config": {
+        "reporters": [
+            "Json",
+            "Html"
+        ],
+        "additional-timeout": 10000,
+        "solution": "../../employer.solution.sln",
+        "project": "employers.api.csproj",
+        "mutation-level": "Complete",
+        "ignore-methods": [
+            "*Log*"
+        ]
+    }
 }

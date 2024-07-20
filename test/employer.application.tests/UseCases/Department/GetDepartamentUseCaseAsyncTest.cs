@@ -1,7 +1,6 @@
 ﻿using employers.application.UseCases.Departament;
 using employers.domain.Entities;
 using employers.domain.Interfaces.Repositories;
-using employers.domain.Interfaces.Repositories.Departament;
 using Moq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
