@@ -2,6 +2,7 @@
 using employers.application.Interfaces.UserAuth;
 using employers.domain.Responses;
 using employers.domain.UserAuth;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -24,6 +25,8 @@ namespace employers.api.Controllers.Auth
         /// <response code="200">Return 200 when success</response>
         /// <response code="400">Return 400 error</response>
         [HttpPost("login")]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponse),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login(
             [FromServices] IUserAuthUseCaseAsync userAuth,
             [FromBody] UserInfoRequest request)
@@ -48,6 +51,8 @@ namespace employers.api.Controllers.Auth
         /// <response code="200">Return 200 when success</response>
         /// <response code="400">Return 400 error</response>
         [HttpPost("refresh-token")]
+        [ProducesResponseType(typeof(HttpResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RefreshToken(
             [FromServices] IUserAuthRefreshTokenUseCaseAsync userAuth,
             [FromBody] TokenResponse request)
