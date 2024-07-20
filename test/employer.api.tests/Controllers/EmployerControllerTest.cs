@@ -31,7 +31,7 @@ namespace employer.api.tests.Controllers
         {
             // Arrange
             var employerController = new EmployerController(_logger.Object, _notificationMessages.Object);
-            Mock<IGetEmployerUseCaseAsync> useCase = new Mock<IGetEmployerUseCaseAsync>();
+            Mock<IGetEmployerUseCaseAsync> useCase = new ();
             var response = GetListEmployer();
             useCase.Setup(x => x.RunAsync()).ReturnsAsync(response);
             var result = await employerController.GetAll(useCase.Object);
@@ -56,7 +56,7 @@ namespace employer.api.tests.Controllers
         {
             // Arrante
             var employerController = GeEmployerContraller();
-            Mock<IGetEmployerByIdUseCaseAsync> _useCaseAsync = new Mock<IGetEmployerByIdUseCaseAsync>();
+            Mock<IGetEmployerByIdUseCaseAsync> _useCaseAsync = new ();
             var response = new EmployeeEntity() { Id = 1, IdDepartament = 12, Name = "TI" };
             _useCaseAsync.Setup(x => x.RunAsync(1)).ReturnsAsync(response);
             var result = await employerController.GetEmployerById(_useCaseAsync.Object, 1);
@@ -75,7 +75,7 @@ namespace employer.api.tests.Controllers
         {
             // Arrange
             var employerController = GeEmployerContraller();
-            Mock<IInsertEmployerUseCaseAsync> _useCaseAsync = new Mock<IInsertEmployerUseCaseAsync>();
+            Mock<IInsertEmployerUseCaseAsync> _useCaseAsync = new ();
             var request = new EmployerRequest() { IdDepartment = 1, Name = "Business" };
             _useCaseAsync.Setup(x => x.RunAsync(request)).ReturnsAsync(1);
             var result = await employerController.PostAsync(_useCaseAsync.Object, request);
@@ -93,7 +93,7 @@ namespace employer.api.tests.Controllers
         {
             // Arrange
             var employerController = GeEmployerContraller();
-            Mock<IDeleteEmployerUseCaseAsync> _useCaseAsync = new Mock<IDeleteEmployerUseCaseAsync>();
+            Mock<IDeleteEmployerUseCaseAsync> _useCaseAsync = new ();
             _useCaseAsync.Setup(x => x.RunAsync(11)).ReturnsAsync(1);
             var result = await employerController.DeleteAsync(_useCaseAsync.Object, 11);
 
@@ -110,7 +110,7 @@ namespace employer.api.tests.Controllers
         {
             // Arrange
             var employerController = GeEmployerContraller();
-            Mock<IUpdateEmployerUseCaseAsync> _useCaseAsync = new Mock<IUpdateEmployerUseCaseAsync>();
+            Mock<IUpdateEmployerUseCaseAsync> _useCaseAsync = new ();
             var request = new EmployeeEntity { Id = 1, IdDepartament = 12, Name = "TI" };
             var response = GetResponse();
             _useCaseAsync.Setup(r => r.RunAsync(request)).ReturnsAsync(response);
@@ -125,14 +125,14 @@ namespace employer.api.tests.Controllers
             employerEntity.Should().Be(response, "Update success");
         }
 
-        private IEnumerable<EmployeeEntity> GetListEmployer()
+        private static IEnumerable<EmployeeEntity> GetListEmployer()
         {
             return new List<EmployeeEntity>
             {
-              new EmployeeEntity {Id = 1, IdDepartament = 12, Name = "TI"},
-              new EmployeeEntity {Id = 2, IdDepartament = 2, Name = "Business"},
-              new EmployeeEntity {Id = 3, IdDepartament = 31, Name = "Management"},
-              new EmployeeEntity {Id = 4, IdDepartament = 6, Name = "Marketing"}
+              new () {Id = 1, IdDepartament = 12, Name = "TI"},
+              new () {Id = 2, IdDepartament = 2, Name = "Business"},
+              new () {Id = 3, IdDepartament = 31, Name = "Management"},
+              new () {Id = 4, IdDepartament = 6, Name = "Marketing"}
             };
         }
 
@@ -141,7 +141,7 @@ namespace employer.api.tests.Controllers
             return new EmployerController(_logger.Object, _notificationMessages.Object);
         }
 
-        private ResultResponse GetResponse()
+        private static ResultResponse GetResponse()
         {
             return new ResultResponse
             {

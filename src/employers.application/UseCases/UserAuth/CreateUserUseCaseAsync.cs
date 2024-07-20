@@ -40,7 +40,7 @@ namespace employers.application.UseCases.UserAuth
             return result;
         }
 
-        public string ComputeHash(string input, HMACMD5 algorithm)
+        public static string ComputeHash(string input, HMACMD5 algorithm)
         {
             Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             Byte[] hashBytes = algorithm.ComputeHash(inputBytes);

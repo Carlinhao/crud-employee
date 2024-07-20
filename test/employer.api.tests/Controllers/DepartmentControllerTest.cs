@@ -111,21 +111,21 @@ namespace employer.api.tests.Controllers
             return new DepartmentController(_logger.Object, _notificationMessages.Object);
         }
 
-        private IEnumerable<DepartmentEntity> GetDepartmentEntity()
+        private static IEnumerable<DepartmentEntity> GetDepartmentEntity()
         {
             return new List<DepartmentEntity>
             {
-                new DepartmentEntity
+                new ()
                 {
                     Id = 1,
                     Name = "Business"
                 },
-                new DepartmentEntity
+                new ()
                 {
                     Id = 2,
                     Name = "Sales"
                 },
-                new DepartmentEntity
+                new ()
                 {
                     Id = 3,
                     Name = "Management"
