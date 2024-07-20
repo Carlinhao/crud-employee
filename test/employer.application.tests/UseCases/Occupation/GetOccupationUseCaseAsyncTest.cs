@@ -30,10 +30,10 @@ namespace employer.application.tests.UseCases.Occupation
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result is ResultResponse);
+            Assert.IsType<ResultResponse>(result);
         }
 
-        private ResultResponse GetAllOccupation()
+        private static ResultResponse GetAllOccupation()
         {
             return new ResultResponse { Data = null, Message = "List occupation", Success = true };
         }
