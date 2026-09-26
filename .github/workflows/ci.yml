@@ -2,15 +2,30 @@ name: Build and Test
 
 on:
   push:
-    branches: [master]
+    branches: [ master, develop ]
   pull_request:
-    branches: [master]
+    types: [opened, synchronize, reopened]
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validar prefixo features/
+        run: |
+          BRANCH_ORIGEM="${{ github.head_ref }}"
+          echo "Branch de origem do PR: $BRANCH_ORIGEM"
+          
+          if [[ ! "$BRANCH_ORIGEM" =~ ^features/ ]]; then
+            echo "❌ ERRO: Pull Requests para as branches 'main' ou 'develop' precisam vir de uma branch que comece com 'features/'."
+            exit 1
+          fi
+
+          echo "✅ Sucesso: O nome da branch segue o padrão permitido."
+
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
