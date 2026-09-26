@@ -5,32 +5,22 @@ using employers.application.Notifications;
 using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories;
 
-namespace employers.application.UseCases.Employers
+namespace employers.application.UseCases.Employers;
+
+public class GetEmployerByIdUseCaseAsync(INotificationMessages notification,
+                                   IUnitOfWork unitOfWork) : IGetEmployerByIdUseCaseAsync
 {
-    public class GetEmployerByIdUseCaseAsync : IGetEmployerByIdUseCaseAsync
+    public async Task<EmployeeEntity> RunAsync(int id)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly INotificationMessages _notification;
-
-        public GetEmployerByIdUseCaseAsync(INotificationMessages notification,
-                                           IUnitOfWork unitOfWork)
+        if (id <= 0)
         {
-            _notification = notification;
-            _unitOfWork = unitOfWork;
+            notification.AddNotification("GetEmployerByIdUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest);
+
+            return new EmployeeEntity();
         }
 
-        public async Task<EmployeeEntity> RunAsync(int id)
-        {
-            if (id <= 0)
-            {
-                _notification.AddNotification("GetEmployerByIdUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest);
+        var result = await unitOfWork.EmployerRepository.GetById(id);
 
-                return new EmployeeEntity();
-            }
-
-            var result = await _unitOfWork.EmployerRepository.GetById(id);
-
-            return result;
-        }
+        return result;
     }
 }

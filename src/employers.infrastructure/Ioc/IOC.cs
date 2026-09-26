@@ -6,7 +6,6 @@ using employers.application.Interfaces.Departament;
 using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.ExportReport;
 using employers.application.Interfaces.Occupation;
-using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Interfaces.UserAuth;
 using employers.application.Notifications;
 using employers.application.UseCases.Departament;

@@ -4,22 +4,14 @@ using employers.application.Interfaces.Empregado;
 using employers.domain.Entities.Employee;
 using employers.domain.Interfaces.Repositories;
 
-namespace employers.application.UseCases.Employers
+namespace employers.application.UseCases.Employers;
+
+public class GetEmployerUseCaseAsync(IUnitOfWork unitOfWork) : IGetEmployerUseCaseAsync
 {
-    public class GetEmployerUseCaseAsync : IGetEmployerUseCaseAsync
+    public async Task<IEnumerable<EmployeeEntity>> RunAsync()
     {
-        private readonly IUnitOfWork _unitOfWork;
+        var result = await unitOfWork.EmployerRepository.GetAll();
 
-        public GetEmployerUseCaseAsync(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
-
-        public async Task<IEnumerable<EmployeeEntity>> RunAsync()
-        {
-            var result = await _unitOfWork.EmployerRepository.GetAll();
-
-            return result;
-        }
+        return result;
     }
 }

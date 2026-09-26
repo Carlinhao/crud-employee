@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace employers.application.Interfaces.Empregado
+namespace employers.application.Interfaces.Empregado;
+
+public interface IDeleteEmployerUseCaseAsync
 {
-    public interface IDeleteEmployerUseCaseAsync
-    {
-        Task<int?> RunAsync(int id);
-    }
+    Task<int?> RunAsync(int id);
 }

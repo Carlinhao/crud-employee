@@ -1,10 +1,9 @@
 ﻿using employers.domain.Requests;
 using System.Threading.Tasks;
 
-namespace employers.application.Interfaces.Departament
+namespace employers.application.Interfaces.Departament;
+
+public interface IInsertDepartmentUseCaseAsync
 {
-    public interface IInsertDepartmentUseCaseAsync
-    {
-        Task<int?> RunAsync(DepartmentRequest departmentRequest);
-    }
+    Task<int?> RunAsync(DepartmentRequest departmentRequest);
 }

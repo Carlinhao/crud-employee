@@ -1,10 +1,9 @@
 ﻿using employers.domain.Entities.Employee;
 using System.Threading.Tasks;
 
-namespace employers.application.Interfaces.Empregado
+namespace employers.application.Interfaces.Empregado;
+
+public interface IGetEmployerByIdUseCaseAsync
 {
-    public interface IGetEmployerByIdUseCaseAsync
-    {
-        Task<EmployeeEntity> RunAsync(int id);
-    }
+    Task<EmployeeEntity> RunAsync(int id);
 }

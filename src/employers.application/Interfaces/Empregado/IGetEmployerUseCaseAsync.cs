@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace employers.application.Interfaces.Empregado
+namespace employers.application.Interfaces.Empregado;
+
+public interface IGetEmployerUseCaseAsync
 {
-    public interface IGetEmployerUseCaseAsync
-    {
-        Task<IEnumerable<EmployeeEntity>> RunAsync();
-    }
+    Task<IEnumerable<EmployeeEntity>> RunAsync();
 }

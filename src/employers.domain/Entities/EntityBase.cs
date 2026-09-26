@@ -1,7 +1,6 @@
-﻿namespace employers.domain.Entities
+﻿namespace employers.domain.Entities;
+
+public abstract class EntityBase
 {
-    public abstract class EntityBase
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

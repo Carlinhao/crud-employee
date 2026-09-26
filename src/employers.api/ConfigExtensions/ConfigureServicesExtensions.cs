@@ -6,45 +6,44 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics.CodeAnalysis;
 
-namespace employers.api.ConfigExtensions
+namespace employers.api.ConfigExtensions;
+
+[ExcludeFromCodeCoverage]
+public static class ConfigureServicesExtensions
 {
-    [ExcludeFromCodeCoverage]
-    public static class ConfigureServicesExtensions
+    public static void GetServicesExtensions(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void GetServicesExtensions(this IServiceCollection services, IConfiguration configuration)
+        services.AddAuthentication(options =>
         {
-            services.AddAuthentication(options =>
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration.GetSection("TokenExtensions:Issuer").Value,
-                    ValidAudience = configuration.GetSection("TokenExtensions:Audience").Value,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("TokenExtensions:Secret").Value))
-                };
-            });
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = configuration.GetSection("TokenExtensions:Issuer").Value,
+                ValidAudience = configuration.GetSection("TokenExtensions:Audience").Value,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("TokenExtensions:Secret").Value))
+            };
+        });
 
-            services.AddAuthorization(auth =>
-            {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build());
-            });
+        services.AddAuthorization(auth =>
+        {
+            auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                .RequireAuthenticatedUser().Build());
+        });
 
-            services.AddCors(options => options.AddDefaultPolicy(builder =>
-            {
-                builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            }));
-        }
+        services.AddCors(options => options.AddDefaultPolicy(builder =>
+        {
+            builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        }));
     }
 }

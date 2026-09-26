@@ -7,40 +7,30 @@ using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
 using employers.domain.Validators;
 
-namespace employers.application.UseCases.Employers
+namespace employers.application.UseCases.Employers;
+
+public class InsertEmployerUseCaseAsync(INotificationMessages notificationMessages,
+                                  IUnitOfWork unitOfWork) : IInsertEmployerUseCaseAsync
 {
-    public class InsertEmployerUseCaseAsync : IInsertEmployerUseCaseAsync
+    public async Task<int?> RunAsync(EmployerRequest request)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly INotificationMessages _notificationMessages;
+        request.Gender = char.ToUpper(request.Gender);
 
-        public InsertEmployerUseCaseAsync(INotificationMessages notificationMessages,
-                                          IUnitOfWork unitOfWork)
+        var notification = UtilValidators.ValidadorResult(new EmployerRequestValidator(), request);
+
+        if (notification.Errors.Count > 0)
         {
-            _notificationMessages = notificationMessages;
-            _unitOfWork = unitOfWork;
-        }
-
-        public async Task<int?> RunAsync(EmployerRequest request)
-        {
-            request.Gender = char.ToUpper(request.Gender);
-
-            var notification = UtilValidators.ValidadorResult(new EmployerRequestValidator(), request);
-
-            if (notification.Errors.Count > 0)
+            foreach (var item in notification.Errors.Select(x => x.ErrorMessage).Distinct())
             {
-                foreach (var item in notification.Errors.Select(x => x.ErrorMessage).Distinct())
-                {
-                    _notificationMessages.AddNotification("InsertEmployerUseCaseAsync", item, HttpStatusCode.BadRequest);
-                }
-
-                return 0;
+                notificationMessages.AddNotification("InsertEmployerUseCaseAsync", item, HttpStatusCode.BadRequest);
             }
 
-            var result = await _unitOfWork.EmployerRepository.InsertAsync(request);
-            _unitOfWork.Transaction();
-
-            return result;
+            return 0;
         }
+
+        var result = await unitOfWork.EmployerRepository.InsertAsync(request);
+        unitOfWork.Transaction();
+
+        return result;
     }
 }

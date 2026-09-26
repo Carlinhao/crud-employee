@@ -1,8 +1,7 @@
 ﻿using employers.api.Controllers.Department;
 using employers.application.Interfaces.Departament;
-using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Notifications;
-using employers.domain.Entities;
+using employers.domain.Entities.Departament;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -113,8 +112,8 @@ public class DepartmentControllerTest
 
     private static IEnumerable<DepartmentEntity> GetDepartmentEntity()
     {
-        return new List<DepartmentEntity>
-        {
+        return
+        [
             new ()
             {
                 Id = 1,
@@ -130,6 +129,6 @@ public class DepartmentControllerTest
                 Id = 3,
                 Name = "Management"
             }
-        };
+        ];
     }
 }
