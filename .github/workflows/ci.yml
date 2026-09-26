@@ -2,7 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: 
+      - master
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
@@ -20,7 +22,7 @@ jobs:
           echo "Branch de origem do PR: $BRANCH_ORIGEM"
           
           if [[ ! "$BRANCH_ORIGEM" =~ ^feature/ ]]; then
-            echo "❌ ERRO: Pull Requests para as branches 'main' ou 'develop' precisam vir de uma branch que comece com 'features/'."
+            echo "❌ ERRO: Pull Requests para as branches 'main' ou 'develop' precisam vir de uma branch que comece com 'feature/'."
             exit 1
           fi
 
