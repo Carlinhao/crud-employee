@@ -3,46 +3,39 @@ using System;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
-namespace employers.infrastructure.DbConfiguration.Implementation
+namespace employers.infrastructure.DbConfiguration.Implementation;
+
+[ExcludeFromCodeCoverage]
+public class DapperWrapper(IDbConnection dbConnection) : IDapperWrapper
 {
-    [ExcludeFromCodeCoverage]
-    public class DapperWrapper : IDapperWrapper
+    private bool _disposed = false;
+
+    public IDbConnection GetConnection()
     {
-        private bool _disposed = false;
-        private readonly IDbConnection _dbConnection;
+        return dbConnection;
+    }
 
-        public DapperWrapper(IDbConnection dbConnection)
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
         {
-            _dbConnection = dbConnection;
+            return;
         }
 
-        public IDbConnection GetConnection()
+        if (disposing)
         {
-            return _dbConnection;
+            if (dbConnection.State != ConnectionState.Closed)
+                dbConnection.Close();
+
+            dbConnection.Dispose();
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                if (_dbConnection.State != ConnectionState.Closed)
-                    _dbConnection.Close();
-
-                _dbConnection.Dispose();
-            }
-
-            _disposed = true;
-        }
+        _disposed = true;
     }
 }
