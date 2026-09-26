@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Validar prefixo features/
+      - name: Validar prefixo feature/
         run: |
           BRANCH_ORIGEM="${{ github.head_ref }}"
           echo "Branch de origem do PR: $BRANCH_ORIGEM"
           
-          if [[ ! "$BRANCH_ORIGEM" =~ ^features/ ]]; then
+          if [[ ! "$BRANCH_ORIGEM" =~ ^feature/ ]]; then
             echo "❌ ERRO: Pull Requests para as branches 'main' ou 'develop' precisam vir de uma branch que comece com 'features/'."
             exit 1
           fi
