@@ -17,16 +17,18 @@ jobs:
 
     steps:
       - name: Validar prefixo feature/
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          BRANCH_ORIGEM: ${{ github.head_ref }}
         run: |
-          BRANCH_ORIGEM="${{ github.head_ref }}"
           echo "Branch de origem do PR: $BRANCH_ORIGEM"
-          
+
           if [[ ! "$BRANCH_ORIGEM" =~ ^feature/ ]]; then
-            echo "❌ ERRO: Pull Requests para as branches 'main' ou 'develop' precisam vir de uma branch que comece com 'feature/'."
+            echo "❌ ERRO: Pull Requests para as branches 'master' ou 'develop' precisam vir de uma branch que comece com 'feature/'."
             exit 1
           fi
 
-          echo "✅ Sucesso: O nome da branch segue o padrão permitido."
+    echo "✅ Sucesso: O nome da branch segue o padrão permitido."
 
       - uses: actions/checkout@v3
         with:
