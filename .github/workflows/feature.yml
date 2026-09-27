@@ -1,0 +1,79 @@
+name: Auto PR on Feature Branch Push
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 10.x
+
+      - name: Restore dependencies
+        run: dotnet restore employer.solution.sln
+
+      - name: Build
+        run: dotnet build employer.solution.sln -c Release --no-restore
+
+  tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 10.x
+
+      - name: Restore dependencies
+        run: dotnet restore employer.solution.sln
+
+      - name: Test Api
+        run: dotnet test test/employer.api.tests -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
+
+      - name: Test Applications
+        run: dotnet test test/employer.application.tests -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
+
+  create-pull-request:
+    name: Create Pull Request to develop
+    runs-on: ubuntu-latest
+
+    needs: tests
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: automated PR from ${{ github.ref_name }}"
+          title: "[AUTO] PR from ${{ github.ref_name }}"
+          body: |
+            # Automated Pull Request
+            
+            This PR was automatically created by the GitHub Actions workflow.
+            
+            **Source Branch:** `${{ github.ref_name }}`
+            **Target Branch:** `develop`
+            
+            Build and tests have passed successfully! ✅
+          branch: ${{ github.ref_name }}
+          base: develop
+          delete-branch: false
