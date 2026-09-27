@@ -1,10 +1,9 @@
-﻿using employers.domain.Entities;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using employers.domain.Entities.Departament;
 
-namespace employers.application.Interfaces.Departament
+namespace employers.application.Interfaces.Departament;
+
+public interface IGetDepartamentByIdUseCaseAsync
 {
-    public interface IGetDepartamentByIdUseCaseAsync
-    {
-        Task<DepartmentEntity> RunAsync(int id);
-    }
+    Task<DepartmentEntity> RunAsync(int id);
 }

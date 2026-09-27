@@ -2,12 +2,11 @@
 using employers.domain.UserAuth;
 using System.Threading.Tasks;
 
-namespace employers.domain.Interfaces.Repositories.UserAuth
+namespace employers.domain.Interfaces.Repositories.UserAuth;
+
+public interface IUserAuthRepository
 {
-    public interface IUserAuthRepository
-    {
-        Task<UserEntity> ValidateCredentials(UserInfoRequest userInfoRequest);
-        Task<UserEntity> ValidateCredentials(string userName);
-        Task RefresUserInfo(UserEntity request);
-    }
+    Task<UserEntity> ValidateCredentials(UserInfoRequest userInfoRequest);
+    Task<UserEntity> ValidateCredentials(string userName);
+    Task RefresUserInfo(UserEntity request);
 }

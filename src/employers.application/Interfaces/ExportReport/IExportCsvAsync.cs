@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace employers.application.Interfaces.ExportReport
+namespace employers.application.Interfaces.ExportReport;
+
+public interface IExportCsvAsync
 {
-    public interface IExportCsvAsync
-    {
-        Task<string> ExportCsv();
-    }
+    Task<string> ExportCsv();
 }

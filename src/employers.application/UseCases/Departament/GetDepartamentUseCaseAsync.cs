@@ -1,25 +1,17 @@
-﻿using employers.application.Interfaces.UseCases.Departament;
-using employers.domain.Entities;
+﻿using employers.application.Interfaces.Departament;
+using employers.domain.Entities.Departament;
 using employers.domain.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace employers.application.UseCases.Departament
+namespace employers.application.UseCases.Departament;
+
+public class GetDepartamentUseCaseAsync(IUnitOfWork unitOfWork) : IGetDepartamentUseCaseAsync
 {
-    public class GetDepartamentUseCaseAsync : IGetDepartamentUseCaseAsync
+    public async Task<IEnumerable<DepartmentEntity>> RunAsync()
     {
-        private readonly IUnitOfWork _unitOfWork;
+        var result = await unitOfWork.DepartmentRepository.GetAll();
 
-        public GetDepartamentUseCaseAsync(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
-
-        public async Task<IEnumerable<DepartmentEntity>> RunAsync()
-        {
-            var result = await _unitOfWork.DepartmentRepository.GetAll();
-
-            return result;
-        }
+        return result;
     }
 }

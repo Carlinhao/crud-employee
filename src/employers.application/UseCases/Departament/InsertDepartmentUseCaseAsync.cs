@@ -7,39 +7,29 @@ using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
 using employers.domain.Validators;
 
-namespace employers.application.UseCases.Departament
+namespace employers.application.UseCases.Departament;
+
+public class InsertDepartmentUseCaseAsync(INotificationMessages notificationMessages,
+                                    IUnitOfWork unitOfWork) : IInsertDepartmentUseCaseAsync
 {
-    public class InsertDepartmentUseCaseAsync : IInsertDepartmentUseCaseAsync
+    public async Task<int?> RunAsync(DepartmentRequest departmentRequest)
     {
-        private readonly INotificationMessages _notificationMessages;
-        private readonly IUnitOfWork _unitOfWork;
+        var error = UtilValidators.ValidadorResult(new DepartmentRequestValidator(), departmentRequest);
 
-        public InsertDepartmentUseCaseAsync(INotificationMessages notificationMessages,
-                                            IUnitOfWork unitOfWork)
+        if (error.Errors.Count > 0)
         {
-            _notificationMessages = notificationMessages;
-            _unitOfWork = unitOfWork;
-        }
-
-        public async Task<int?> RunAsync(DepartmentRequest departmentRequest)
-        {
-            var error = UtilValidators.ValidadorResult(new DepartmentRequestValidator(), departmentRequest);
-
-            if (error.Errors.Count > 0)
+            foreach (var item in error.Errors.Select(x => x.ErrorMessage).Distinct())
             {
-                foreach (var item in error.Errors.Select(x => x.ErrorMessage).Distinct())
-                {
-                    _notificationMessages.AddNotification("InsertDepartmentUseCaseAsync", item, HttpStatusCode.BadRequest);
+                notificationMessages.AddNotification("InsertDepartmentUseCaseAsync", item, HttpStatusCode.BadRequest);
 
-                }
-
-                return 0;
             }
 
-            var result = await _unitOfWork.DepartmentRepository.InsertAsync(departmentRequest);
-            _unitOfWork.Transaction();
-
-            return result;
+            return 0;
         }
+
+        var result = await unitOfWork.DepartmentRepository.InsertAsync(departmentRequest);
+        unitOfWork.Transaction();
+
+        return result;
     }
 }

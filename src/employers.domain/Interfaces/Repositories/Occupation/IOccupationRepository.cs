@@ -2,12 +2,11 @@
 using employers.domain.Responses;
 using System.Threading.Tasks;
 
-namespace employers.domain.Interfaces.Repositories.Occupation
+namespace employers.domain.Interfaces.Repositories.Occupation;
+
+public interface IOccupationRepository
 {
-    public interface IOccupationRepository
-    {
-        Task<ResultResponse> GetAllAsync();
-        Task<ResultResponse> UpdateAsync(OccupationUpdateRequest request); 
-        Task<ResultResponse> InsertAsync(OccupationRequest request);
-    }
+    Task<ResultResponse> GetAllAsync();
+    Task<ResultResponse> UpdateAsync(OccupationUpdateRequest request); 
+    Task<ResultResponse> InsertAsync(OccupationRequest request);
 }

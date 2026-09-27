@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Data;
 
-namespace employers.infrastructure.DbConfiguration.Interfaces
+namespace employers.infrastructure.DbConfiguration.Interfaces;
+
+public interface IDapperWrapper : IDisposable
 {
-    public interface IDapperWrapper : IDisposable
-    {
-        IDbConnection GetConnection();
-    }
+    IDbConnection GetConnection();
 }

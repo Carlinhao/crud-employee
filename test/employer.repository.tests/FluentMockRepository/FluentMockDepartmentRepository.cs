@@ -1,4 +1,4 @@
-﻿using employers.domain.Entities;
+﻿using employers.domain.Entities.Departament;
 using employers.domain.Interfaces.Repositories.Departament;
 using employers.domain.Requests;
 using Moq;

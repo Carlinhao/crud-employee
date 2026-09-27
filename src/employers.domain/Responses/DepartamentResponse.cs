@@ -1,12 +1,11 @@
-﻿using employers.domain.Entities;
+﻿using employers.domain.Entities.Departament;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace employers.domain.Responses
+namespace employers.domain.Responses;
+
+public class DepartamentResponse
 {
-    public class DepartamentResponse
-    {
-        [JsonPropertyName("departments")]
-        public List<DepartmentEntity> Departaments { get; set; }
-    }
+    [JsonPropertyName("departments")]
+    public List<DepartmentEntity> Departaments { get; set; }
 }
