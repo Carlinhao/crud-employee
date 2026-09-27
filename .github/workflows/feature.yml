@@ -52,20 +52,11 @@ jobs:
           fetch-depth: 0
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: automated PR from ${{ github.ref_name }}"
-          title: "[AUTO] PR from ${{ github.ref_name }}"
-          body: |
-            # Automated Pull Request
-            
-            This PR was automatically created by the GitHub Actions workflow.
-            
-            **Source Branch:** `${{ github.ref_name }}`
-            **Target Branch:** `develop`
-            
-            Build and tests have passed successfully! ✅
-          branch: ${{ github.ref_name }}
-          base: develop
-          delete-branch: false
+        run: |
+          gh pr create \
+            --title "PR: $(git rev-parse --abbrev-ref HEAD)" \
+            --body "Automatic PR from feature branch" \
+            --base develop \
+            --head $(git rev-parse --abbrev-ref HEAD)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
