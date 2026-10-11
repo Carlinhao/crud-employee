@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using employers.application.Interfaces.Empregado;
 using employers.application.Interfaces.ExportReport;
 using employers.application.Notifications;
+using employers.domain.Entities;
 using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using employers.domain.Responses;
@@ -30,16 +32,18 @@ public class EmployerController(ILogger<EmployerController> logger,
     /// Return all employers or empty.
     /// </summary>
     /// <param name="getAsync"></param>
+    /// <param name="pagination"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns>return all employers</returns>
     /// <response code="200">Return all employers</response>
     /// <response code="204">Return empty payload</response>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<EmployeeEntity>),StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> GetAll([FromServices] IGetEmployerUseCaseAsync getAsync)
+    public async Task<IActionResult> GetAll([FromServices] IGetEmployerUseCaseAsync getAsync, [FromQuery] Pagination pagination, CancellationToken cancellationToken)
     {
         logger.LogDebug("Search all employer");
-        var result = await getAsync.RunAsync();
+        var result = await getAsync.RunAsync(pagination, cancellationToken);
 
         if (result == null)
             return NoContent();
