@@ -1,10 +1,12 @@
-﻿using employers.domain.Entities.Employee;
+﻿using employers.domain.Entities;
+using employers.domain.Entities.Employee;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace employers.application.Interfaces.Empregado;
 
 public interface IGetEmployerUseCaseAsync
 {
-    Task<IEnumerable<EmployeeEntity>> RunAsync();
+    Task<EmployeeResponse> RunAsync(Pagination pagination, CancellationToken cancellationToken);
 }

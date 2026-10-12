@@ -7,7 +7,6 @@ using Dapper;
 using employers.domain.Entities.UserAuth;
 using employers.domain.Interfaces.Repositories.UserAuth;
 using employers.domain.UserAuth;
-using static Dapper.SqlMapper;
 
 namespace employers.infrastructure.Repositories.UserAuth;
 
