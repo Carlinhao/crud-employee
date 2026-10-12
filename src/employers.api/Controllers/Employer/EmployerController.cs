@@ -11,7 +11,6 @@ using employers.domain.Entities;
 using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using employers.domain.Responses;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,7 +20,7 @@ namespace employers.api.Controllers.Employer;
 /// <summary>
 /// Controller responsable by employers.
 /// </summary>
-[Authorize]
+//[Authorize]
 [ApiVersion("1")]
 [Route("api/v{version:apiVersion}/employer")]
 [ApiController]
@@ -155,17 +154,19 @@ public class EmployerController(ILogger<EmployerController> logger,
     /// <summary>
     /// Export all register in file csv
     /// </summary>
+    /// <param name="pagination"></param>
+    /// <param name="cancellationToken"></param>
     /// <param name="exportCsvAsync"></param>
     /// <returns>Retunr file csv</returns>
     [HttpGet]
     [Route("csv")]
     [ProducesResponseType(typeof(FileResult),StatusCodes.Status200OK)]
-    public async Task<FileResult> ExportEmployerCsv(
+    public async Task<FileResult> ExportEmployerCsv([FromQuery] Pagination pagination, CancellationToken cancellationToken,
         [FromServices] IExportCsvAsync exportCsvAsync)
     {
         logger.LogDebug("Update employer");
         var createDate = DateTime.UtcNow;
-        var exportData = await exportCsvAsync.ExportCsv();
+        var exportData = await exportCsvAsync.ExportCsv(pagination, cancellationToken);
 
         return File(Encoding.UTF8.GetBytes(exportData), "application/CSV", $"{createDate}_employer.csv");
     }

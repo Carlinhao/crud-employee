@@ -10,10 +10,6 @@ namespace employers.application.UseCases.Employers;
 
 public class GetEmployerUseCaseAsync(IUnitOfWork unitOfWork) : IGetEmployerUseCaseAsync
 {
-    public async Task<IEnumerable<EmployeeEntity>> RunAsync(Pagination pagination, CancellationToken cancellationToken)
-    {
-        var result = await unitOfWork.EmployerRepository.GetAll(pagination, cancellationToken);
-
-        return result;
-    }
+    public async Task<EmployeeResponse> RunAsync(Pagination pagination, CancellationToken cancellationToken)
+        =>  await unitOfWork.EmployerRepository.GetAll(pagination, cancellationToken);
 }

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,40 +17,65 @@ public class EmployerRepository(IDbConnection connection,
 {
     private readonly StringBuilder _stringBuilder = new ();
 
-    // TODO Add Pagination
-    public async Task<IEnumerable<EmployeeEntity>> GetAll(Pagination pagination, CancellationToken cancellationToken)
+    public async Task<EmployeeResponse> GetAll(Pagination pagination, CancellationToken cancellationToken)
     {
-        const string query = @"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, ACTIVE, ID_OCCUPATION, GENDER FROM Employee WITH (NOLOCK)";
 
-        var result = await connection.QueryAsync<EmployeeEntity>(query, null, dbTransaction);
+        string  query = """
+                             SELECT COUNT(*) [TotalRows] FROM Employee WITH (NOLOCK);
+                             SELECT
+                                 ID_EMPLOYEE,
+                                 NOM_EMPLOYEE,
+                                 ID_DEPARTMENT,
+                                 ACTIVE,
+                                 ID_OCCUPATION,
+                                 GENDER
+                             FROM Employee
+                             """;
 
-        return [.. result];
+        var parameters = new
+            { Offset = (pagination.PageNumber - 1) * pagination.PageSize, Limit = pagination.PageSize };
+
+        if (pagination.PageNumber > 0 || pagination.PageSize > 0)
+        {
+            query = string.Concat(query, " ORDER BY ID_EMPLOYEE OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY;");
+        }
+
+        await using var multi = await connection.QueryMultipleAsync(query, parameters, dbTransaction);
+
+        pagination.TotalCount = await multi.ReadFirstOrDefaultAsync<int>();
+        var employees = await multi.ReadAsync<EmployeeEntity>();
+
+        pagination.TotalPages = (int)Math.Ceiling((double)pagination.TotalCount / pagination.PageSize);
+        return new EmployeeResponse
+        {
+            Pagination = pagination,
+            Employees = employees
+        };
     }
 
     public async Task<EmployeeEntity> GetById(object id)
     {
-        string query = $"SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, GENDER, ID_OCCUPATION, ACTIVE FROM Employee WITH (NOLOCK) WHERE ID_EMPLOYEE = { id }";
+        const string query = "SELECT ID_EMPLOYEE, NOM_EMPLOYEE, ID_DEPARTMENT, GENDER, ID_OCCUPATION, ACTIVE FROM Employee WITH (NOLOCK) WHERE ID_EMPLOYEE =  @Id ";
+        var parameters = new { Id = id };
+        var result = await connection. QueryFirstAsync<EmployeeEntity>(query, parameters, dbTransaction);
 
-        var result = await connection.QueryAsync<EmployeeEntity>(query, null, dbTransaction);
-
-        return result.FirstOrDefault();
+        return result;
     }
 
-    public async Task<int?> InsertAsync(EmployerRequest request)
+    public async Task<int?> InsertAsync(EmployerRequest employerRequest)
     {
-        string query = $"INSERT INTO Employee (NOM_EMPLOYEE, ID_DEPARTMENT, ID_OCCUPATION, GENDER, ACTIVE) VALUES('{ request.Name }',{ request.IdDepartment }, { request.IdOccupation }, '{ request.Gender }', '{ request.Active }')";
+        const string query = "INSERT INTO Employee (NOM_EMPLOYEE, ID_DEPARTMENT, ID_OCCUPATION, GENDER, ACTIVE) VALUES(@Name,@IdDepartment, @IdOccupation, @Gender, @Active)";
 
-        var result = await connection.QueryAsync(query, null, dbTransaction);
+        var parameters = new { Name = employerRequest.Name, IdDepartment = employerRequest.IdDepartment, IdOccupation = employerRequest.IdOccupation, Gender = employerRequest.Gender, Active = employerRequest.Active};
 
-        return result.FirstOrDefault();
+        return await connection.ExecuteAsync(query, parameters, dbTransaction);
     }
 
     public async Task<int?> DeleteAsync(int id)
     {
-        string query = $"DELETE FROM Employee WHERE ID_EMPLOYEE = { id }";
-        var result = await connection.ExecuteAsync(query, null, dbTransaction);
-
-        return result;
+        const string query = "DELETE FROM Employee WHERE ID_EMPLOYEE = @Id";
+        var parameters = new { Id = id };
+        return await connection.ExecuteAsync(query, parameters, dbTransaction);
     }
 
     public async Task<ResultResponse> UpdateAsync(EmployeeEntity entity)
@@ -62,7 +86,6 @@ public class EmployerRepository(IDbConnection connection,
         _stringBuilder.Append($"GENDER = '{entity.Gender}', ");
         _stringBuilder.Append($"ACTIVE = '{entity.Active}' ");
         _stringBuilder.Append($"WHERE ID_EMPLOYEE ={entity.Id}");
-
 
         await connection.QueryAsync(_stringBuilder.ToString(), null, dbTransaction);
 

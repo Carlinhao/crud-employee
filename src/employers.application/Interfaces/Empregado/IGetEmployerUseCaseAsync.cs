@@ -8,5 +8,5 @@ namespace employers.application.Interfaces.Empregado;
 
 public interface IGetEmployerUseCaseAsync
 {
-    Task<IEnumerable<EmployeeEntity>> RunAsync(Pagination pagination, CancellationToken cancellationToken);
+    Task<EmployeeResponse> RunAsync(Pagination pagination, CancellationToken cancellationToken);
 }

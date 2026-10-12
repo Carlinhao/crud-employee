@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Text.Json.Serialization;
+using FluentValidation;
 
 namespace employers.domain.Entities.Employee;
 
@@ -9,6 +10,9 @@ public class EmployeeEntity : EntityBase
     public int IdOccupation { get; set; }
     public char Gender { get; set; }
     public bool Active { get; set; }
+
+    [JsonIgnore]
+    public int TotalRows { get; set; }
 }
 
 public class EmployerEntityValidator : AbstractValidator<EmployeeEntity>

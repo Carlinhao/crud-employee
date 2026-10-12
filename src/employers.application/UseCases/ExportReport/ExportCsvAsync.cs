@@ -1,20 +1,22 @@
 ﻿using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using employers.application.Interfaces.ExportReport;
+using employers.domain.Entities;
 using employers.domain.Interfaces.Repositories;
 
 namespace employers.application.UseCases.ExportReport;
 
 public class ExportCsvAsync(IUnitOfWork unitOfWork) : IExportCsvAsync
 {
-    public async Task<string> ExportCsv()
+    public async Task<string> ExportCsv(Pagination pagination, CancellationToken cancellationToken)
     {
-        var request = await unitOfWork.EmployerRepository.GetAll();
+        var request = await unitOfWork.EmployerRepository.GetAll(pagination, cancellationToken);
 
         var sb = new StringBuilder();
         sb.AppendFormat("Id, Name, Gender, Id Departament, Id Occupation, Active");
         sb.AppendLine();
-        foreach (var item in request)
+        foreach (var item in request.Employees)
         {
             sb.AppendFormat("{0},{1},{2},{3},{4},{5}",
                  item.Id,

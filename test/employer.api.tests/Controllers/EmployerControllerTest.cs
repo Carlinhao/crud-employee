@@ -1,6 +1,7 @@
 ﻿using employers.api.Controllers.Employer;
 using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
+using employers.domain.Entities;
 using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using employers.domain.Responses;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -33,17 +35,17 @@ public class EmployerControllerTest
         var employerController = new EmployerController(_logger.Object, _notificationMessages.Object);
         Mock<IGetEmployerUseCaseAsync> useCase = new ();
         var response = GetListEmployer();
-        useCase.Setup(x => x.RunAsync()).ReturnsAsync(response);
-        var result = await employerController.GetAll(useCase.Object);
+        useCase.Setup(x => x.RunAsync(It.IsAny<Pagination>(), CancellationToken.None)).ReturnsAsync(response);
+        var result = await employerController.GetAll(useCase.Object, It.IsAny<Pagination>(), CancellationToken.None);
 
         // Act
         var objectResult = result.Should().BeOfType<OkObjectResult>().Subject;
-        var objectResponse = objectResult.Value.Should().BeAssignableTo<IEnumerable<EmployeeEntity>>().Subject;
+        var objectResponse = objectResult.Value.Should().BeAssignableTo<EmployeeResponse>().Subject;
 
         // Assert
         Assert.NotNull(objectResponse);
-        Assert.Collection(objectResponse,
-            item => Assert.Equal("TI", item.Name),
+        Assert.Collection(objectResponse.Employees,
+            item => Assert.Equal("IT", item.Name),
             item => Assert.Equal("Business", item.Name),
             item => Assert.Equal("Management", item.Name),
             item => Assert.Equal("Marketing", item.Name));
@@ -125,16 +127,24 @@ public class EmployerControllerTest
         employerEntity.Should().Be(response, "Update success");
     }
 
-    private static IEnumerable<EmployeeEntity> GetListEmployer()
-    {
-        return new List<EmployeeEntity>
+    private static EmployeeResponse GetListEmployer()
+        => new EmployeeResponse()
         {
-          new () {Id = 1, IdDepartament = 12, Name = "TI"},
-          new () {Id = 2, IdDepartament = 2, Name = "Business"},
-          new () {Id = 3, IdDepartament = 31, Name = "Management"},
-          new () {Id = 4, IdDepartament = 6, Name = "Marketing"}
+            Employees = new List<EmployeeEntity>
+            {
+                new() { Id = 1, IdDepartament = 12, Name = "IT" },
+                new() { Id = 2, IdDepartament = 2, Name = "Business" },
+                new() { Id = 3, IdDepartament = 31, Name = "Management" },
+                new() { Id = 4, IdDepartament = 6, Name = "Marketing" }
+            },
+            Pagination = new Pagination()
+            {
+                TotalCount = 49,
+                TotalPages = 5,
+                PageNumber = 1,
+                PageSize = 5
+            }
         };
-    }
 
     private EmployerController GeEmployerContraller()
     {
