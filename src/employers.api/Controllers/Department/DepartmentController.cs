@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using Asp.Versioning;
 using employers.application.Interfaces.Departament;
-using employers.application.Interfaces.UseCases.Departament;
 using employers.application.Notifications;
-using employers.domain.Entities;
+using employers.domain.Entities.Departament;
 using employers.domain.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

@@ -2,22 +2,21 @@
 using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace employers.api.ConfigExtensions
+namespace employers.api.ConfigExtensions;
+
+[ExcludeFromCodeCoverage]
+public static class ConfigApiVersioningExtentions
 {
-    [ExcludeFromCodeCoverage]
-    public static class ConfigApiVersioningExtentions
+    public static void GetApiVersioningExtentions(this IServiceCollection services)
     {
-        public static void GetApiVersioningExtentions(this IServiceCollection services)
+        services.AddApiVersioning(options =>
         {
-            services.AddApiVersioning(options =>
-            {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.ReportApiVersions = true;
-            }).AddApiExplorer(options => {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-        }
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.ReportApiVersions = true;
+        }).AddApiExplorer(options => {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
+        });
     }
 }

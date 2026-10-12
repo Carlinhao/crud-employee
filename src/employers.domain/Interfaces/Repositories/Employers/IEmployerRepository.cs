@@ -1,17 +1,17 @@
-﻿using employers.domain.Entities.Employee;
+﻿using employers.domain.Entities;
+using employers.domain.Entities.Employee;
 using employers.domain.Requests;
 using employers.domain.Responses;
-using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace employers.domain.Interfaces.Repositories.Employers
+namespace employers.domain.Interfaces.Repositories.Employers;
+
+public interface IEmployerRepository
 {
-    public interface IEmployerRepository
-    {
-        Task<EmployeeEntity> GetById(object id);
-        Task<IEnumerable<EmployeeEntity>> GetAll();
-        Task<int?> InsertAsync(EmployerRequest employerRequest);
-        Task<int?> DeleteAsync(int id);
-        Task<ResultResponse> UpdateAsync(EmployeeEntity entity);
-    }
+    Task<EmployeeEntity> GetById(object id);
+    Task<EmployeeResponse> GetAll(Pagination pagination, CancellationToken cancellationToken);
+    Task<int?> InsertAsync(EmployerRequest employerRequest);
+    Task<int?> DeleteAsync(int id);
+    Task<ResultResponse> UpdateAsync(EmployeeEntity entity);
 }

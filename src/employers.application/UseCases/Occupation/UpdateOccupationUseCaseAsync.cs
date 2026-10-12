@@ -8,38 +8,28 @@ using employers.domain.Validators;
 using System.Linq;
 using System.Net;
 
-namespace employers.application.UseCases.Occupation
+namespace employers.application.UseCases.Occupation;
+
+public class UpdateOccupationUseCaseAsync(IUnitOfWork unitOfWork,
+                                    INotificationMessages notification) : IUpdateOccupationUseCaseAsync
 {
-    public class UpdateOccupationUseCaseAsync : IUpdateOccupationUseCaseAsync
+    public async Task<ResultResponse> RunAsync(OccupationUpdateRequest request)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly INotificationMessages _notification;
+        var erros = UtilValidators.ValidadorResult(new OccupationUpdateRequestValidator(), request);
 
-        public UpdateOccupationUseCaseAsync(IUnitOfWork unitOfWork,
-                                            INotificationMessages notification)
+        if (erros.Errors.Count > 0)
         {
-            _unitOfWork = unitOfWork;
-            _notification = notification;
-        }
-
-        public async Task<ResultResponse> RunAsync(OccupationUpdateRequest request)
-        {
-            var erros = UtilValidators.ValidadorResult(new OccupationUpdateRequestValidator(), request);
-
-            if (erros.Errors.Count > 0)
+            foreach (var item in erros.Errors.Select(x => x.ErrorMessage).Distinct())
             {
-                foreach (var item in erros.Errors.Select(x => x.ErrorMessage).Distinct())
-                {
-                    _notification.AddNotification("", item, HttpStatusCode.BadRequest);
-                }
-
-                return null;
+                notification.AddNotification("", item, HttpStatusCode.BadRequest);
             }
 
-            var result = await _unitOfWork.OccupationRepository.UpdateAsync(request);
-            _unitOfWork.Transaction();
-
-            return result;
+            return null;
         }
+
+        var result = await unitOfWork.OccupationRepository.UpdateAsync(request);
+        unitOfWork.Transaction();
+
+        return result;
     }
 }

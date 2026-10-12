@@ -4,30 +4,21 @@ using employers.application.Interfaces.Empregado;
 using employers.application.Notifications;
 using employers.domain.Interfaces.Repositories;
 
-namespace employers.application.UseCases.Employers
+namespace employers.application.UseCases.Employers;
+
+public class DeleteEmployerUseCaseAsync(IUnitOfWork unitOfWork,
+    INotificationMessages notification) : IDeleteEmployerUseCaseAsync
 {
-    public class DeleteEmployerUseCaseAsync : IDeleteEmployerUseCaseAsync
+    public async Task<int?> RunAsync(int id)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly INotificationMessages _notification;
-        public DeleteEmployerUseCaseAsync(IUnitOfWork unitOfWork,
-            INotificationMessages notification)
+        if (id <= 0)
         {
-            _unitOfWork = unitOfWork;
-            _notification = notification;
+            notification.AddNotification("DeleteEmployerUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest);
+            return 0;
         }
 
-        public async Task<int?> RunAsync(int id)
-        {
-            if (id <= 0)
-            {
-                _notification.AddNotification("DeleteEmployerUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest);
-                return 0;
-            }
-
-            var result = await _unitOfWork.EmployerRepository.DeleteAsync(id);
-            _unitOfWork.Transaction();
-            return result;
-        }
+        var result = await unitOfWork.EmployerRepository.DeleteAsync(id);
+        unitOfWork.Transaction();
+        return result;
     }
 }

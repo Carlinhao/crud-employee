@@ -1,38 +1,32 @@
 ﻿using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using employers.application.Interfaces.ExportReport;
+using employers.domain.Entities;
 using employers.domain.Interfaces.Repositories;
 
-namespace employers.application.UseCases.ExportReport
+namespace employers.application.UseCases.ExportReport;
+
+public class ExportCsvAsync(IUnitOfWork unitOfWork) : IExportCsvAsync
 {
-    public class ExportCsvAsync : IExportCsvAsync
+    public async Task<string> ExportCsv(Pagination pagination, CancellationToken cancellationToken)
     {
-        private readonly IUnitOfWork _unitOfWork;
+        var request = await unitOfWork.EmployerRepository.GetAll(pagination, cancellationToken);
 
-        public ExportCsvAsync(IUnitOfWork unitOfWork)
+        var sb = new StringBuilder();
+        sb.AppendFormat("Id, Name, Gender, Id Departament, Id Occupation, Active");
+        sb.AppendLine();
+        foreach (var item in request.Employees)
         {
-            _unitOfWork = unitOfWork;
-        }
-
-        public async Task<string> ExportCsv()
-        {
-            var request = await _unitOfWork.EmployerRepository.GetAll();
-
-            var sb = new StringBuilder();
-            sb.AppendFormat("Id, Name, Gender, Id Departament, Id Occupation, Active");
+            sb.AppendFormat("{0},{1},{2},{3},{4},{5}",
+                 item.Id,
+                 item.Name,
+                 item.Gender,
+                 item.IdDepartament,
+                 item.IdOccupation,
+                 item.Active);
             sb.AppendLine();
-            foreach (var item in request)
-            {
-                sb.AppendFormat("{0},{1},{2},{3},{4},{5}",
-                     item.Id,
-                     item.Name,
-                     item.Gender,
-                     item.IdDepartament,
-                     item.IdOccupation,
-                     item.Active);
-                sb.AppendLine();
-            }
-            return await Task.FromResult(sb.ToString());
         }
+        return await Task.FromResult(sb.ToString());
     }
 }

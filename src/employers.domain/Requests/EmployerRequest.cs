@@ -1,61 +1,60 @@
 ﻿using FluentValidation;
 using System.Text.Json.Serialization;
 
-namespace employers.domain.Requests
+namespace employers.domain.Requests;
+
+public class EmployerRequest
 {
-    public class EmployerRequest
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("id_department")]
+    public int IdDepartment { get; set; }
+
+    [JsonPropertyName("id_occupation")]
+    public int IdOccupation { get; set; }
+
+    [JsonPropertyName("gender")]
+    public char Gender { get; set; }
+
+    [JsonPropertyName("active")]
+    public bool Active { get; set; }
+}
+
+public class EmployerRequestValidator : AbstractValidator<EmployerRequest>
+{
+    public EmployerRequestValidator()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        RuleFor(x => x.Name)
+            .NotEmpty()
+                .WithMessage("Name is required.")
+            .NotNull()
+                .WithMessage("Name is required.");
 
-        [JsonPropertyName("id_department")]
-        public int IdDepartment { get; set; }
+        RuleFor(x => x.IdDepartment)
+            .NotEmpty()
+                .WithMessage("Id Department is required.")
+            .NotNull()
+                .WithMessage("Id Department is required.");
 
-        [JsonPropertyName("id_occupation")]
-        public int IdOccupation { get; set; }
+        RuleFor(x => x.IdOccupation.ToString())
+            .NotEmpty()
+                .WithMessage("Id Occupation is required.")
+            .NotNull()
+                .WithMessage("Id Occupation is required.")
+            .Matches("[0-9]")
+                .WithMessage("Only numbers.");
 
-        [JsonPropertyName("gender")]
-        public char Gender { get; set; }
+        RuleFor(x => x.Gender)
+            .NotEmpty()
+                .WithMessage("Gender is required.")
+            .NotNull()
+                .WithMessage("Gender is required.")
+            .Must(x => x.Equals('F') || x.Equals('M') || x.Equals('O'))
+                .WithMessage("Options: Female 'F', Male 'M' or Other 'O'.");
 
-        [JsonPropertyName("active")]
-        public bool Active { get; set; }
-    }
-
-    public class EmployerRequestValidator : AbstractValidator<EmployerRequest>
-    {
-        public EmployerRequestValidator()
-        {
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                    .WithMessage("Name is required.")
-                .NotNull()
-                    .WithMessage("Name is required.");
-
-            RuleFor(x => x.IdDepartment)
-                .NotEmpty()
-                    .WithMessage("Id Department is required.")
-                .NotNull()
-                    .WithMessage("Id Department is required.");
-
-            RuleFor(x => x.IdOccupation.ToString())
-                .NotEmpty()
-                    .WithMessage("Id Occupation is required.")
-                .NotNull()
-                    .WithMessage("Id Occupation is required.")
-                .Matches("[0-9]")
-                    .WithMessage("Only numbers.");
-
-            RuleFor(x => x.Gender)
-                .NotEmpty()
-                    .WithMessage("Gender is required.")
-                .NotNull()
-                    .WithMessage("Gender is required.")
-                .Must(x => x.Equals('F') || x.Equals('M') || x.Equals('O'))
-                    .WithMessage("Options: Female 'F', Male 'M' or Other 'O'.");
-
-            RuleFor(x => x.Active)
-                .NotEmpty()
-                    .WithMessage("Active is required.");
-        }
+        RuleFor(x => x.Active)
+            .NotEmpty()
+                .WithMessage("Active is required.");
     }
 }

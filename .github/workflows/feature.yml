@@ -1,0 +1,62 @@
+name: Auto PR on Feature Branch Push
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 10.x
+
+      - name: Restore dependencies
+        run: dotnet restore employer.solution.sln
+
+      - name: Build
+        run: dotnet build employer.solution.sln -c Release --no-restore
+
+  tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+  
+      - name: Test  Project WebApi
+        run: dotnet test test/employer.api.tests -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
+
+      - name: Test Project classlib Applications
+        run: dotnet test test/employer.application.tests -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
+
+  create-pull-request:
+    name: Create Pull Request to develop
+    runs-on: ubuntu-latest
+
+    needs: tests
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create Pull Request
+        run: |
+          gh pr create \
+            --title "PR: $(git rev-parse --abbrev-ref HEAD)" \
+            --body "Automatic PR from feature branch" \
+            --base develop \
+            --head $(git rev-parse --abbrev-ref HEAD)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -8,40 +8,30 @@ using employers.domain.Interfaces.Repositories;
 using employers.domain.Responses;
 using employers.domain.Validators;
 
-namespace employers.application.UseCases.Employers
+namespace employers.application.UseCases.Employers;
+
+public class UpdateEmployerUseCaseAsync(INotificationMessages notificationMessages,
+                                  IUnitOfWork unitOfWork) : IUpdateEmployerUseCaseAsync
 {
-    public class UpdateEmployerUseCaseAsync : IUpdateEmployerUseCaseAsync
+    public async Task<ResultResponse> RunAsync(EmployeeEntity entity)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly INotificationMessages _notificationMessages;
+        entity.Gender = char.ToUpper(entity.Gender);
 
-        public UpdateEmployerUseCaseAsync(INotificationMessages notificationMessages,
-                                          IUnitOfWork unitOfWork)
+        var employerValidator = UtilValidators.ValidadorResult(new EmployerEntityValidator(), entity);
+
+        if(employerValidator.Errors.Count > 0)
         {
-            _notificationMessages = notificationMessages;
-            _unitOfWork = unitOfWork;
-        }
-
-        public async Task<ResultResponse> RunAsync(EmployeeEntity entity)
-        {
-            entity.Gender = char.ToUpper(entity.Gender);
-
-            var employerValidator = UtilValidators.ValidadorResult(new EmployerEntityValidator(), entity);
-
-            if(employerValidator.Errors.Count > 0)
+            foreach (var item in employerValidator.Errors.Select(x => x.ErrorMessage).Distinct())
             {
-                foreach (var item in employerValidator.Errors.Select(x => x.ErrorMessage).Distinct())
-                {
-                    _notificationMessages.AddNotification("UpdateEmployerUseCaseAsync", item, HttpStatusCode.BadRequest);
-                }
-
-                return new ResultResponse();
+                notificationMessages.AddNotification("UpdateEmployerUseCaseAsync", item, HttpStatusCode.BadRequest);
             }
 
-            var result = await _unitOfWork.EmployerRepository.UpdateAsync(entity);
-            _unitOfWork.Transaction();
-
-            return result;
+            return new ResultResponse();
         }
+
+        var result = await unitOfWork.EmployerRepository.UpdateAsync(entity);
+        unitOfWork.Transaction();
+
+        return result;
     }
 }

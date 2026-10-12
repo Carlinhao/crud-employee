@@ -2,40 +2,39 @@
 using System.Linq;
 using System.Net;
 
-namespace employers.application.Notifications
+namespace employers.application.Notifications;
+
+public class NotificationMessages : INotificationMessages
 {
-    public class NotificationMessages : INotificationMessages
+    private readonly List<Notification> _notifications;
+
+    public NotificationMessages()
     {
-        private readonly List<Notification> _notifications;
+        _notifications = [];
+    }
+    public Notification AddNotification(string key, string message, HttpStatusCode statusCode)
+    {
+        _notifications.Add(new Notification(message, key, statusCode));
+        return _notifications.FirstOrDefault();
+    }
 
-        public NotificationMessages()
-        {
-            _notifications = new List<Notification>();
-        }
-        public Notification AddNotification(string key, string message, HttpStatusCode statusCode)
-        {
-            _notifications.Add(new Notification(message, key, statusCode));
-            return _notifications.FirstOrDefault();
-        }
+    public List<Notification> GetNotification(Notification notification)
+    {
+        return _notifications;
+    }
 
-        public List<Notification> GetNotification(Notification notification)
-        {
-            return _notifications;
-        }
+    public void Handle(Notification notification)
+    {
+        _notifications.Add(notification);
+    }
 
-        public void Handle(Notification notification)
-        {
-            _notifications.Add(notification);
-        }
+    public bool HasNotification()
+    {
+        return _notifications.Count > 0;
+    }
 
-        public bool HasNotification()
-        {
-            return _notifications.Any();             
-        }
-
-        public List<Notification> Notications()
-        {
-            return _notifications;             
-        }
+    public List<Notification> Notications()
+    {
+        return _notifications;
     }
 }

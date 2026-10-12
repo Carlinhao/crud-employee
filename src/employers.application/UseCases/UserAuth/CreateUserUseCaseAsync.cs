@@ -9,43 +9,33 @@ using employers.domain.Entities.UserAuth;
 using employers.domain.Interfaces.Repositories;
 using employers.domain.Requests;
 
-namespace employers.application.UseCases.UserAuth
+namespace employers.application.UseCases.UserAuth;
+
+public class CreateUserUseCaseAsync(IMapper mapper,
+                                    IUnitOfWork unitOfWork) : ICreateUserUseCaseAsync
 {
-    public class CreateUserUseCaseAsync : ICreateUserUseCaseAsync
+    public async Task<int> RunAsync(CreateUserRequest request)
     {
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        var entity = mapper.Map<UserEntity>(request);
 
-        public CreateUserUseCaseAsync(IMapper mapper,
-                                      IUnitOfWork unitOfWork)
-        {
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
-        }
+        var thereAreUser = await unitOfWork.UserRepository.FindUser(request.UserName);
 
-        public async Task<int> RunAsync(CreateUserRequest request)
-        {
-            var entity = _mapper.Map<UserEntity>(request);
+        if (thereAreUser == 1)
+            throw new RegranegocioException("There is already a user with the same name.");
 
-            var thereAreUser = await _unitOfWork.UserRepository.FindUser(request.UserName);
+        entity.Password = ComputeHash(request.Password, new HMACMD5());
 
-            if (thereAreUser == 1)
-                throw new RegranegocioException("There is already a user with the same name.");
+        var result = await unitOfWork.UserRepository.InsertUser(entity);
+        unitOfWork.Transaction();
 
-            entity.Password = ComputeHash(request.Password, new HMACMD5());
+        return result;
+    }
 
-            var result = await _unitOfWork.UserRepository.InsertUser(entity);
-            _unitOfWork.Transaction();
+    public static string ComputeHash(string input, HMACMD5 algorithm)
+    {
+        Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+        Byte[] hashBytes = algorithm.ComputeHash(inputBytes);
 
-            return result;
-        }
-
-        public static string ComputeHash(string input, HMACMD5 algorithm)
-        {
-            Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            Byte[] hashBytes = algorithm.ComputeHash(inputBytes);
-
-            return BitConverter.ToString(hashBytes);
-        }
+        return BitConverter.ToString(hashBytes);
     }
 }

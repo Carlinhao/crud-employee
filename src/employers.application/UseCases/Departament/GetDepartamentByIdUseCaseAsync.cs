@@ -2,35 +2,25 @@
 using System.Threading.Tasks;
 using employers.application.Interfaces.Departament;
 using employers.application.Notifications;
-using employers.domain.Entities;
+using employers.domain.Entities.Departament;
 using employers.domain.Interfaces.Repositories;
 
-namespace employers.application.UseCases.Departament
+namespace employers.application.UseCases.Departament;
+
+public class GetDepartamentByIdUseCaseAsync(
+    IUnitOfWork unitOfWork,
+    INotificationMessages notificationMessages) : IGetDepartamentByIdUseCaseAsync
 {
-    public class GetDepartamentByIdUseCaseAsync : IGetDepartamentByIdUseCaseAsync
+    public async Task<DepartmentEntity> RunAsync(int id)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly INotificationMessages _notificationMessages;
-
-        public GetDepartamentByIdUseCaseAsync(
-            IUnitOfWork unitOfWork,
-            INotificationMessages notificationMessages)
+        if (id <= 0)
         {
-            _unitOfWork = unitOfWork;
-            _notificationMessages = notificationMessages;
+            notificationMessages.AddNotification("GetDepartamentByIdUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest);
+            return new DepartmentEntity();
         }
 
-        public async Task<DepartmentEntity> RunAsync(int id)
-        {
-            if (id <= 0)
-            {
-                _notificationMessages.AddNotification("GetDepartamentByIdUseCaseAsync", "Invalid ID!", HttpStatusCode.BadRequest);
-                return new DepartmentEntity();
-            }
+        var result = await unitOfWork.DepartmentRepository.GetById(id);
 
-            var result = await _unitOfWork.DepartmentRepository.GetById(id);
-
-            return result;
-        }
+        return result;
     }
 }

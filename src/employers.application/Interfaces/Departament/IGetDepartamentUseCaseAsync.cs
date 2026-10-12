@@ -1,11 +1,10 @@
-﻿using employers.domain.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using employers.domain.Entities.Departament;
 
-namespace employers.application.Interfaces.UseCases.Departament
+namespace employers.application.Interfaces.Departament;
+
+public interface IGetDepartamentUseCaseAsync
 {
-    public interface IGetDepartamentUseCaseAsync
-    {
-        Task<IEnumerable<DepartmentEntity>> RunAsync();
-    }
+    Task<IEnumerable<DepartmentEntity>> RunAsync();
 }

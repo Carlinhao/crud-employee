@@ -11,43 +11,42 @@ using employers.infrastructure.Repositories.Employer;
 using employers.infrastructure.Repositories.Occupation;
 using employers.infrastructure.Repositories.UserAuth;
 
-namespace employers.infrastructure.Repositories
+namespace employers.infrastructure.Repositories;
+
+[ExcludeFromCodeCoverage]
+public class UnitOfWork : IUnitOfWork
 {
-    [ExcludeFromCodeCoverage]
-    public class UnitOfWork : IUnitOfWork
+    private readonly IDbConnection _connection;
+    private readonly IDbTransaction _dbTransaction;
+
+    public IDepartmentRepository DepartmentRepository { get; private set; }
+    public IEmployerRepository EmployerRepository { get; private set; }
+    public IOccupationRepository OccupationRepository { get; private set; }
+    public IUserAuthRepository UserAuthRepository { get; private set; }
+    public IUserRepository UserRepository { get; private set; }
+
+    public UnitOfWork(IDbConnection connection,
+                      IDbTransaction dbTransaction)
     {
-        private readonly IDbConnection _connection;
-        private readonly IDbTransaction _dbTransaction;
+        _connection = connection;
+        _dbTransaction = dbTransaction;
 
-        public IDepartmentRepository DepartmentRepository { get; private set; }
-        public IEmployerRepository EmployerRepository { get; private set; }
-        public IOccupationRepository OccupationRepository { get; private set; }
-        public IUserAuthRepository UserAuthRepository { get; private set; }
-        public IUserRepository UserRepository { get; private set; }
+        DepartmentRepository = new DepartmentRepository(_connection, _dbTransaction);
+        EmployerRepository = new EmployerRepository(_connection, _dbTransaction);
+        OccupationRepository = new OccupationRepository(_connection, _dbTransaction);
+        UserAuthRepository = new UserAuthRepository(_connection, _dbTransaction);
+        UserRepository = new UserRepository(_connection, _dbTransaction);
+    }
 
-        public UnitOfWork(IDbConnection connection,
-                          IDbTransaction dbTransaction)
-        {
-            _connection = connection;
-            _dbTransaction = dbTransaction;
+    public void Dispose()
+    {
+        _connection?.Dispose();
+        _dbTransaction?.Dispose();
+        GC.SuppressFinalize(this);
+    }
 
-            DepartmentRepository = new DepartmentRepository(_connection, _dbTransaction);
-            EmployerRepository = new EmployerRepository(_connection, _dbTransaction);
-            OccupationRepository = new OccupationRepository(_connection, _dbTransaction);
-            UserAuthRepository = new UserAuthRepository(_connection, _dbTransaction);
-            UserRepository = new UserRepository(_connection, _dbTransaction);
-        }
-
-        public void Dispose()
-        {
-            _connection?.Dispose();
-            _dbTransaction?.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
-        public void Transaction()
-        {
-            _dbTransaction.Commit();
-        }
+    public void Transaction()
+    {
+        _dbTransaction.Commit();
     }
 }

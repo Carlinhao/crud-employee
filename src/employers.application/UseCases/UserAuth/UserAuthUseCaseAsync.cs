@@ -11,58 +11,45 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 
-namespace employers.application.UseCases.UserAuth
+namespace employers.application.UseCases.UserAuth;
+
+public class UserAuthUseCaseAsync(ITokenGenerate tokenGenerate,
+                                  IUserAuthRepository userAuthRepository,
+                                  IConfiguration configuration) : IUserAuthUseCaseAsync
 {
-    public class UserAuthUseCaseAsync : IUserAuthUseCaseAsync
+    private const string DATE_FORMATE = "yyyy-MM--dd HH:mm:ss";
+
+    public async Task<TokenResponse> RunAsync(UserInfoRequest request)
     {
-        private const string DATE_FORMATE = "yyyy-MM--dd HH:mm:ss";
+        var user = await userAuthRepository.ValidateCredentials(request);
+        if (user == null) return null;
 
-        private readonly ITokenGenerate _tokenGenerate;
-        private readonly IUserAuthRepository _userAuthRepository;
-        private readonly IConfiguration _configuration;
-
-        public UserAuthUseCaseAsync(
-            ITokenGenerate tokenGenerate,
-            IUserAuthRepository userAuthRepository,
-            IConfiguration configuration)
+        var clains = new List<Claim>
         {
-            _tokenGenerate = tokenGenerate;
-            _userAuthRepository = userAuthRepository;
-            _configuration = configuration;
-        }
+            new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+            new (JwtRegisteredClaimNames.UniqueName, user.UserName)
+        };
 
-        public async Task<TokenResponse> RunAsync(UserInfoRequest request)
+        var accessToken = await tokenGenerate.GenerateAccessToken(clains);
+        var refreshToken = await tokenGenerate.GenerateRefreshToken();
+
+        user.RefreshToken = refreshToken;
+        user.AcessToken = accessToken;
+        user.RefreshTokenExpire = DateTime.Now.AddDays(Convert.ToDouble(configuration.GetSection("TokenExtensions:DaysToExpiry").Value));
+
+        await userAuthRepository.RefresUserInfo(user);
+
+        var createDate = DateTime.Now;
+        var expireDate = createDate.AddMinutes(Convert.ToDouble(configuration.GetSection("TokenExtensions:Minutes").Value));
+
+
+        return new TokenResponse
         {
-            var user = await _userAuthRepository.ValidateCredentials(request);
-            if (user == null) return null;
-
-            var clains = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
-            };
-
-            var accessToken = await _tokenGenerate.GenerateAccessToken(clains);
-            var refreshToken = await _tokenGenerate.GenerateRefreshToken();
-
-            user.RefreshToken = refreshToken;
-            user.AcessToken = accessToken;
-            user.RefreshTokenExpire = DateTime.Now.AddDays(Convert.ToDouble(_configuration.GetSection("TokenExtensions:DaysToExpiry").Value));
-
-            await _userAuthRepository.RefresUserInfo(user);
-
-            var createDate = DateTime.Now;
-            var expireDate = createDate.AddMinutes(Convert.ToDouble(_configuration.GetSection("TokenExtensions:Minutes").Value));
-
-            
-            return new TokenResponse 
-            { 
-                Authenticated = true,
-                AccessToken = accessToken,
-                Created = createDate.ToString(DATE_FORMATE),
-                Expiration = expireDate.ToString(),
-                RefreshToken = refreshToken
-            };
-        }
+            Authenticated = true,
+            AccessToken = accessToken,
+            Created = createDate.ToString(DATE_FORMATE),
+            Expiration = expireDate.ToString(),
+            RefreshToken = refreshToken
+        };
     }
 }

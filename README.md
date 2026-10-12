@@ -26,5 +26,3 @@ In solution explorer, right click and select:</br>
 Restore Nuget Packages;</br>
 right click again, select:</br>
 Build Solution;</br>
-
-CRTL+F5
