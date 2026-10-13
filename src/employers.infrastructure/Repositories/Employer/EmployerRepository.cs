@@ -45,7 +45,7 @@ public class EmployerRepository(IDbConnection connection,
         pagination.TotalCount = await multi.ReadFirstOrDefaultAsync<int>();
         var employees = await multi.ReadAsync<EmployeeEntity>();
 
-        pagination.TotalPages = (int)Math.Ceiling((double)pagination.TotalCount / pagination.PageSize);
+        pagination.TotalPages = pagination.PageNumber == 0 ? 0 : (int)Math.Ceiling((double)pagination.TotalCount / pagination.PageSize);
         return new EmployeeResponse
         {
             Pagination = pagination,

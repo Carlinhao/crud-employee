@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace employers.domain.Entities;
 
 public class Pagination

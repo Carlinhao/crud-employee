@@ -37,7 +37,7 @@ public class EmployerController(ILogger<EmployerController> logger,
     /// <response code="200">Return all employers</response>
     /// <response code="204">Return empty payload</response>
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<EmployeeEntity>),StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(EmployeeResponse),StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetAll([FromServices] IGetEmployerUseCaseAsync getAsync, [FromQuery] Pagination pagination, CancellationToken cancellationToken)
     {
