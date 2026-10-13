@@ -1,4 +1,3 @@
-![CircleCI](https://img.shields.io/circleci/build/github/Carlinhao/crud-employee)
 ![Last Commit](https://img.shields.io/github/last-commit/Carlinhao/crud-employee)
 
 # crud-employee
@@ -6,7 +5,7 @@ Base project of rest api.
 
 
 ## Technologies:
-* .NET 6.0 (REST, Middleware, Aplication Settings...)
+* .NET 10.0 (REST, Middleware, Aplication Settings...)
 * Dependency Injection
 * Swagger
 * Log (ILogger)
