@@ -1,5 +1,5 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using System;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using Dapper.FluentMap;
 using employers.application.Interfaces.Departament;
@@ -26,16 +26,17 @@ using employers.infrastructure.Repositories.Departament;
 using employers.infrastructure.Repositories.Employer;
 using employers.infrastructure.Repositories.Occupation;
 using employers.infrastructure.Repositories.UserAuth;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace employers.infrastructure.Ioc;
 
 [ExcludeFromCodeCoverage]
-public static class IOC
+public static class Ioc
 {
     public static void IocConfiguration(this IServiceCollection services,
-                                             IConfiguration configuration)
+        IConfiguration configuration)
     {
         // UseCases 
         services.AddTransient<IGetDepartamentUseCaseAsync, GetDepartamentUseCaseAsync>();
@@ -51,7 +52,7 @@ public static class IOC
         services.AddTransient<IGetOccupationUseCaseAsync, GetOccupationUseCaseAsync>();
         services.AddTransient<IInsertOccupationUseCaseAsync, InsertOccupationUseCaseAsync>();
         services.AddTransient<IUserAuthRefreshTokenUseCaseAsync, UserAuthRefreshTokenUseCaseAsync>();
-        services.AddTransient<ICreateUserUseCaseAsync, CreateUserUseCaseAsync>();   
+        services.AddTransient<ICreateUserUseCaseAsync, CreateUserUseCaseAsync>();
 
         // Repositories
         services.AddTransient<IDepartmentRepository, DepartmentRepository>();
@@ -64,7 +65,7 @@ public static class IOC
         services.AddScoped<IDbConnection>(_ => new SqlConnection(configuration.GetConnectionString("sqlConnect")));
         services.AddScoped(s =>
         {
-            IDbConnection connection = s.GetRequiredService<IDbConnection>();
+            var connection = s.GetRequiredService<IDbConnection>();
             connection.Open();
             return connection.BeginTransaction();
         });
@@ -73,7 +74,7 @@ public static class IOC
         services.AddTransient<ITokenGenerate, TokenGenerate>();
 
         //Notification
-        services.AddSingleton<INotificationMessages,NotificationMessages>();
+        services.AddSingleton<INotificationMessages, NotificationMessages>();
 
         //Export File
         services.AddTransient<IExportCsvAsync, ExportCsvAsync>();
@@ -84,7 +85,7 @@ public static class IOC
 
     public static void Rister()
     {
-        FluentMapper.Initialize( config => 
+        FluentMapper.Initialize(config =>
         {
             config.AddMap(new DepartmentMap());
             config.AddMap(new EmployeeMap());
