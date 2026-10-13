@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   db:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/rhel/server:2022-latest
     container_name: mssql
     hostname: mssql
     environment:
@@ -19,7 +19,7 @@ services:
     environment:
         - ASPNETCORE_URLS=http://0.0.0.0:80
         - ASPNETCORE_ENVIRONMENT=Development
-        - DB_CONNECTION_STRING=Server=db,1433;Database=BD03;User ID=SA;Password=DockerSql2017!
+        - DB_CONNECTION_STRING=Server=db,14333;Database=BD03;User ID=SA;Password=SqlServer@
     build:
       context: .
       dockerfile: src/employers.api/Dockerfile

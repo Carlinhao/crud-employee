@@ -29,7 +29,7 @@ namespace employers.api
             services.GetServicesExtensions(Configuration);
             services.AddControllers();
             services.IocConfiguration(Configuration);
-            IOC.Rister();
+            Ioc.Rister();
             services.GetApiVersioningExtentions();
             services.AddAutoMapper(typeof(MappingProfile));
             services.SwaggerServices();            
