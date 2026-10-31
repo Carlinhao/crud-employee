@@ -28,7 +28,7 @@ public class DepartmentController(ILogger<DepartmentController> logger,
     /// </summary>
     /// <param name="getAsync"></param>
     /// <returns>Return a list of the department.</returns>
-    /// <response code="200">Return all departmen</response>
+    /// <response code="200">Return all department</response>
     /// <response code="204">Return empty payload</response>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<DepartmentEntity>),StatusCodes.Status200OK)]
@@ -62,7 +62,7 @@ public class DepartmentController(ILogger<DepartmentController> logger,
     {
         var result = await getAsync.RunAsync(id);
         if (result == null)
-            return NotFound(result);
+            return NotFound();
 
         if (notificationMessages.HasNotification())
         {
@@ -82,7 +82,7 @@ public class DepartmentController(ILogger<DepartmentController> logger,
     /// <response code="400">Return when return an error message.</response>    
     [HttpPost]
     [ProducesResponseType(typeof(int),StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(int),StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PostAsync(
         [FromServices] IInsertDepartmentUseCaseAsync postAsync,
         [FromBody] DepartmentRequest departmentRequest)

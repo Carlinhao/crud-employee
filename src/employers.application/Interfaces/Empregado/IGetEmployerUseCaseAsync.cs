@@ -1,6 +1,5 @@
 ﻿using employers.domain.Entities;
 using employers.domain.Entities.Employee;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

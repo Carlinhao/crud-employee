@@ -5,25 +5,19 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace employers.api.Middlewares.Error
 {
     [ExcludeFromCodeCoverage]
-    public class GlobalErrorHandler
+    public sealed class GlobalErrorHandler(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
-
-        public GlobalErrorHandler(RequestDelegate next)
-        {
-            _next = next;
-        }
-
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, CancellationToken cancellationToken)
         {
             try
             {
-                await _next(context);
+                await next(context);
             }
             catch (Exception error)
             {
@@ -37,7 +31,7 @@ namespace employers.api.Middlewares.Error
                     _ => (int)HttpStatusCode.InternalServerError,// unhandled error
                 };
                 var result = JsonSerializer.Serialize(new { message = error?.Message, success = false });
-                await response.WriteAsync(result);
+                await response.WriteAsync(result, cancellationToken);
             }
         }
     }
