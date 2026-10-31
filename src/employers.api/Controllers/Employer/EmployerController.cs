@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +17,7 @@ using Microsoft.Extensions.Logging;
 namespace employers.api.Controllers.Employer;
 
 /// <summary>
-/// Controller responsable by employers.
+/// Controller responsible by employers.
 /// </summary>
 //[Authorize]
 [ApiVersion("1")]
@@ -104,7 +103,7 @@ public class EmployerController(ILogger<EmployerController> logger,
     }
 
     /// <summary>
-    /// Delete an register
+    /// Delete a register
     /// </summary>
     /// <param name="delete"></param>
     /// <param name="id"></param>
@@ -128,11 +127,11 @@ public class EmployerController(ILogger<EmployerController> logger,
     }
 
     /// <summary>
-    /// Return an response with register updated
+    /// Return a response with register updated
     /// </summary>
     /// <param name="update"></param>
     /// <param name="employerEntity"></param>
-    /// <returns>Return an response with register updated</returns>
+    /// <returns>Return a response with register updated</returns>
     [HttpPut]
     [ProducesResponseType(typeof(ResultResponse),StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -157,7 +156,7 @@ public class EmployerController(ILogger<EmployerController> logger,
     /// <param name="pagination"></param>
     /// <param name="cancellationToken"></param>
     /// <param name="exportCsvAsync"></param>
-    /// <returns>Retunr file csv</returns>
+    /// <returns>Return file csv</returns>
     [HttpGet]
     [Route("csv")]
     [ProducesResponseType(typeof(FileResult),StatusCodes.Status200OK)]

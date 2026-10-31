@@ -14,11 +14,12 @@ using employers.infrastructure.Repositories.UserAuth;
 namespace employers.infrastructure.Repositories;
 
 [ExcludeFromCodeCoverage]
-public class UnitOfWork : IUnitOfWork
+public sealed class UnitOfWork : IUnitOfWork
 {
     private readonly IDbConnection _connection;
     private readonly IDbTransaction _dbTransaction;
-
+    private bool _isDisposed;
+    
     public IDepartmentRepository DepartmentRepository { get; private set; }
     public IEmployerRepository EmployerRepository { get; private set; }
     public IOccupationRepository OccupationRepository { get; private set; }
@@ -40,9 +41,27 @@ public class UnitOfWork : IUnitOfWork
 
     public void Dispose()
     {
-        _connection?.Dispose();
-        _dbTransaction?.Dispose();
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing) 
+    {
+        if (!_isDisposed)
+        {
+            _isDisposed = true;
+
+            if (disposing)
+            {
+                _connection?.Dispose();
+                _dbTransaction?.Dispose();
+            }
+        }
+    }
+
+    ~UnitOfWork()
+    {
+        Dispose(false);
     }
 
     public void Transaction()

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using employers.application.Interfaces.Empregado;
 using employers.domain.Entities;
